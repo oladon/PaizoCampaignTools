@@ -1,7 +1,9 @@
 PaizoCampArr
 ============
 This script dynamically arranges the Paizo.com campaign listing seen on a 
-user's "campaigns" page. 
+user's "campaigns" page, and highlights the new post notification links 
+which appear next to threads (i.e. "1 new"). If you want to disable one or 
+the other feature, just prepend the relevant lines with "//" (no quotes).
 
 Firefox Installation:
 

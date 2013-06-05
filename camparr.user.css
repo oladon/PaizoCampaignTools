@@ -4,3 +4,9 @@ blockquote > table > tbody > tr > td > table > tbody > tr {
     max-width: 32%; 
     vertical-align: top; 
     border-spacing: 15px 7px ! important }
+
+// This part highlights the new post notification link in 
+// orange. Just prepend each line with // to disable it.
+blockquote > table > tbody > tr > td > table > tbody > tr > 
+  td > ul > li > span.tiny > span > nobr > a:not([title^="Stop"]) {
+    background-color: #ffaa00 ! important }
