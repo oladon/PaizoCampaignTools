@@ -16,6 +16,8 @@ Opera Installation:
 
 1) Open paizo.com
 
-2) Click Opera menu -> Settings -> Quick Preferences -> Site Preferences. 
-On the Display tab, add the path to camparr.user.css in "My style sheet", 
-then click OK. You're done!
+2) Right-click the page -> Edit Site Preferences. On the Display tab, add 
+the path to camparr.css in "My style sheet".
+
+3) In the same Site Preferences window, click on the Scripting tab, then 
+under User JavaScript folder add the path to camparr.user.js. Done!
