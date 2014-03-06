@@ -8,15 +8,15 @@
 
 function getCampaigns() {
    var myCampaigns = [], 
-       activeCampaigns = document.querySelectorAll('blockquote > table > tbody > tr > td > table > tbody > tr > td > h1 > a');
+       activeCampaigns = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > h3 > a');
    for (var i=0; i<activeCampaigns.length; i++) {
-     myCampaigns.push(activeCampaigns[i].parentNode.parentNode);
+     myCampaigns.push(activeCampaigns[i].parentNode.parentNode.parentNode);
    }
    return myCampaigns;
 }
 
 var campaigns = getCampaigns();
-if (campaigns.length > 0) {
+if (campaigns.length > 8) {
     var firstCampaign = campaigns[0];
     var firstColumn = firstCampaign.parentNode.parentNode;
     for (var i=0; i<campaigns.length; i++) {
@@ -37,13 +37,13 @@ if (campaigns.length > 0) {
     secondColumn.parentNode.removeChild(secondColumn);
 }
 
-GM_addStyle('blockquote > table > tbody > tr > td > table > tbody > tr { display: inline-block; width: 100%; vertical-align: top; border-spacing: 15px 7px ! important }');
+GM_addStyle('table > tbody > tr > td > table > tbody > tr { display: inline-block; width: 100%; vertical-align: top; border-spacing: 15px 7px ! important }');
 
-GM_addStyle('@media (min-width: 635px) and (max-width: 935px) { blockquote > table > tbody > tr > td > table > tbody > tr { width: 49%; } }');
+GM_addStyle('@media (min-width: 635px) and (max-width: 935px) { table > tbody > tr > td > table > tbody > tr { width: 49%; } }');
 
-GM_addStyle('@media (min-width: 935px) and (max-width: 1585px) { blockquote > table > tbody > tr > td > table > tbody > tr { width: 32%; } }');
+GM_addStyle('@media (min-width: 935px) and (max-width: 1585px) { table > tbody > tr > td > table > tbody > tr { width: 32%; } }');
 
-GM_addStyle('@media (min-width: 1585px) { blockquote > table > tbody > tr > td > table > tbody > tr { width: 24%; } }');
+GM_addStyle('@media (min-width: 1585px) { table > tbody > tr > td > table > tbody > tr { width: 24%; } }');
 
 // This part highlights the new posts link
-GM_addStyle("blockquote > table > tbody > tr > td > table > tbody > tr > td > ul > li > span.tiny > span > nobr > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")
+GM_addStyle("table > tbody > tr > td > table > tbody > tr > td > blockquote > p > span.tiny > span > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")

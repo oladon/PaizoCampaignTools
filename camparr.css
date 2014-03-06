@@ -1,26 +1,26 @@
 /* This file is for Opera, but might work in Chrome as well. */
 /* For Opera, use this in conjunction with camparr.user.js */
 
-blockquote > table > tbody > tr > td > table > tbody > tr {
+table > tbody > tr > td > table > tbody > tr {
     display: inline-block;
     width: 100%;
     vertical-align: top;
     border-spacing: 15px 7px !important; }
 
 @media (min-width: 635px) and (max-width: 935px) {
-    blockquote > table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 49%;
     }
 }
 
 @media (min-width: 935px) and (max-width: 1585px) {
-    blockquote > table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 32%;
     }
 }
 
 @media (min-width: 1585px) {
-    blockquote > table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 24%;
     }
 }
@@ -28,6 +28,6 @@ blockquote > table > tbody > tr > td > table > tbody > tr {
 
 /* This part highlights the new post notification link in */
 /* orange. Just prepend each line with // to disable it. */
-blockquote > table > tbody > tr > td > table > tbody > tr >
-  td > ul > li > span.tiny > span > nobr > a:not([title^="Stop"]) {
+table > tbody > tr > td > table > tbody > tr >
+  td > blockquote > p > span.tiny > span > a:not([title^="Stop"]) {
     background-color: #ffaa00 !important; }
