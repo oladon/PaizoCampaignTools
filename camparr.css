@@ -29,5 +29,5 @@ table > tbody > tr > td > table > tbody > tr {
 /* This part highlights the new post notification link in */
 /* orange. Just prepend each line with // to disable it. */
 table > tbody > tr > td > table > tbody > tr >
-  td > blockquote > p > span.tiny > span > a:not([title^="Stop"]) {
+  td > blockquote > ul > li > span.tiny > span > a:not([title^="Stop"]) {
     background-color: #ffaa00 !important; }

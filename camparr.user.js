@@ -46,4 +46,4 @@ GM_addStyle('@media (min-width: 935px) and (max-width: 1585px) { table > tbody >
 GM_addStyle('@media (min-width: 1585px) { table > tbody > tr > td > table > tbody > tr { width: 24%; } }');
 
 // This part highlights the new posts link
-GM_addStyle("table > tbody > tr > td > table > tbody > tr > td > blockquote > p > span.tiny > span > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")
+GM_addStyle("table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")
