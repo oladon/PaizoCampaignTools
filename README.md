@@ -1,5 +1,8 @@
-PaizoCampArr
-============
+PaizoCampaignTools
+==================
+
+Note: Readme is out of date as of most recent push.
+
 This script dynamically arranges the Paizo.com campaign listing seen on a 
 user's "campaigns" page, and highlights the new post notification links 
 which appear next to threads (i.e. "1 new"). If you want to disable one or 
