@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://pct/skin/csim.css" type="text/css"?>
+
+<dialog
+   title          = "Advanced Options"
+   xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+   buttons        = "accept, cancel"
+   ondialogaccept = "return closedOk();"
+   ondialogcancel = "return;">
+
+  <groupbox>
+    <caption label="Arranger" />
+    <checkbox id="pct-use-arranger" label="Auto-Arrange Campaigns" />
+  </groupbox>
+
+  <groupbox>
+    <caption label="Blacklist" />
+    <checkbox id="pct-use-blacklist" label="Enable User Blacklist" />
+    <listbox id="pct-blacklist" flex="1" seltype="multiple">
+    </listbox>
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          <button label="Add..." oncommand="addItemByDialog();" />
+          <button label="Remove" oncommand="deleteItems();" />
+        </row>
+      </rows>
+    </grid>
+
+    <label value="Apply Blacklist To..." />
+    <checkbox id="pct-bl-normal" label="Regular Threads" />
+    <checkbox id="pct-bl-rec" label="Recruitment Threads" />
+    <checkbox id="pct-bl-ooc" label="Discussion Threads" />
+    <checkbox id="pct-bl-ic" label="Gameplay Threads" />
+  </groupbox>
+
+  <groupbox>
+    <caption label="Highlighter" />
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          <checkbox id="pct-use-highlighter" label="Highlight New Posts Links" />
+        </row>
+        <row>
+          <label value="Highlighter Color" />
+          <colorpicker id="pct-highlight-color" name="Highlighter Color" type="button" />
+        </row>
+      </rows>
+    </grid>
+  </groupbox>
+  
+  <script type="application/x-javascript" src="blacklist.js" />
+  <script type="application/x-javascript" src="options.js" />
+
+</dialog>

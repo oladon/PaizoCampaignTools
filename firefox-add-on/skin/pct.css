@@ -1,0 +1,46 @@
+.pct-greyscale {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
+    -webkit-filter: grayscale(100%) !important;
+    opacity: 0.5 !important;
+}
+
+.pct-icon {
+    background-size: 20px 20px;
+    display: inline-block;
+    height: 20px;
+    vertical-align: bottom;
+    width: 20px;
+}
+
+.pct-allowedIcon {
+    background-image: url('allowed.svg');
+}
+
+.pct-notAllowedIcon {
+    background-image: url('not_allowed.svg');
+}
+
+table > tbody > tr > td > table > tbody > tr {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    border-spacing: 15px 7px !important; 
+    }
+
+@media (min-width: 635px) and (max-width: 935px) {
+    table > tbody > tr > td > table > tbody > tr {
+        width: 49%;
+    }
+}
+
+@media (min-width: 935px) and (max-width: 1585px) {
+    table > tbody > tr > td > table > tbody > tr {
+        width: 32%;
+    }
+}
+
+@media (min-width: 1585px) {
+    table > tbody > tr > td > table > tbody > tr {
+        width: 24%;
+    }
+}
