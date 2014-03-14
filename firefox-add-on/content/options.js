@@ -39,10 +39,10 @@ function closedOk() {
   var useArranger = document.getElementById('pct-use-arranger').getAttribute('checked');
   var useBlacklist = document.getElementById('pct-use-blacklist').getAttribute('checked');
   var blacklistArray = getListitems(document.getElementById('pct-blacklist'));
-  var blacklistNormal = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistNormal");
-  var blacklistRecruit = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistRecruit");
-  var blacklistOOC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistOOC");
-  var blacklistIC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistIC");
+  var blacklistNormal = document.getElementById('pct-bl-normal').getAttribute('checked');
+  var blacklistRecruit = document.getElementById('pct-bl-rec').getAttribute('checked');
+  var blacklistOOC = document.getElementById('pct-bl-ooc').getAttribute('checked');
+  var blacklistIC = document.getElementById('pct-bl-ic').getAttribute('checked');
   var useHighlighter = document.getElementById('pct-use-highlighter').getAttribute('checked');
   var highlightColor = document.getElementById('pct-highlight-color').color;
 
