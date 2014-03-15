@@ -11,11 +11,12 @@
 
   <vbox>
     <hbox>
-      <groupbox>
+      <groupbox flex="1">
         <caption label="Arranger" />
         <checkbox id="pct-use-arranger" label="Auto-Arrange Campaigns" />
       </groupbox>
-      <groupbox>
+      <spacer flex="0" />
+      <groupbox flex="1">
         <caption label="Highlighter" />
         <checkbox id="pct-use-highlighter" label="Highlight New Posts Links" />
         <hbox>
