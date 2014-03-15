@@ -9,54 +9,53 @@
    ondialogaccept = "return closedOk();"
    ondialogcancel = "return;">
 
-  <groupbox>
-    <caption label="Arranger" />
-    <checkbox id="pct-use-arranger" label="Auto-Arrange Campaigns" />
-  </groupbox>
-
-  <groupbox>
-    <caption label="Blacklist" />
-    <checkbox id="pct-use-blacklist" label="Enable User Blacklist" />
-    <listbox id="pct-blacklist" flex="1" seltype="multiple">
-    </listbox>
-    <grid>
-      <columns>
-        <column />
-        <column />
-      </columns>
-      <rows>
-        <row>
-          <button label="Add..." oncommand="addItemByDialog();" />
-          <button label="Remove" oncommand="deleteItems();" />
-        </row>
-      </rows>
-    </grid>
-
-    <label value="Apply Blacklist To..." />
-    <checkbox id="pct-bl-normal" label="Regular Threads" />
-    <checkbox id="pct-bl-rec" label="Recruitment Threads" />
-    <checkbox id="pct-bl-ooc" label="Discussion Threads" />
-    <checkbox id="pct-bl-ic" label="Gameplay Threads" />
-  </groupbox>
-
-  <groupbox>
-    <caption label="Highlighter" />
-    <grid>
-      <columns>
-        <column />
-        <column />
-      </columns>
-      <rows>
-        <row>
-          <checkbox id="pct-use-highlighter" label="Highlight New Posts Links" />
-        </row>
-        <row>
+  <vbox>
+    <hbox>
+      <groupbox>
+        <caption label="Arranger" />
+        <checkbox id="pct-use-arranger" label="Auto-Arrange Campaigns" />
+      </groupbox>
+      <groupbox>
+        <caption label="Highlighter" />
+        <checkbox id="pct-use-highlighter" label="Highlight New Posts Links" />
+        <hbox>
           <label value="Highlighter Color" />
           <colorpicker id="pct-highlight-color" name="Highlighter Color" type="button" />
-        </row>
-      </rows>
-    </grid>
-  </groupbox>
+        </hbox>
+      </groupbox>
+    </hbox>
+
+      <groupbox>
+        <caption label="Blacklist" />
+        <vbox>
+        <checkbox id="pct-use-blacklist" label="Enable User Blacklist" />
+        <hbox>
+          <groupbox>
+            <caption label="Blacklist Method" />
+            <radiogroup id="pct-blacklist-method">
+              <radio id="pct-greyscale" value="pct-greyscale" label="Greyscale" />
+              <radio id="pct-display-none" value="pct-display-none" label="Hide" />
+            </radiogroup>
+          </groupbox>
+          <groupbox>
+            <caption label="Apply Blacklist To..." />
+            <checkbox id="pct-bl-normal" label="Regular Threads" />
+            <checkbox id="pct-bl-rec" label="Recruitment Threads" />
+            <checkbox id="pct-bl-ooc" label="Discussion Threads" />
+            <checkbox id="pct-bl-ic" label="Gameplay Threads" />
+          </groupbox>
+          <spacer />
+          <listbox id="pct-blacklist" seltype="multiple">
+          </listbox>
+          <vbox>
+            <button label="Add..." oncommand="addItemByDialog();" />
+            <button label="Remove" oncommand="deleteItems();" />
+          </vbox>
+        </hbox>
+        </vbox>
+      </groupbox>
+    </vbox>
+
   
   <script type="application/x-javascript" src="blacklist.js" />
   <script type="application/x-javascript" src="options.js" />

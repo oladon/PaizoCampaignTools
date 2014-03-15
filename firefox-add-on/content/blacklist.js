@@ -1,14 +1,18 @@
 var pctBlacklist = {
   blackListener: function(evt) {
-    var username = evt.target.getAttribute("username");
+    var target = evt.currentTarget;
+    var username = target.getAttribute("username");
+    var action = target.getAttribute("action");
+
     dump("Received from web page: " + 
           evt.type + "/" + 
-          evt.target.id + "/" + 
+          target.id + "/" + 
           username + "\n");
-    if (evt.target.id == "pct-link") {
-      if (evt.type == "AddToBlacklist") {
+
+    if (target.id == "pct-link") {
+      if (action == "add") {
         addNameToBlacklist(username);
-      } else if (evt.type == "RemoveFromBlacklist") {
+      } else if (action == "remove") {
         removeNameFromBlacklist(username);
       }
     }
@@ -17,7 +21,7 @@ var pctBlacklist = {
 
 var pref_branch = "extensions.pct.";
 
-function addNameToBlacklist (name) {
+function addNameToBlacklist(name) {
   var blacklist = Services.prefs.getBranch(pref_branch).getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
   var blacklistArray = JSON.parse(blacklist);
   var newBlacklist = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
@@ -27,7 +31,7 @@ function addNameToBlacklist (name) {
   Services.prefs.getBranch(pref_branch).setComplexValue("blacklist", Components.interfaces.nsISupportsString, newBlacklist);
 }
 
-function removeNameFromBlacklist (name) {
+function removeNameFromBlacklist(name) {
   var blacklist = Services.prefs.getBranch(pref_branch).getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
   var blacklistArray = JSON.parse(blacklist);
   var newBlacklist = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
@@ -38,7 +42,7 @@ function removeNameFromBlacklist (name) {
   Services.prefs.getBranch(pref_branch).setComplexValue("blacklist", Components.interfaces.nsISupportsString, newBlacklist);
 }
 
-function blacklistToArray () {
+function blacklistToArray() {
   var blacklist = Services.prefs.getBranch(pref_branch).getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
 
   return JSON.parse(blacklist);

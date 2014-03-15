@@ -9,6 +9,7 @@ var
   useArranger = Services.prefs.getBranch(pref_branch).getBoolPref("useArranger"),
   useBlacklist = Services.prefs.getBranch(pref_branch).getBoolPref("useBlacklist"),
   blacklist = blacklistToArray(),
+  blacklistMethod = Services.prefs.getBranch(pref_branch).getIntPref("blacklistMethod"),
   blacklistNormal = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistNormal"),
   blacklistRecruit = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistRecruit"),
   blacklistOOC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistOOC"),
@@ -18,13 +19,14 @@ var
   tmp;
 
 /* This part sets up the dialog with the existing options */
-document.getElementById('pct-use-arranger').setAttribute('checked', useArranger);
-document.getElementById('pct-use-blacklist').setAttribute('checked', useBlacklist);
-document.getElementById('pct-bl-normal').setAttribute('checked', blacklistNormal);
-document.getElementById('pct-bl-rec').setAttribute('checked', blacklistRecruit);
-document.getElementById('pct-bl-ooc').setAttribute('checked', blacklistOOC);
-document.getElementById('pct-bl-ic').setAttribute('checked', blacklistIC);
-document.getElementById('pct-use-highlighter').setAttribute('checked', useHighlighter);
+if (useArranger) { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
+if (useBlacklist) { document.getElementById('pct-use-blacklist').setAttribute('checked', true); }
+document.getElementById('pct-blacklist-method').selectedIndex = blacklistMethod;
+if (blacklistNormal) { document.getElementById('pct-bl-normal').setAttribute('checked', true); }
+if (blacklistRecruit) { document.getElementById('pct-bl-rec').setAttribute('checked', true); }
+if (blacklistOOC) { document.getElementById('pct-bl-ooc').setAttribute('checked', true); }
+if (blacklistIC) { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
+if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
 document.getElementById('pct-highlight-color').color = highlightColor;
 
 (function (myArray) {
@@ -39,6 +41,7 @@ function closedOk() {
   var useArranger = document.getElementById('pct-use-arranger').getAttribute('checked');
   var useBlacklist = document.getElementById('pct-use-blacklist').getAttribute('checked');
   var blacklistArray = getListitems(document.getElementById('pct-blacklist'));
+  var blacklistMethod = document.getElementById('pct-blacklist-method').selectedIndex;
   var blacklistNormal = document.getElementById('pct-bl-normal').getAttribute('checked');
   var blacklistRecruit = document.getElementById('pct-bl-rec').getAttribute('checked');
   var blacklistOOC = document.getElementById('pct-bl-ooc').getAttribute('checked');
@@ -52,6 +55,7 @@ function closedOk() {
   Services.prefs.getBranch(pref_branch).setBoolPref("useArranger", useArranger);
   Services.prefs.getBranch(pref_branch).setBoolPref("useBlacklist", useBlacklist);
   Services.prefs.getBranch(pref_branch).setComplexValue("blacklist", Components.interfaces.nsISupportsString, blacklist);
+  Services.prefs.getBranch(pref_branch).setIntPref("blacklistMethod", blacklistMethod);
   Services.prefs.getBranch(pref_branch).setBoolPref("blacklistNormal", blacklistNormal);
   Services.prefs.getBranch(pref_branch).setBoolPref("blacklistRecruit", blacklistRecruit);
   Services.prefs.getBranch(pref_branch).setBoolPref("blacklistOOC", blacklistOOC);

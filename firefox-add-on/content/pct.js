@@ -2,6 +2,9 @@
 
 const PREF_BRANCH = "extensions.pct.";
 
+const PCT_GREYSCALE = 0;
+const PCT_DISPLAYNONE = 1;
+
 var document = window.document;
 
 var useArranger = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useArranger");
@@ -60,6 +63,7 @@ function blacklistPosts() {
 
     var blacklist = blacklistToArray();
     var posts = getPosts();
+    var blacklistMethod = Services.prefs.getBranch(PREF_BRANCH).getIntPref("blacklistMethod");
 
     for (var i=0; i<posts.length; i++) {
         var postDiv = posts[i].querySelector('div');
@@ -72,15 +76,25 @@ function blacklistPosts() {
             if ((name.indexOf(blacklist[j]) >= 0) || 
                 (title.indexOf(blacklist[j]) >= 0)) {
                 blacklisted = blacklist[j];
-                if (postDiv.getAttribute("class").indexOf("pct-greyscale") < 0) {
+                if (blacklistMethod == PCT_GREYSCALE) {
+                  if (postDiv.getAttribute("class").indexOf("pct-greyscale") < 0) {
                     postDiv.setAttribute("class", postDiv.getAttribute("class") + " pct-greyscale");
+                  }
+                } else if (blacklistMethod == PCT_DISPLAYNONE) {
+                  if (postDiv.style.display != "none") {
+                    postDiv.style.display = "none";
+                  }
                 }
                 break;
             }
         }
 
         if (blacklisted == false) {
+          if (blacklistMethod == PCT_GREYSCALE) {
             postDiv.setAttribute("class", postDiv.getAttribute("class").replace(" pct-greyscale", ""));
+          } else if (blacklistMethod == PCT_DISPLAYNONE) {
+            postDiv.style.display = "";
+          }
         }
         addSpan(nameAndTitle, blacklisted);
 
@@ -107,15 +121,19 @@ function addSpan(nameNode, blacklistedUser) {
     if (blacklistedUser) {
         newSpan.className = "pct-icon pct-allowedIcon";
         newLink.setAttribute("title", "Remove " + blacklistedUser + " from the Blacklist");
+        newLink.setAttribute("action", "remove");
         newLink.setAttribute("username", blacklistedUser);
         newLink.setAttribute("href", 'javascript:;');
-        newLink.setAttribute("onClick", 'var evt = document.createEvent("Events"); evt.initEvent("RemoveFromBlacklist", true, false); this.dispatchEvent(evt);');
+        newLink.removeEventListener("click", updateBlacklist);
+        newLink.addEventListener("click", updateBlacklist);
     } else {
-        newSpan.className = "pct-icon pct-notAllowedIcon";
+        newSpan.className = "pct-icon pct-notAllowedIcon pct-greyscale";
         newLink.setAttribute("title", "Blacklist " + rootUser);
+        newLink.setAttribute("action", "add");
         newLink.setAttribute("username", rootUser);
         newLink.setAttribute("href", 'javascript:;');
-        newLink.setAttribute("onClick", 'var evt = document.createEvent("Events"); evt.initEvent("AddToBlacklist", true, false); this.dispatchEvent(evt);');
+        newLink.removeEventListener("click", updateBlacklist);
+        newLink.addEventListener("click", updateBlacklist);
     }
 
 }
@@ -151,6 +169,11 @@ function checkBlacklistPrefs() {
               ((document.location.href.indexOf("/gameplay") >= 0) && blacklistIC));
 }
 
+function updateBlacklist(evt) {
+  pctBlacklist.blackListener(evt);
+  blacklistPosts();
+}
+
 
 /* Highlighter Code */
 function highlightNew() {
@@ -174,8 +197,5 @@ if ((useBlacklist == true) && (checkBlacklistPrefs())) {
 if ((useHighlighter == true) && (document.location.href.indexOf("/campaigns") >= 0)) {
     highlightNew();
 }
-
-document.addEventListener("RemoveFromBlacklist", function(e) { pctBlacklist.blackListener(e); blacklistPosts(); }, false, true);
-document.addEventListener("AddToBlacklist", function(e) { pctBlacklist.blackListener(e); blacklistPosts(); }, false, true);
 
 })(content);
