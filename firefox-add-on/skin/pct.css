@@ -20,7 +20,7 @@
     background-image: url('not_allowed.svg');
 }
 
-table > tbody > tr > td > table > tbody > tr {
+.bb-content hr + table > tbody > tr > td > table > tbody > tr {
     display: inline-block;
     width: 100%;
     vertical-align: top;
@@ -28,19 +28,19 @@ table > tbody > tr > td > table > tbody > tr {
     }
 
 @media (min-width: 635px) and (max-width: 935px) {
-    table > tbody > tr > td > table > tbody > tr {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
         width: 49%;
     }
 }
 
 @media (min-width: 935px) and (max-width: 1585px) {
-    table > tbody > tr > td > table > tbody > tr {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
         width: 32%;
     }
 }
 
 @media (min-width: 1585px) {
-    table > tbody > tr > td > table > tbody > tr {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
         width: 24%;
     }
 }
