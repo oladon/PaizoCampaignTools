@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Paizo Campaign Tools",
+  "description": "A collection of tools for enhancing the Paizo PbP experience.",
+  "version": "1.0.3",
+
+  "options_page": "content/options.html",
+
+  "background": {
+     "scripts": ["content/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://paizo.com/people/*/campaigns",
+                  "http://paizo.com/threads*", 
+                  "http://paizo.com/campaigns/*/gameplay*", 
+                  "http://paizo.com/campaigns/*/discussion*",
+                  "http://paizo.com/campaigns/*/recruiting*"],
+      "css": ["skin/pct.css"],
+      "js": ["content/pct.js", 
+             "content/blacklist.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "skin/*.svg"
+  ]
+}

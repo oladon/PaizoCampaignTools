@@ -13,14 +13,14 @@
 }
 
 .pct-allowedIcon {
-    background-image: url('allowed.svg');
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/allowed.svg');
 }
 
 .pct-notAllowedIcon {
-    background-image: url('not_allowed.svg');
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/not_allowed.svg');
 }
 
-.bb-content hr + table > tbody > tr > td > table > tbody > tr {
+table > tbody > tr > td > table > tbody > tr {
     display: inline-block;
     width: 100%;
     vertical-align: top;
@@ -28,19 +28,19 @@
     }
 
 @media (min-width: 635px) and (max-width: 935px) {
-    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 49%;
     }
 }
 
 @media (min-width: 935px) and (max-width: 1585px) {
-    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 32%;
     }
 }
 
 @media (min-width: 1585px) {
-    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+    table > tbody > tr > td > table > tbody > tr {
         width: 24%;
     }
 }

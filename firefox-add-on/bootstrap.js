@@ -7,6 +7,7 @@ const PREFS = {
   useArranger: true,
   useBlacklist: true,
   blacklist: [],
+  blacklistMethod: 0,
   blacklistNormal: true,
   blacklistRecruit: true,
   blacklistOOC: true,
@@ -74,13 +75,11 @@ var WindowListener = {
       var b = window.gBrowser.getBrowserAtIndex(i);
       try {
 	if (b.currentURI.spec.indexOf('paizo.com') >= 0) {
-//            dump(b.currentURI.spec + "\n"); // dump URLs of all open tabs to console
             handlePaizo(b);
         }
       } catch(e) {
        Components.utils.reportError(e);
       }
-      // Listened here for load - no dice
     }
   },
 

@@ -1,0 +1,35 @@
+/* This file is for Opera. */
+/* Use in conjunction with camparr.user.js */
+
+.bb-content hr + table > tbody > tr > td > table > tbody > tr {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    border-spacing: 15px 7px !important;
+}
+
+@media (min-width: 635px) and (max-width: 935px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 49%;
+    }
+}
+
+@media (min-width: 935px) and (max-width: 1585px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 32%;
+    }
+}
+
+@media (min-width: 1585px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 24%;
+    }
+}
+
+h1 { font-size:medium !important; }
+
+/* This part highlights the new post notification link in orange. */
+.bb-content hr + table > tbody > tr > td > table > tbody > tr >
+  td > blockquote > ul > li > span.tiny > span > a:not([title^="Stop"]) {
+    background-color: #ffaa00 !important; 
+}

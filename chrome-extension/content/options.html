@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PCT Options</title>
+	<link rel="stylesheet" href="../skin/options.css"/>
+	<script src="options.js"></script>
+	<script src="blacklist.js"></script>
+</head>
+<body>
+	<header>
+		<h1>PCT Options</h1>
+		<span id="saved" class="ease"><h3><i>Saved</i></h3></span>
+	</header>
+	<section id="visual-section">
+		<h3>Visual</h3>
+		<div class="checkbox">
+			<input type="checkbox" id="pct-use-arranger" name="useArranger"/>
+			<label for="pct-use-arranger">Auto-Arrange Campaigns</label>
+		</div>
+		<div class="checkbox">
+			<input type="checkbox" id="pct-use-highlighter" name="useHighlighter"/>
+			<label for="pct-use-highlighter">Highlight New Post Links</label>
+		</div>
+		<div>
+			<label for="pct-highlight-color">Highlight Color</label>
+			<input type="color" id="pct-highlight-color" name="highlightColor" value="#ff9900"/>
+		</div>
+	</section>
+	<section id="blacklist-section">
+		<h3>Blacklist</h3>
+		<div class="checkbox">
+			<input type="checkbox" id="pct-use-blacklist" name="useBlacklist"/>
+			<label for="pct-use-blacklist">Enable User Blacklist</label>
+		</div>
+		<div class="left-column">
+			<section class="subsection">
+				<h4>Blacklist Method</h4>
+				<div class="radio">
+					<input type="radio" checked="checked" class="pct-blacklist-control" id="pct-greyscale" name="blacklistMethod" value="pct-greyscale"/>
+					<label for="pct-greyscale">Greyscale</label>
+				</div>
+				<div class="radio">
+					<input type="radio" class="pct-blacklist-control" id="pct-display-none" name="blacklistMethod" value="pct-display-none"/>
+					<label for="pct-display-none">Hide</label>
+				</div>
+			</section>
+			<section class="subsection">
+				<h4>Apply Blacklist To...</h4>
+				<div class="checkbox">
+					<input type="checkbox" class="pct-blacklist-control" id="pct-bl-normal" name="blacklistNormal"/>
+					<label for="pct-bl-normal">Regular Threads</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" class="pct-blacklist-control" id="pct-bl-rec" name="blacklistRecruit"/>
+					<label for="pct-bl-rec">Recruitment Threads</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" class="pct-blacklist-control" id="pct-bl-ooc" name="blacklistOOC"/>
+					<label for="pct-bl-ooc">Discussion Threads</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" class="pct-blacklist-control" id="pct-bl-ic" name="blacklistIC"/>
+					<label for="pct-bl-ic">Gameplay Threads</label>
+				</div>
+			</section>
+		</div>
+		<div class="right-column">
+			<section class="subsection">
+				<h4>Current Blacklist</h4>
+				<div class="blacklist-members-control">
+					<select class="pct-blacklist-control" id="pct-blacklist" multiple="multiple" size="13">
+					</select>
+					<div class="blacklist-buttons">
+						<button class="pct-blacklist-control" id="pct-blacklist-add">Add</button>
+						<button class="pct-blacklist-control" id="pct-blacklist-remove">Remove</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</section>
+</body>
+</html>

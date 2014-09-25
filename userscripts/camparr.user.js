@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name Paizo Campaign Arranger
+// @name Paizo Campaign Tools
 // @namespace http://www.oladon.com
 // @description A script to rearrange Paizo.com campaigns
 // @include http://paizo.com/people/*/campaigns
@@ -33,17 +33,16 @@ if (campaigns.length > 8) {
     }
     
     var secondColumn = firstColumn.parentNode.parentNode.nextSibling.nextSibling;
-    console.log(secondColumn);
     secondColumn.parentNode.removeChild(secondColumn);
 }
 
-GM_addStyle('table > tbody > tr > td > table > tbody > tr { display: inline-block; width: 100%; vertical-align: top; border-spacing: 15px 7px ! important }');
+GM_addStyle('.bb-content hr + table > tbody > tr > td > table > tbody > tr { display: inline-block; width: 100%; vertical-align: top; border-spacing: 15px 7px ! important }');
 
-GM_addStyle('@media (min-width: 635px) and (max-width: 935px) { table > tbody > tr > td > table > tbody > tr { width: 49%; } }');
+GM_addStyle('@media (min-width: 635px) and (max-width: 935px) { .bb-content hr + table > tbody > tr > td > table > tbody > tr { width: 49%; } }');
 
-GM_addStyle('@media (min-width: 935px) and (max-width: 1585px) { table > tbody > tr > td > table > tbody > tr { width: 32%; } }');
+GM_addStyle('@media (min-width: 935px) and (max-width: 1585px) { .bb-content hr + table > tbody > tr > td > table > tbody > tr { width: 32%; } }');
 
-GM_addStyle('@media (min-width: 1585px) { table > tbody > tr > td > table > tbody > tr { width: 24%; } }');
+GM_addStyle('@media (min-width: 1585px) { .bb-content hr + table > tbody > tr > td > table > tbody > tr { width: 24%; } }');
 
 // This part highlights the new posts link
-GM_addStyle("table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")
+GM_addStyle(".bb-content hr + table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^='Stop']) { background-color: #ffaa00 ! important }")

@@ -3,24 +3,30 @@ Paizo Campaign Tools
 
 There are three main tools included in this bundle: the Arranger (rearranges 
 the user campaigns page to be more readable [with less scrolling]), the User 
-Blacklist (greys out posts by certain users), and Highlighter (highlights 
-the "(x new)" link on campaign pages). 
+Blacklist (greys out or hides posts by certain users), and Highlighter 
+(highlights the "(x new)" link on campaign pages). 
 
-For Chrome and Opera users, the old user scripts are still available, but the 
-User Blacklist feature is not included. If anyone's interested in teaming up 
-to get real extensions written for Chrome and Opera, let me know!
+For Opera users, the old user scripts are still available, but the User 
+Blacklist feature is not included. If anyone's interested in teaming up 
+to get a the Blacklist feature written for Opera, let me know!
 
 Firefox Installation:
 
-1) Download pct.xpi from the firefox-add-on directory.
+Download pct.xpi from the Mozilla add-ons site: 
+https://addons.mozilla.org/en-US/firefox/addon/paizo-campaign-tools/
 
-2) Open Firefox, and drag pct.xpi from the downloaded location onto the open 
-   Firefox window. Click "Install Now". Congratulations!
+Alternatively:
+
+1) Download the contents of firefox-add-on/ and place them in a zip file, 
+   then rename the zip file to pct.xpi
+
+2) Open Firefox, and drag pct.xpi onto the open Firefox window. Click 
+   "Install Now", and you're done.
 
 
 Opera Installation:
 
-1) Download camparr.css and camparr.user.js from the base directory.
+1) Download camparr.css and camparr.user.js from userscripts/.
 
 1) Navigate to paizo.com
 
@@ -33,7 +39,5 @@ under User JavaScript folder add the path to camparr.user.js. Done!
 
 Google Chrome Installation:
 
-Due to some recent changes by Google in how extensions are handled, as far 
-as I'm aware you can't install the extension directly. Some workarounds 
-have been proposed; you can try the instructions at 
-http://userscripts.org/about/installing - they look like they might work.
+Download the extension from the Google Chrome web store:
+https://chrome.google.com/webstore/detail/paizo-campaign-tools/ibfgfbafipmhmjohndaekilkkldeahgd
