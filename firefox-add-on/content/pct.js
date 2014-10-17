@@ -152,10 +152,10 @@ function getRootUser(title) {
 }
 
 function checkBlacklistPrefs() {
-  var blacklistNormal = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistNormal"),
-      blacklistRecruit = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistRecruit"),
-      blacklistOOC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistOOC"),
-      blacklistIC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistIC");
+  var blacklistNormal = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistNormal"),
+      blacklistRecruit = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistRecruit"),
+      blacklistOOC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistOOC"),
+      blacklistIC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistIC");
 
 /*  dump("blacklistNormal: " + blacklistNormal + "\n" + 
        "blacklistRecruit: " + blacklistRecruit + "\n" + 
