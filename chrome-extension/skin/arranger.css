@@ -1,0 +1,24 @@
+.bb-content hr + table > tbody > tr > td > table > tbody > tr {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    border-spacing: 15px 7px !important; 
+    }
+
+@media (min-width: 635px) and (max-width: 935px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 49%;
+    }
+}
+
+@media (min-width: 935px) and (max-width: 1585px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 32%;
+    }
+}
+
+@media (min-width: 1585px) {
+    .bb-content hr + table > tbody > tr > td > table > tbody > tr {
+        width: 24%;
+    }
+}

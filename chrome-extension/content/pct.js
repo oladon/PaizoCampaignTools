@@ -3,6 +3,34 @@
 const PCT_GREYSCALE = "pct-greyscale";
 const PCT_DISPLAYNONE = "pct-display-none";
 
+//var pctBlacklist = window.pctBlacklist;
+var pctChat = window.pctChat;
+
+var username = pctChat.getUsername() || undefined;
+
+if (!Array.prototype.find) {
+  Array.prototype.find = function(predicate) {
+    if (this == null) {
+      throw new TypeError('Array.prototype.find called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return value;
+      }
+    }
+    return undefined;
+  };
+}
+
 /* Arranger Code */
 function getCampaigns() {
 	var myCampaigns = [], 
@@ -13,8 +41,41 @@ function getCampaigns() {
 	return myCampaigns;
 }
 
-function arrangeCampaigns() {
-	var campaigns = getCampaigns();
+function campaignsToArray(campaigns) {
+	var campaignsArray = campaigns.map( function(campaign, index, array) {
+		var currentCampaign = campaign;
+		var userDM = (currentCampaign.querySelector('blockquote > p[class=tiny] > b').textContent.trim() == "GameMaster");
+		var title = currentCampaign.querySelector('blockquote > h3 > a[title]').title;
+		var URL = currentCampaign.querySelector('blockquote > h3 > a[title]').href;
+		var userAliases = currentCampaign.querySelectorAll('p.tiny > b > a');
+		var userAliasesArray = [];
+		
+		for (var alias of [].slice.call(userAliases)) {
+			userAliasesArray.push({ name: alias.textContent.trim(),
+									url: alias.href });
+		}
+		if (!userAliases || userAliases.length <= 0) {
+			userAliasesArray = username && [{ name: username }];
+		}
+		
+		var campaignObject = { title: title, 
+			url: URL,
+			user_dm: userDM,
+			user_aliases: userAliasesArray
+		};
+		
+		return campaignObject;
+	});
+	
+	return campaignsArray;
+}
+
+function saveCampaigns(campaigns) {
+	var activeCampaigns = JSON.stringify(campaigns);
+	chrome.runtime.sendMessage({ storage: "campaigns", value: activeCampaigns});
+}
+
+function arrangeCampaigns(campaigns) {
 	if (campaigns.length > 8) {
 		var firstCampaign = campaigns[0],
 			firstColumn = firstCampaign.parentNode.parentNode;
@@ -157,7 +218,7 @@ function checkBlacklistPrefs(blacklistPrefs) {
 
 function updateBlacklist(evt) {
 	pctBlacklist.blackListener(evt, function() {
-		chrome.extension.sendRequest({storage: ['blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
+		chrome.runtime.sendMessage({storage: ['blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
 			var blacklistPrefs = response.storage;
 			blacklistPosts(blacklistPrefs);
 		});
@@ -174,15 +235,17 @@ function highlightNew(highlightColor) {
 	}
 }
 
-chrome.extension.sendRequest({storage: 'useArranger'}, function(response) {
+var campaigns = getCampaigns();
+
+chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
 	var useArranger = response.storage;
 
 	if ((useArranger == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
-		arrangeCampaigns();
+		arrangeCampaigns(campaigns);
 	}
 });
 
-chrome.extension.sendRequest({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
+chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
 	var useBlacklist = response.storage.useBlacklist,
 		blacklistMethod = response.storage.blacklistMethod,
 		blacklistPrefs = response.storage;
@@ -192,7 +255,44 @@ chrome.extension.sendRequest({storage: ['useBlacklist', 'blacklistNormal', 'blac
 	}
 });
 
-chrome.extension.sendRequest({storage: ['useHighlighter', 'highlightColor']}, function(response) {
+chrome.runtime.sendMessage({storage: ['useChat', 'campaigns']}, function(response) {
+	var useChat = response.storage.useChat;
+	var currentHref = document.location.href;
+	var currentCampaign, storedCampaigns, storedCampaignsArray;
+	var titleNode = document.querySelector('table td > h1');
+	var pageTitle = titleNode && titleNode.textContent;
+	
+	if ((useChat == "true") && 
+		username && 
+		((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
+		 currentCampaign ||
+		 ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
+		  pageTitle && 
+		  pageTitle == username + "'s page"))) {
+		 
+		if (!campaigns || campaigns.length == 0) {
+			storedCampaigns = response.storage.campaigns;
+			if (storedCampaigns && storedCampaigns != "") {
+				storedCampaignsArray = JSON.parse(storedCampaigns);
+				currentCampaign = storedCampaignsArray.find(function(campaign) {
+					return currentHref.indexOf(campaign.url) >= 0;
+				});
+			} else {
+				console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
+			}
+		}
+
+		if (currentCampaign) {
+			pctChat.initializeChat(username, [ currentCampaign ], true);
+		} else {
+			var campaignsArray = campaignsToArray(campaigns);
+			saveCampaigns(campaignsArray);
+			pctChat.initializeChat(username, campaignsArray);
+		}
+	}
+});
+
+chrome.runtime.sendMessage({storage: ['useHighlighter', 'highlightColor']}, function(response) {
 	var useHighlighter = response.storage.useHighlighter,
 		highlightColor = response.storage.highlightColor;
 

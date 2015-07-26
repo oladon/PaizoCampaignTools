@@ -4,7 +4,7 @@ var pctBlacklist = {
 			username = target.getAttribute("username"),
 			action = target.getAttribute("action");
 
-		chrome.extension.sendRequest({storage: ['blacklist']}, function(response) {
+		chrome.runtime.sendMessage({storage: ['blacklist']}, function(response) {
 			var blacklist = blacklistToArray(response.storage.blacklist);
 		
 			if (target.id == "pct-link") {
@@ -23,7 +23,7 @@ function addNameToBlacklist(name, blacklistArray, cb) {
 
 	blacklistArray.push(name);
 	newBlacklist = JSON.stringify(blacklistArray);
-	chrome.extension.sendRequest({storage: 'blacklist', value: newBlacklist}, cb);
+	chrome.runtime.sendMessage({storage: 'blacklist', value: newBlacklist}, cb);
 }
 
 function removeNameFromBlacklist(name, blacklistArray, cb) {
@@ -32,7 +32,7 @@ function removeNameFromBlacklist(name, blacklistArray, cb) {
 
 	blacklistArray.splice(index, 1);
 	newBlacklist = JSON.stringify(blacklistArray);
-	chrome.extension.sendRequest({storage: 'blacklist', value: newBlacklist}, cb);
+	chrome.runtime.sendMessage({storage: 'blacklist', value: newBlacklist}, cb);
 }
 
 function blacklistToArray(blacklist) {

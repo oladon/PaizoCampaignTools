@@ -7,6 +7,7 @@ const PREFS = {
 	blacklistRecruit: true,
 	blacklistOOC: true,
 	blacklistIC: false,
+	useChat: true,
 	useHighlighter: true,
 	highlightColor: "#ffaa00"
 };
@@ -28,7 +29,7 @@ function setDefaultPrefs() {
 }
 
 function loadOptions() {
-	setDefaultPrefs();
+//	setDefaultPrefs();
 
 	var
 		useArranger = localStorage["useArranger"],
@@ -40,7 +41,8 @@ function loadOptions() {
 		blacklistRecruit = localStorage["blacklistRecruit"],
 		blacklistOOC = localStorage["blacklistOOC"],
 		blacklistIC = localStorage["blacklistIC"],
-		blacklist = blacklistToArray();
+		blacklist = blacklistToArray(),
+		useChat = localStorage["useChat"];
 
 	/* This part sets up the dialog with the existing options */
 	if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
@@ -50,6 +52,7 @@ function loadOptions() {
 	if (blacklistRecruit == "true") { document.getElementById('pct-bl-rec').setAttribute('checked', true); }
 	if (blacklistOOC == "true") { document.getElementById('pct-bl-ooc').setAttribute('checked', true); }
 	if (blacklistIC == "true") { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
+	if (useChat) { document.getElementById('pct-use-chat').setAttribute('checked', true); }
 	if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
 	document.getElementById('pct-highlight-color').value = highlightColor;
 
@@ -83,6 +86,7 @@ function saveOption(evt) {
 		oldValue = localStorage[target.name],
 		newValue;
 	
+	console.log(target.type);
 	if (target.type == "checkbox") {
 		newValue = target.checked;
 	} else if ((target.type == "radio") || (target.type == "color")) {
