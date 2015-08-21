@@ -1,7 +1,7 @@
 Paizo Campaign Tools
 ====================
 
-There are three main tools included in this bundle: the Arranger (rearranges 
+There are four tools included in this bundle: the Arranger (rearranges 
 the user campaigns page to be more readable [with less scrolling]), the User 
 Blacklist (greys out or hides posts by certain users), Highlighter 
 (highlights the "(x new)" link on campaign pages), and Campaign Chat (lets you 
