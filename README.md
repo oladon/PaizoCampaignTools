@@ -7,15 +7,17 @@ Blacklist (greys out or hides posts by certain users), Highlighter
 (highlights the "(x new)" link on campaign pages), and Campaign Chat (lets you 
 chat live with other people in the same campaigns).
 
+With PCT: ![With this Extension](screenshots/with_pct.png)
+
 Without PCT: ![Without this Extension](screenshots/without_pct.png)
 
-With PCT: ![With this Extension](screenshots/with_pct.png)
+C'mon now, how hard a decision is that?
 
 For Opera users, the old user scripts are still available, but the User 
 Blacklist feature is not included. If anyone's interested in teaming up 
 to get a the Blacklist feature written for Opera, let me know!
 
-Firefox Installation:
+**Firefox Installation:**
 
 Download pct.xpi from the Mozilla add-ons site: 
 https://addons.mozilla.org/en-US/firefox/addon/paizo-campaign-tools/
@@ -29,7 +31,7 @@ Alternatively:
    "Install Now", and you're done.
 
 
-Opera Installation:
+**Opera Installation:**
 
 1) Download camparr.css and camparr.user.js from userscripts/.
 
@@ -42,7 +44,7 @@ the path to camparr.css in "My style sheet".
 under User JavaScript folder add the path to camparr.user.js. Done!
 
 
-Google Chrome Installation:
+**Google Chrome Installation:**
 
 Download the extension from the Google Chrome web store:
 https://chrome.google.com/webstore/detail/paizo-campaign-tools/ibfgfbafipmhmjohndaekilkkldeahgd
