@@ -7,6 +7,10 @@ Blacklist (greys out or hides posts by certain users), Highlighter
 (highlights the "(x new)" link on campaign pages), and Campaign Chat (lets you 
 chat live with other people in the same campaigns).
 
+Without PCT: ![Without this Extension](screenshots/without_pct.png)
+
+With PCT: ![With this Extension](screenshots/with_pct.png)
+
 For Opera users, the old user scripts are still available, but the User 
 Blacklist feature is not included. If anyone's interested in teaming up 
 to get a the Blacklist feature written for Opera, let me know!
