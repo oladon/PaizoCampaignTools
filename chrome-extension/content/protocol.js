@@ -21,7 +21,7 @@
  * @param {String} id
  */
 const USE_CONTENT = false;
- 
+
 var Protocol = (function (window) {
     var rwebkit = /(webkit)[ \/]([\w.]+)/,
         ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
@@ -32,10 +32,10 @@ var Protocol = (function (window) {
         var nav = USE_CONTENT ? content.navigator : navigator;
         var ua = nav.userAgent.toLowerCase();
         var match = rwebkit.exec(ua) ||
-                    ropera.exec(ua) ||
-                    rmsie.exec(ua) ||
-                    ua.indexOf("compatible") < 0 && rmozilla.exec(ua) ||
-                    [];
+                ropera.exec(ua) ||
+                rmsie.exec(ua) ||
+                ua.indexOf("compatible") < 0 && rmozilla.exec(ua) ||
+                [];
         return { browser: match[1] || "", version: match[2] || "0" };
     }
     var browser = {};
@@ -81,22 +81,22 @@ var Protocol = (function (window) {
             if (isAllowed(identity, from)) {
                 /** @ignore */
                 s = function (payload, callback, pid, destTab) {
-                        send({ msg: msg,
-                               type: type,
-                               from: identity,
-                               to: to,
-                               id: id || pid,
-                               payload: payload,
-                               token: addToken(callback)
-                             },
-                             destTab);
-                    };
+                    send({ msg: msg,
+                           type: type,
+                           from: identity,
+                           to: to,
+                           id: id || pid,
+                           payload: payload,
+                           token: addToken(callback)
+                         },
+                         destTab);
+                };
             }
             if (isAllowed(identity, to)) {
                 /** @ignore */
                 r = function (func) {
-                        receive(msg, func);
-                    };
+                    receive(msg, func);
+                };
             }
             addSender(msg, type + msg, s);
             addReceiver(msg, "receive" + msg, r);
@@ -146,36 +146,36 @@ var Protocol = (function (window) {
 
             // register a listener for all messages
             _receive(function (envelope, sender) {
-                         // IE uses a crazy hack that replaces the widget protocol
-                         // stuff with core Protocol instances. As a result, we
-                         // will see some messages that we don't actually care
-                         // about, and must ignore. Once the hack is removed we
-                         // can remove this condition.
-                         var we_care = !browser.msie || (envelope.to == "all" || !id || envelope.id == id);
-                         if ((envelope.to == identity || envelope.to == "all") && envelope.msg == msg && we_care) {
-                             log(envelope, 'received message');
-                             logDebug(envelope, "Message", 'recv');
-                             // but we only do anything with it when it's for the
-                             // proper recipient
-                             func(envelope.payload,
-                                  function (payload) {
-                                      // allow the recipient to send a response (encoded
-                                      // as a reply message with the token from the
-                                      // original message)
-                                      var replyEnvelope = { msg: "Reply",
-                                                            from: identity,
-                                                            to: envelope.from,
-                                                            id: envelope.id,
-                                                            payload: payload,
-                                                            token: envelope.token
-                                                          };
-                                      logDebug(envelope, "Message", 'sendreply', [replyEnvelope]);
-                                      send(replyEnvelope, sender, id);
-                                  },
-                                  sender,
-                                  envelope.id);
-                         }
-                     },
+                // IE uses a crazy hack that replaces the widget protocol
+                // stuff with core Protocol instances. As a result, we
+                // will see some messages that we don't actually care
+                // about, and must ignore. Once the hack is removed we
+                // can remove this condition.
+                var we_care = !browser.msie || (envelope.to == "all" || !id || envelope.id == id);
+                if ((envelope.to == identity || envelope.to == "all") && envelope.msg == msg && we_care) {
+                    log(envelope, 'received message');
+                    logDebug(envelope, "Message", 'recv');
+                    // but we only do anything with it when it's for the
+                    // proper recipient
+                    func(envelope.payload,
+                         function (payload) {
+                             // allow the recipient to send a response (encoded
+                             // as a reply message with the token from the
+                             // original message)
+                             var replyEnvelope = { msg: "Reply",
+                                                   from: identity,
+                                                   to: envelope.from,
+                                                   id: envelope.id,
+                                                   payload: payload,
+                                                   token: envelope.token
+                                                 };
+                             logDebug(envelope, "Message", 'sendreply', [replyEnvelope]);
+                             send(replyEnvelope, sender, id);
+                         },
+                         sender,
+                         envelope.id);
+                }
+            },
                      msg);
         };
 
@@ -196,14 +196,14 @@ var Protocol = (function (window) {
                 if (identity == "background") {
                     if (envelope.type == "broadcast"){
                         chrome.windows
-                              .getAll({ populate: true },
-                                      function (windows) {
-                                          windows.forEach(function (win) {
-                                                              win.tabs.forEach(function (tab) {
-                                                                              chrome.tabs.sendMessage(tab.id, envelope);
-                                                                          });
-                                                          });
-                                      });
+                            .getAll({ populate: true },
+                                    function (windows) {
+                                        windows.forEach(function (win) {
+                                            win.tabs.forEach(function (tab) {
+                                                chrome.tabs.sendMessage(tab.id, envelope);
+                                            });
+                                        });
+                                    });
                     }
                     else {
                         if (dest && dest.tab && (dest.tab.id == -1))
@@ -213,7 +213,7 @@ var Protocol = (function (window) {
                     }
 
                 } else {
-					chrome.runtime.sendMessage(envelope);
+                    chrome.runtime.sendMessage(envelope);
                 }
             };
 
@@ -257,7 +257,7 @@ var Protocol = (function (window) {
             };
         }
         else
-             throw new Error("Cool, a new browser ("+ navigator.vendor +")");
+            throw new Error("Cool, a new browser ("+ navigator.vendor +")");
 
         /**
          * Listen for replies to messages sent to this module, and
@@ -266,20 +266,20 @@ var Protocol = (function (window) {
          * recipient.
          */
         _receive(function (envelope, sender) {
-                     if (envelope.from != identity) {
-                         if (envelope.to != identity && ((browser.mozilla && identity == "injector") || identity == "background")) {
-                             log(envelope, 'forwarding message', 'sender', sender);
-                             logDebug(envelope, "Message", 'forward');
-                             send(envelope, sender);
-                         } else if ((envelope.to == identity || envelope.to == "all") && envelope.msg == "Reply" && ((id && envelope.id == id) || !id)) {
-                             log(envelope, 'received reply for');
-                             logDebug(envelope, "Message", 'recvreply');
-                             var callback = tokenMap[envelope.token];
-                             delete tokenMap[envelope.token];
-                             callback && typeof callback == "function" && callback(envelope.payload);
-                         }
-                     }
-                 },
+            if (envelope.from != identity) {
+                if (envelope.to != identity && ((browser.mozilla && identity == "injector") || identity == "background")) {
+                    log(envelope, 'forwarding message', 'sender', sender);
+                    logDebug(envelope, "Message", 'forward');
+                    send(envelope, sender);
+                } else if ((envelope.to == identity || envelope.to == "all") && envelope.msg == "Reply" && ((id && envelope.id == id) || !id)) {
+                    log(envelope, 'received reply for');
+                    logDebug(envelope, "Message", 'recvreply');
+                    var callback = tokenMap[envelope.token];
+                    delete tokenMap[envelope.token];
+                    callback && typeof callback == "function" && callback(envelope.payload);
+                }
+            }
+        },
                  "forward-message");
 
         /** @ignore */
@@ -378,35 +378,35 @@ function ChatProtocol(identity) {
          * (CHAT -> BG) Chat tabs can use this to request
          * that the background join a room.
          * @param nick {String} The nickname to use.
-		 * @param room {String} The room to join.
+         * @param room {String} The room to join.
          */
         ["JoinRoom", CHAT, BG],
         /**
          * @method sendGetHistory
          * (CHAT -> BG) Chat tabs can use this to request
          * n lines of history for a given room.
-		 * @param room {String} The room to join.
+         * @param room {String} The room to join.
          * @param n {Integer} The number of messages to return.
          */
-		["GetHistory", CHAT, BG],
-		/**
+        ["GetHistory", CHAT, BG],
+        /**
          * @method broadcastConnectFail
          * (BG -> ALL) The background uses this to broadcast a 
-		 * notification when the connection has failed.
+         * notification when the connection has failed.
          */
         ["ConnectFail", BG, ALL],
-		/**
+        /**
          * @method broadcastDisconnected
          * (BG -> ALL) The background uses this to broadcast a 
-		 * disconnect notification to the chats.
+         * disconnect notification to the chats.
          */
         ["Disconnected", BG, ALL],
-		/**
+        /**
          * @method broadcastLastReadUpdate
          * (BG -> ALL) The background uses this to broadcast a 
-		 * notification when the last read time for a room has changed.
-		 * @param room {String} The room that changed.
-		 * @param timestamp {String} The new timestamp for that room.
+         * notification when the last read time for a room has changed.
+         * @param room {String} The room that changed.
+         * @param timestamp {String} The new timestamp for that room.
          */
         ["LastReadUpdate", BG, ALL],
         /**
@@ -421,38 +421,38 @@ function ChatProtocol(identity) {
          * presence notifications to the tabs.
          */
         ["PresenceReceived", BG, ALL],
-		/**
-		 * @method sendMessage
-		 * (CHAT -> BG) Chat tabs can use this to send an 
-		 * XMPP chat message.
-		 * @param to {String} The recipient of the message.
-		 * @param message {String} The message to send.
-		 */
-		["Message", CHAT, BG],
-		/**
-		 * @method sendRoomMessage
-		 * (CHAT -> BG) Chat tabs can use this to send an 
-		 * XMPP chat message to a room (conference).
-		 * @param to {String} The recipient of the message (a room name).
-		 * @param message {String} The message to send.
-		 */
-		["RoomMessage", CHAT, BG],
-		/**
-		 * @method sendRosterRequest
-		 * (CHAT -> BG) Chat tabs can use this to request
-		 * the current roster of a room or rooms from the background.
-		 * @param rooms {Object} The rooms in question (room names).
-		 */
-		["RosterRequest", CHAT, BG],
-		/**
-		 * @method sendUpdateLastRead
-		 * (CHAT -> BG) Chat tabs can use this to notify the 
-		 * background (which in turn notifies all the chats) of a 
-		 * changed lastRead timestamp.
-		 * @param room {String} The room that changed (a room name).
-		 * @param timestamp {String} The new timestamp for that room.
-		 */
-		["UpdateLastRead", CHAT, BG]		
+        /**
+         * @method sendMessage
+         * (CHAT -> BG) Chat tabs can use this to send an 
+         * XMPP chat message.
+         * @param to {String} The recipient of the message.
+         * @param message {String} The message to send.
+         */
+        ["Message", CHAT, BG],
+        /**
+         * @method sendRoomMessage
+         * (CHAT -> BG) Chat tabs can use this to send an 
+         * XMPP chat message to a room (conference).
+         * @param to {String} The recipient of the message (a room name).
+         * @param message {String} The message to send.
+         */
+        ["RoomMessage", CHAT, BG],
+        /**
+         * @method sendRosterRequest
+         * (CHAT -> BG) Chat tabs can use this to request
+         * the current roster of a room or rooms from the background.
+         * @param rooms {Object} The rooms in question (room names).
+         */
+        ["RosterRequest", CHAT, BG],
+        /**
+         * @method sendUpdateLastRead
+         * (CHAT -> BG) Chat tabs can use this to notify the 
+         * background (which in turn notifies all the chats) of a 
+         * changed lastRead timestamp.
+         * @param room {String} The room that changed (a room name).
+         * @param timestamp {String} The new timestamp for that room.
+         */
+        ["UpdateLastRead", CHAT, BG]
     ];
     return new Protocol(decls, identity);
 };

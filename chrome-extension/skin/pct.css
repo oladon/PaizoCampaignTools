@@ -13,7 +13,7 @@
 }
 
 h1 .pct-icon {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 .pct-allowedIcon {
@@ -25,202 +25,202 @@ h1 .pct-icon {
 }
 
 .pct-chatIcon {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/chat_bubble.svg');
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/chat_bubble.svg');
 }
 
 .pct-newMessageIcon {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/new_message.png');
-	background-size: 17px 17px;
-	height: 17px;
-	width: 17px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/new_message.png');
+    background-size: 17px 17px;
+    height: 17px;
+    width: 17px;
 }
 
 .pct-lockIcon {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/lock.png');
-	background-size: 10px 10px;
-	height: 10px;
-	margin-left: -0.65em;
-	top: auto !important;
-	width: 10px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/lock.png');
+    background-size: 10px 10px;
+    height: 10px;
+    margin-left: -0.65em;
+    top: auto !important;
+    width: 10px;
 }
 
 .pct-unlockIcon {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/unlock.png');
-	background-size: 10px 10px;
-	height: 10px;
-	margin-left: -0.65em;
-	top: auto !important;
-	width: 10px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/unlock.png');
+    background-size: 10px 10px;
+    height: 10px;
+    margin-left: -0.65em;
+    top: auto !important;
+    width: 10px;
 }
 
 .pct-chatMessages {
-	height: 84%;
-	overflow-x: hidden;
-	overflow-y: auto;
-	text-overflow: ellipsis;
+    height: 84%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-overflow: ellipsis;
 }
 
 .pct-chatMessages.disabled {
-	display: none;
+    display: none;
 }
 
 .pct-chatMessage.history {
-	color: slategrey;
+    color: slategrey;
 }
 
 .pct-chatMessage.history a:link, 
 .pct-chatMessage.history a:visited {
-	color: slategrey !important;
+    color: slategrey !important;
 }
 
 .pct-chatMessage.history .user {
-	color: slategrey !important;
+    color: slategrey !important;
 }
 
 .pct-chatMessage.pct-info {
-	color: darkcyan;
-	font-style: italic;
+    color: darkcyan;
+    font-style: italic;
 }
 
 .pct-chatMessage.smote {
-	font-style: italic;
+    font-style: italic;
 }
 
 .pct-chatMessage .datetime {
-	color: lightslategrey;
-	font-size: 6pt;
+    color: lightslategrey;
+    font-size: 6pt;
 }
 
 .pct-chatMessage .user {
-	color: forestgreen;
+    color: forestgreen;
 }
 
 .pct-chatMessage .user.DM {
-	color: firebrick;
+    color: firebrick;
 }
 
 .pct-chatMessage .user.self {
-	color: #4d3a98;
+    color: #4d3a98;
 }
 
 #pct-chat-input {
-	font-size: 8pt;
-	height: 10%;
-	margin-left: -2px;
-	margin-top: 2px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	resize: none;
-	width: 98%;
+    font-size: 8pt;
+    height: 10%;
+    margin-left: -2px;
+    margin-top: 2px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    resize: none;
+    width: 98%;
 }
 
 #pct-chat-widget {
-	background-color: rgb(230, 228, 255);
-	box-shadow: 0px 0px 4px 1px #ccc;
-	display: none;
-	font-size: 8pt;
-	height: 30%;
-	min-height: 250px;
-	padding-left: .3em;
-	padding-top: .1em;
-	position: fixed;
-		bottom: 20px;
-		right: 25px;
-	width: 22%;
-	z-index: 1000;
+    background-color: rgb(230, 228, 255);
+    box-shadow: 0px 0px 4px 1px #ccc;
+    display: none;
+    font-size: 8pt;
+    height: 30%;
+    min-height: 250px;
+    padding-left: .3em;
+    padding-top: .1em;
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    width: 22%;
+    z-index: 1000;
 }
 
 #pct-chat-widget[draggable=true] {
-	cursor: move !important;
+    cursor: move !important;
 }
 
 #pct-chat-widget.minimized {
-	display: block;
-	height: initial;
-	min-height: 0px;
+    display: block;
+    height: initial;
+    min-height: 0px;
 }
 
 #pct-chat-widget.minimized #pct-chat-titlebar {
-	padding-bottom: .5em;
+    padding-bottom: .5em;
 }
 
 #pct-chat-widget.minimized .innards {
-	display: none;
+    display: none;
 }
 
 #pct-chat-widget .innards {
-	height: 96%;
+    height: 96%;
 }
 
 #pct-chat-titlebar {
-	padding-bottom: .2em;
-	padding-left: .5em;
-	padding-top: .1em;
+    padding-bottom: .2em;
+    padding-left: .5em;
+    padding-top: .1em;
 }
 
 #pct-chat-title {
-	border-bottom: 1px solid lightgrey;
-	color: navy;
-	cursor: pointer;
-	font-weight: bold;
-	overflow: hidden;
-	padding-left: 0.35em;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 77%;
+    border-bottom: 1px solid lightgrey;
+    color: navy;
+    cursor: pointer;
+    font-weight: bold;
+    overflow: hidden;
+    padding-left: 0.35em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 77%;
 }
 
 #pct-chat-titlebar .pct-button {
-	position: absolute;
-	top: 0px;
+    position: absolute;
+    top: 0px;
 }
 
 #pct-chat-titlebar .pct-button:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 #pct-chat-titlebar .pct-close {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/not_allowed.svg');
-	right: 0px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/not_allowed.svg');
+    right: 0px;
 }
 
 #pct-chat-titlebar .pct-minimize {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/minimize.png');
-	right: 16px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/minimize.png');
+    right: 16px;
 }
 
 #pct-chat-titlebar .pct-restore {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/restore.png');
-	right: 16px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/restore.png');
+    right: 16px;
 }
 
 #pct-chat-titlebar .pct-rosterIcon {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/who_online.png');
-	right: 32px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/who_online.png');
+    right: 32px;
 }
 
 #pct-chat-titlebar .pct-back {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/skin/back.png');
+    background-image: url('chrome-extension://__MSG_@@extension_id__/skin/back.png');
 }
 
 #pct-roster-container {
-	height: 84%;
-	overflow-x: hidden;
-	overflow-y: auto;
+    height: 84%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #pct-roster-container.disabled {
-	display: none;
+    display: none;
 }
 
 .pct-roster {
-	display: block;
+    display: block;
 }
 
 .pct-roster.disabled {
-	display: none;
+    display: none;
 }
 
 .pct-roster .pct-info {
-	color: darkcyan;
+    color: darkcyan;
 }

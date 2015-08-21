@@ -1,36 +1,36 @@
 {
-  "manifest_version": 2,
+    "manifest_version": 2,
 
-  "name": "Paizo Campaign Tools",
-  "description": "A collection of tools for enhancing the Paizo PbP experience.",
-  "version": "1.1.3",
+    "name": "Paizo Campaign Tools",
+    "description": "A collection of tools for enhancing the Paizo PbP experience.",
+    "version": "1.1.4",
 
-  "options_page": "content/options.html",
-  "permissions": [ "unlimitedStorage" ],
-  "background": {
-     "scripts": ["content/protocol.js",
-				 "content/db.js",
-				 "content/background.js",
-				 "content/strophe.js"]
-  },
-  "content_scripts": [
-    {
-      "matches": ["http://paizo.com/people/*/campaigns",
-                  "http://paizo.com/threads*", 
-                  "http://paizo.com/campaigns/*/gameplay*", 
-                  "http://paizo.com/campaigns/*/discussion*",
-                  "http://paizo.com/campaigns/*/recruiting*"],
-      "css": ["skin/pct.css",
-              "skin/arranger.css"],
-      "js": ["content/Autolinker.min.js",
-			 "content/protocol.js",
-			 "content/chat.js",
-             "content/blacklist.js",
-			 "content/pct.js"]
-    }
-  ],
-  "web_accessible_resources": [
-    "skin/*.svg",
-    "skin/*.png"
-  ]
+    "options_page": "content/options.html",
+    "permissions": [ "unlimitedStorage" ],
+    "background": {
+        "scripts": ["content/protocol.js",
+                    "content/db.js",
+                    "content/background.js",
+                    "content/strophe.js"]
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://paizo.com/people/*/campaigns",
+                        "http://paizo.com/threads*", 
+                        "http://paizo.com/campaigns/*/gameplay*", 
+                        "http://paizo.com/campaigns/*/discussion*",
+                        "http://paizo.com/campaigns/*/recruiting*"],
+            "css": ["skin/pct.css",
+                    "skin/arranger.css"],
+            "js": ["content/Autolinker.min.js",
+                   "content/protocol.js",
+                   "content/chat.js",
+                   "content/blacklist.js",
+                   "content/pct.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "skin/*.svg",
+        "skin/*.png"
+    ]
 }
