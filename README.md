@@ -3,8 +3,9 @@ Paizo Campaign Tools
 
 There are three main tools included in this bundle: the Arranger (rearranges 
 the user campaigns page to be more readable [with less scrolling]), the User 
-Blacklist (greys out or hides posts by certain users), and Highlighter 
-(highlights the "(x new)" link on campaign pages). 
+Blacklist (greys out or hides posts by certain users), Highlighter 
+(highlights the "(x new)" link on campaign pages), and Campaign Chat (lets you 
+chat live with other people in the same campaigns).
 
 For Opera users, the old user scripts are still available, but the User 
 Blacklist feature is not included. If anyone's interested in teaming up 
