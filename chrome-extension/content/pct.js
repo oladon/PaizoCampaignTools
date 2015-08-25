@@ -208,17 +208,19 @@
         var blacklistNormal = blacklistPrefs.blacklistNormal,
             blacklistRecruit = blacklistPrefs.blacklistRecruit,
             blacklistOOC = blacklistPrefs.blacklistOOC,
-            blacklistIC = blacklistPrefs.blacklistIC;
+            blacklistIC = blacklistPrefs.blacklistIC,
+            blacklistStore = blacklistPrefs.blacklistStore;
 
         return (((document.location.href.indexOf("/threads/") >= 0) && blacklistNormal) ||
                 ((document.location.href.indexOf("/recruiting") >= 0) && blacklistRecruit) ||
                 ((document.location.href.indexOf("/discussion") >= 0) && blacklistOOC) ||
-                ((document.location.href.indexOf("/gameplay") >= 0) && blacklistIC));
+                ((document.location.href.indexOf("/gameplay") >= 0) && blacklistIC) ||
+                ((document.location.href.indexOf("/products") >= 0) && blacklistStore));
     }
 
     function updateBlacklist(evt) {
         pctBlacklist.blackListener(evt, function() {
-            chrome.runtime.sendMessage({storage: ['blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
+            chrome.runtime.sendMessage({storage: ['blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
                 var blacklistPrefs = response.storage;
                 blacklistPosts(blacklistPrefs);
             });
@@ -245,7 +247,7 @@
         }
     });
 
-    chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistMethod', 'blacklist']}, function(response) {
+    chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
         var useBlacklist = response.storage.useBlacklist,
             blacklistMethod = response.storage.blacklistMethod,
             blacklistPrefs = response.storage;
