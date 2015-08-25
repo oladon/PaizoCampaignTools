@@ -17,6 +17,7 @@
         {
             "matches": ["http://paizo.com/people/*/campaigns",
                         "http://paizo.com/threads*", 
+			"http://paizo.com/products*",
                         "http://paizo.com/campaigns/*/gameplay*", 
                         "http://paizo.com/campaigns/*/discussion*",
                         "http://paizo.com/campaigns/*/recruiting*"],

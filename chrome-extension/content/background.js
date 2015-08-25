@@ -7,6 +7,7 @@ const PREFS = {
     blacklistRecruit: true,
     blacklistOOC: true,
     blacklistIC: false,
+    blacklistStore: true,
     useChat: true,
     chatPosition: '["25px","20px"]',
     useHighlighter: true,
