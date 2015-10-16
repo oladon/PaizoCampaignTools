@@ -8,6 +8,7 @@ const PREFS = {
     blacklistOOC: true,
     blacklistIC: false,
     blacklistStore: true,
+    blacklistBlog: true,
     useChat: true,
     useHighlighter: true,
     highlightColor: "#ffaa00"
@@ -42,6 +43,7 @@ function loadOptions() {
         blacklistOOC = localStorage["blacklistOOC"],
         blacklistIC = localStorage["blacklistIC"],
         blacklistStore = localStorage["blacklistStore"],
+        blacklistBlog = localStorage["blacklistBlog"],
         blacklist = blacklistToArray(),
         useChat = localStorage["useChat"];
 
@@ -54,6 +56,7 @@ function loadOptions() {
     if (blacklistOOC == "true") { document.getElementById('pct-bl-ooc').setAttribute('checked', true); }
     if (blacklistIC == "true") { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
     if (blacklistStore == "true") { document.getElementById('pct-bl-store').setAttribute('checked', true); }
+    if (blacklistBlog == "true") { document.getElementById('pct-bl-blog').setAttribute('checked', true); }
     if (useChat) { document.getElementById('pct-use-chat').setAttribute('checked', true); }
     if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
