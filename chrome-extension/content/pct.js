@@ -216,7 +216,7 @@
                 ((document.location.href.indexOf("/recruiting") >= 0) && blacklistRecruit) ||
                 ((document.location.href.indexOf("/discussion") >= 0) && blacklistOOC) ||
                 ((document.location.href.indexOf("/gameplay") >= 0) && blacklistIC) ||
-                ((document.location.href.indexOf("/products") >= 0) && blacklistStore)) ||
+                ((document.location.href.indexOf("/products") >= 0) && blacklistStore) ||
                 ((document.location.href.indexOf("/blog") >= 0) && blacklistBlog));
     }
 
