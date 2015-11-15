@@ -1,10 +1,9 @@
 (function() {
-
     const PCT_GREYSCALE = "pct-greyscale";
     const PCT_DISPLAYNONE = "pct-display-none";
 
-    //var pctBlacklist = window.pctBlacklist;
     var pctChat = window.pctChat;
+    var pctSelector = window.pctSelector;
 
     var username = pctChat.getUsername() || undefined;
 
@@ -29,6 +28,23 @@
             }
             return undefined;
         };
+    }
+    
+    function loadFont(callback) {
+        var head = document.getElementsByTagName('head')[0],
+            id = 'pct-font';
+
+        if (!document.getElementById(id)) {
+            var link = document.createElement('link');
+
+            link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+
+            head.appendChild(link);
+
+            link.onload = callback;
+        }
     }
 
     /* Arranger Code */
@@ -229,7 +245,6 @@
         });
     }
 
-
     /* Highlighter Code */
     function highlightNew(highlightColor) {
         var newLinks = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^="Stop"])');
@@ -239,74 +254,85 @@
         }
     }
 
-    var campaigns = getCampaigns();
+    function run() {
+        var campaigns = getCampaigns();
 
-    chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
-        var useArranger = response.storage;
+        chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
+            var useArranger = response.storage;
 
-        if ((useArranger == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
-            arrangeCampaigns(campaigns);
-        }
-    });
+            if ((useArranger == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
+                arrangeCampaigns(campaigns);
+            }
+        });
 
-    chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
-        var useBlacklist = response.storage.useBlacklist,
-            blacklistMethod = response.storage.blacklistMethod,
-            blacklistPrefs = response.storage;
+        chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
+            var useBlacklist = response.storage.useBlacklist,
+                blacklistMethod = response.storage.blacklistMethod,
+                blacklistPrefs = response.storage;
 
-        if ((useBlacklist == "true") && (checkBlacklistPrefs(blacklistPrefs))) {
-            blacklistPosts(blacklistPrefs);
-        }
-    });
+            if ((useBlacklist == "true") && (checkBlacklistPrefs(blacklistPrefs))) {
+                blacklistPosts(blacklistPrefs);
+            }
+        });
 
-    chrome.runtime.sendMessage({storage: ['useChat', 'campaigns']}, function(response) {
-        var useChat = response.storage.useChat;
-        var currentHref = document.location.href;
-        var currentCampaign, storedCampaigns, storedCampaignsArray;
-        var titleNode = document.querySelector('table td > h1');
-        var pageTitle = titleNode && titleNode.textContent;
-        
-        if ((useChat == "true") &&
-            username && 
-            currentHref.indexOf("/campaigns") >= 0) {
+        chrome.runtime.sendMessage({storage: ['useChat', 'useSelector', 'campaigns']}, function(response) {
+            var useChat = response.storage.useChat;
+            var useSelector = response.storage.useSelector;
+            var currentHref = document.location.href;
+            var currentCampaign, storedCampaigns, storedCampaignsArray;
+            var titleNode = document.querySelector('table td > h1');
+            var pageTitle = titleNode && titleNode.textContent;
             
-            if (!campaigns || campaigns.length == 0) {
-                storedCampaigns = response.storage.campaigns;
-                if (storedCampaigns && storedCampaigns != "") {
-                    storedCampaignsArray = JSON.parse(storedCampaigns);
-                    currentCampaign = storedCampaignsArray.find(function(campaign) {
-                        return currentHref.indexOf(campaign.url) >= 0;
-                    });
-                } else {
-                    console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
+            if (((useChat == "true") ||
+                 (useSelector == "true")) &&
+                username && 
+                currentHref.indexOf("/campaigns") >= 0) {
+                
+                if (!campaigns || campaigns.length == 0) {
+                    storedCampaigns = response.storage.campaigns;
+                    if (storedCampaigns && storedCampaigns != "") {
+                        storedCampaignsArray = JSON.parse(storedCampaigns);
+                        currentCampaign = storedCampaignsArray.find(function(campaign) {
+                            return currentHref.indexOf(campaign.url) >= 0;
+                        });
+                    } else {
+                        console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
+                    }
+                    
+                    if (useSelector == "true") {
+                        var selectorCampaigns = campaigns && campaigns.length > 0 || storedCampaignsArray;
+                        pctSelector.selectAlias(selectorCampaigns, currentCampaign);
+                    }
+                }
+
+                if ((useChat == "true") &&
+                    ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
+                     currentCampaign ||
+                     ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
+                      pageTitle && 
+                      pageTitle == username + "'s page"))) {
+
+                    if (currentCampaign) {
+                        pctChat.initializeChat(username, [ currentCampaign ], true);
+                    } else {
+                        var campaignsArray = campaignsToArray(campaigns);
+                        saveCampaigns(campaignsArray);
+                        pctChat.initializeChat(username, campaignsArray);
+                    }
                 }
             }
-            
-            if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
-                currentCampaign ||
-                ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
-                 pageTitle && 
-                 pageTitle == username + "'s page")) {
-                
-                
-                if (currentCampaign) {
-                    pctChat.initializeChat(username, [ currentCampaign ], true);
-                } else {
-                    var campaignsArray = campaignsToArray(campaigns);
-                    saveCampaigns(campaignsArray);
-                    pctChat.initializeChat(username, campaignsArray);
-                }
+        });
+
+        chrome.runtime.sendMessage({storage: ['useHighlighter', 'highlightColor']}, function(response) {
+            var useHighlighter = response.storage.useHighlighter,
+                highlightColor = response.storage.highlightColor;
+
+            if ((useHighlighter == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
+                highlightNew(highlightColor);
             }
-        }
-    });
+        });
+    }
 
-    chrome.runtime.sendMessage({storage: ['useHighlighter', 'highlightColor']}, function(response) {
-        var useHighlighter = response.storage.useHighlighter,
-            highlightColor = response.storage.highlightColor;
-
-        if ((useHighlighter == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
-            highlightNew(highlightColor);
-        }
-    });
+    loadFont(run);
 
 })();

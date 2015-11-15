@@ -1,5 +1,4 @@
 window['pctChat'] = (function(window) {
-
     const HISTORY_COUNT = 50;
     const STATUS_HIDDEN = 0;
     const STATUS_MINIMIZED = 1;
@@ -37,7 +36,7 @@ window['pctChat'] = (function(window) {
         var node;
         if (!in_thread) {
             var URL = campaign.url.substring(16);
-            var link = document.querySelector('blockquote > h3 > a[href="' + URL + '"]')
+            var link = document.querySelector('blockquote > h3 > a[href="' + URL + '"]');
             if (link) {
                 node = link.parentNode.parentNode;
                 return node;
@@ -186,6 +185,7 @@ window['pctChat'] = (function(window) {
         
         // if room is visible, update last read for room
         if (widgetStatus == STATUS_VISIBLE && 
+            roomNode && 
             !roomNode.classList.contains("disabled") &&
             tsgt(timestamp, lastRead[room])) {
             //            console.log("Updating last read for " + room + " with " + timestamp);
@@ -231,7 +231,7 @@ window['pctChat'] = (function(window) {
             newLink.appendChild(document.createTextNode(nick));
             
             userDiv.appendChild(newLink);
-            roster.appendChild(userDiv);
+            roster && roster.appendChild(userDiv);
         } else if (type == "unavailable") {
             roster.removeChild(userPresent);
         }
@@ -420,7 +420,7 @@ window['pctChat'] = (function(window) {
         }
     }
     
-    function addChatIcons(campaigns, in_thread) {
+    function addChatIcons(campaigns, defaultAliases, in_thread) {
         campaigns.map( function(campaign, index, array) {
             var roomName = getRoomName(campaign);
             var campaignNode = getCampaignNode(campaign, in_thread);
@@ -440,7 +440,7 @@ window['pctChat'] = (function(window) {
                 newLink.setAttribute("title", "Chat about this campaign");
                 newLink.setAttribute("action", "show");
                 newLink.setAttribute("data-room", roomName);
-                newLink.setAttribute("data-alias", campaign.user_aliases[0].name); // TODO: fixme
+                newLink.setAttribute("data-alias", pickAlias(defaultAliases, campaign));
                 newLink.setAttribute("href", 'javascript:;');
                 newLink.addEventListener("click", updateChatWidget);
             }
@@ -541,10 +541,11 @@ window['pctChat'] = (function(window) {
     }
 
     function initializeChat(user, campaigns, in_thread) {
-        chrome.runtime.sendMessage({ storage: ['chatPosition', 'lastRead']}, function(response) {
+        chrome.runtime.sendMessage({ storage: ['chatPosition', 'lastRead', 'defaultAliases']}, function(response) {
             var nick;
             lastRead = (response.storage.lastRead && JSON.parse(response.storage.lastRead)) || {};
             Messaging = new ChatProtocol("chat");
+            var defaultAliases = response.storage.defaultAliases && JSON.parse(response.storage.defaultAliases) || {};
             var position = response.storage.chatPosition && JSON.parse(response.storage.chatPosition);
             var rooms = campaigns.map(getRoomName);
             var widget = addChatWidget();
@@ -582,10 +583,10 @@ window['pctChat'] = (function(window) {
             
             widgetPosition = position;
 
-            addChatIcons(campaigns, in_thread);
+            addChatIcons(campaigns, defaultAliases, in_thread);
             if (in_thread) {
                 var campaign = campaigns[0];
-                nick = campaign.user_aliases[0].name;
+                nick = pickAlias(defaultAliases, campaign);
                 updateTitle(campaign.title);
                 showChat();
             }
@@ -608,7 +609,7 @@ window['pctChat'] = (function(window) {
                     });
                 });
                 campaigns.map(function(campaign) {
-                    var alias = campaign.user_aliases[0].name;
+                    var alias = pickAlias(defaultAliases, campaign);
                     var roomName = getRoomName(campaign);
                     
                     joinRoom(alias, roomName);
@@ -689,7 +690,8 @@ window['pctChat'] = (function(window) {
         smote && msgDiv.classList.add("smote");
         
         if ((widgetStatus != STATUS_VISIBLE || 
-             roomNode.classList.contains("disabled")) && 
+             (roomNode && 
+              roomNode.classList.contains("disabled"))) && 
             tsgt(time, roomLastRead)) {
             msgDiv.classList.add("unread");
             // update icon?
@@ -704,14 +706,12 @@ window['pctChat'] = (function(window) {
         if (roomNode) { // If roomNode is null, the room doesn't exist in the current tab
             roomNode.appendChild(msgDiv);
             roomNode.scrollTop = roomNode.scrollHeight;
-            //            !history && updateIcon(room);
             updateIcon(room);
         }
     }
     
     function joinRoom(nick, room) {
         var params = { nick: nick, room: room };
-        //        console.log("Asking to join room " + room + " as " + nick);
         Messaging.sendJoinRoom(params, 
                                function () { 
                                    setTimeout(function () {
@@ -723,7 +723,7 @@ window['pctChat'] = (function(window) {
                                            } else {
                                                formatInfo("No message history to display.", room);
                                            }
-                                       }) }, 1500) });
+                                       }); }, 1500); });
     }
     
     function sendMessage(to, text) {
@@ -775,6 +775,11 @@ window['pctChat'] = (function(window) {
         evt.preventDefault();
     }
     
+    function pickAlias(defaultAliases, campaign) {
+        var alias = defaultAliases[campaign.url] && defaultAliases[campaign.url].name || campaign.user_aliases[0].name;
+        return alias;
+    }
+
     function selfPresent(room) {
         var roster = getRoster(room),
             oldDivs = roster && roster.getElementsByClassName('user self'); // should only ever have one element

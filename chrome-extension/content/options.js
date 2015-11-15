@@ -11,7 +11,8 @@ const PREFS = {
     blacklistBlog: true,
     useChat: true,
     useHighlighter: true,
-    highlightColor: "#ffaa00"
+    highlightColor: "#ffaa00",
+    useSelector: true
 };
 
 function setDefaultPrefs() {
@@ -45,7 +46,8 @@ function loadOptions() {
         blacklistStore = localStorage["blacklistStore"],
         blacklistBlog = localStorage["blacklistBlog"],
         blacklist = blacklistToArray(),
-        useChat = localStorage["useChat"];
+        useChat = localStorage["useChat"],
+        useSelector = localStorage["useSelector"];
 
     /* This part sets up the dialog with the existing options */
     if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
@@ -60,6 +62,7 @@ function loadOptions() {
     if (useChat) { document.getElementById('pct-use-chat').setAttribute('checked', true); }
     if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
+    if (useSelector) { document.getElementById('pct-use-selector').setAttribute('checked', true); }
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");

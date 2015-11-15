@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "1.1.5",
+    "version": "1.1.6",
 
     "options_page": "content/options.html",
     "permissions": [ "unlimitedStorage" ],
@@ -28,6 +28,7 @@
                    "content/protocol.js",
                    "content/chat.js",
                    "content/blacklist.js",
+                   "content/selector.js",
                    "content/pct.js"]
         }
     ],
