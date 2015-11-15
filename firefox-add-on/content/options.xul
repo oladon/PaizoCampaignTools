@@ -25,7 +25,12 @@
         </hbox>
       </groupbox>
     </hbox>
-
+    <hbox>
+      <groupbox flex="1">
+        <caption label="Alias Selector" />
+        <checkbox id="pct-use-selector" label="Use Alias Selector" />
+      </groupbox>
+    </hbox>
       <groupbox>
         <caption label="Blacklist" />
         <vbox>
@@ -56,9 +61,6 @@
         </vbox>
       </groupbox>
     </vbox>
-
-  
   <script type="application/x-javascript" src="blacklist.js" />
   <script type="application/x-javascript" src="options.js" />
-
 </dialog>

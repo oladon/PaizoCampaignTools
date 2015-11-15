@@ -12,8 +12,11 @@ const PREFS = {
   blacklistRecruit: true,
   blacklistOOC: true,
   blacklistIC: false,
+  campaigns: [],
+  defaultAliases: {},
   useHighlighter: true,
-  highlightColor: "#ffaa00"
+  highlightColor: "#ffaa00",
+  useSelector: true
 };
 
 const hideSheetUri = Services.io.newURI("chrome://pct/skin/pct.css", null, null);
@@ -41,10 +44,8 @@ function setDefaultPrefs() {
 
 function handlePaizo(b) {
     var useArranger = Services.prefs.getDefaultBranch(PREF_BRANCH).getBoolPref("useArranger");
-
-    b.messageManager.loadFrameScript("chrome://pct/content/blacklist.js", true);
     b.messageManager.loadFrameScript("chrome://pct/content/pct.js", true);
-    if (useArranger == true) {
+    if (useArranger == true) { // FIXME: shouldn't require arranger to use selector
         let winUtils = b.contentWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
         winUtils.loadSheet(hideSheetUri, 1);
     }
@@ -60,7 +61,6 @@ var WindowListener = {
       onSecurityChange: function (webProgress, request, location) {  },
       onStateChange: function (browser, webProgress, request, stateflags, status) {
           if ((request.name.indexOf("paizo.com") >= 0) && (stateflags & 0x00000010)) {
-              dump("Request name: " + request.name + "\n");
               handlePaizo(window.gBrowser.getBrowserForDocument(webProgress.DOMWindow.document));
           }
       },

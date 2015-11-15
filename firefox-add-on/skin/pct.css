@@ -1,3 +1,34 @@
+.pct-alias {
+    cursor: pointer;
+    text-align: center;
+    /* color: green; */
+    display: inline-block;
+    vertical-align: top;
+}
+
+.pct-alias:not(.inactive):hover {
+    color: navy;
+    filter: drop-shadow(0px 0px 5px cornflowerblue);
+    -webkit-filter: drop-shadow(0px 0px 5px cornflowerblue);
+}
+
+.pct-alias.inactive {
+    cursor: default;
+}
+
+.pct-alias i {
+    font-size: 19px;
+}
+
+.pct-alias i::before {
+    content: "perm_identity";
+}
+
+.pct-alias.inactive i::before {
+    content: "check";
+    opacity: 0.35;
+}
+
 .pct-greyscale {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
     -webkit-filter: grayscale(100%) !important;

@@ -16,6 +16,7 @@ var
   blacklistIC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistIC"),
   useHighlighter = Services.prefs.getBranch(pref_branch).getBoolPref("useHighlighter"),
   highlightColor = Services.prefs.getBranch(pref_branch).getCharPref("highlightColor"),
+  useSelector = Services.prefs.getBranch(pref_branch).getBoolPref("useSelector"),
   tmp;
 
 /* This part sets up the dialog with the existing options */
@@ -28,6 +29,7 @@ if (blacklistOOC) { document.getElementById('pct-bl-ooc').setAttribute('checked'
 if (blacklistIC) { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
 if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
 document.getElementById('pct-highlight-color').color = highlightColor;
+if (useSelector) { document.getElementById('pct-use-selector').setAttribute('checked', true); }
 
 (function (myArray) {
     var listbox = document.getElementById("pct-blacklist");
@@ -48,6 +50,7 @@ function closedOk() {
   var blacklistIC = document.getElementById('pct-bl-ic').getAttribute('checked');
   var useHighlighter = document.getElementById('pct-use-highlighter').getAttribute('checked');
   var highlightColor = document.getElementById('pct-highlight-color').color;
+  var useSelector = document.getElementById('pct-use-selector').getAttribute('checked');
 
   var blacklist = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
   blacklist.data = JSON.stringify(blacklistArray);
@@ -62,12 +65,19 @@ function closedOk() {
   Services.prefs.getBranch(pref_branch).setBoolPref("blacklistIC", blacklistIC);
   Services.prefs.getBranch(pref_branch).setBoolPref("useHighlighter", useHighlighter);
   Services.prefs.getBranch(pref_branch).setCharPref("highlightColor", highlightColor);
+  Services.prefs.getBranch(pref_branch).setBoolPref("useSelector", useSelector);
 }
 
 function addListitem (listbox, text) {
   var newItem = document.createElement("listitem");
   newItem.textContent = text;
   listbox.appendChild(newItem);
+}
+
+function blacklistToArray() {
+  var blacklist = Services.prefs.getBranch(PREF_BRANCH).getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
+
+  return JSON.parse(blacklist);
 }
 
 function getListitems (listbox) {
