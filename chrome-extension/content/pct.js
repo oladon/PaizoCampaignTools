@@ -1,3 +1,5 @@
+// Thanks to Chris Reiner for your strong support of my work!
+// https://www.patreon.com/oladon
 (function() {
     const PCT_GREYSCALE = "pct-greyscale";
     const PCT_DISPLAYNONE = "pct-display-none";
