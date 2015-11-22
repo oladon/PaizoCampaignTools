@@ -60,12 +60,11 @@
     }
 
     function campaignsToArray(campaigns) {
-        var campaignsArray = campaigns.map( function(campaign, index, array) {
-            var currentCampaign = campaign;
-            var userDM = (currentCampaign.querySelector('blockquote > p[class=tiny] > b').textContent.trim() == "GameMaster");
-            var title = currentCampaign.querySelector('blockquote > h3 > a[title]').title;
-            var URL = currentCampaign.querySelector('blockquote > h3 > a[title]').href;
-            var userAliases = currentCampaign.querySelectorAll('p.tiny > b > a');
+        var campaignsArray = campaigns.map(function(campaign) {
+            var userDM = (campaign.querySelector('blockquote > p.tiny > b').textContent.trim() == "GameMaster");
+            var title = campaign.querySelector('blockquote > h3 > a[title]').title;
+            var URL = campaign.querySelector('blockquote > h3 > a[title]').href;
+            var userAliases = campaign.querySelectorAll('p.tiny > b > a');
             var userAliasesArray = [];
             
             for (var alias of [].slice.call(userAliases)) {
@@ -301,25 +300,27 @@
                         console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
                     }
                     
-                    if (useSelector == "true") {
+                    if (currentCampaign && useSelector == "true") {
                         var selectorCampaigns = campaigns && campaigns.length > 0 || storedCampaignsArray;
                         pctSelector.selectAlias(selectorCampaigns, currentCampaign);
                     }
                 }
 
-                if ((useChat == "true") &&
-                    ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
-                     currentCampaign ||
-                     ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
-                      pageTitle && 
-                      pageTitle == username + "'s page"))) {
+                if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
+                    currentCampaign ||
+                    ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
+                     pageTitle && 
+                     pageTitle == username + "'s page")) {
 
-                    if (currentCampaign) {
+                    if (currentCampaign && useChat == "true") {
                         pctChat.initializeChat(username, [ currentCampaign ], true);
                     } else {
                         var campaignsArray = campaignsToArray(campaigns);
                         saveCampaigns(campaignsArray);
-                        pctChat.initializeChat(username, campaignsArray);
+
+                        if (useChat == "true") {
+                            pctChat.initializeChat(username, campaignsArray);
+                        }
                     }
                 }
             }

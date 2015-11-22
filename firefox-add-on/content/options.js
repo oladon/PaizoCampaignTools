@@ -1,22 +1,19 @@
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-const
-  warnSuffix = ' is already in use\nchanges apply to future simulations';
-
 var
   opnr = window.opener,
-  pref_branch = "extensions.pct.",
-  useArranger = Services.prefs.getBranch(pref_branch).getBoolPref("useArranger"),
-  useBlacklist = Services.prefs.getBranch(pref_branch).getBoolPref("useBlacklist"),
+  PREF_BRANCH = "extensions.pct.",
+  useArranger = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useArranger"),
+  useBlacklist = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useBlacklist"),
   blacklist = blacklistToArray(),
-  blacklistMethod = Services.prefs.getBranch(pref_branch).getIntPref("blacklistMethod"),
-  blacklistNormal = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistNormal"),
-  blacklistRecruit = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistRecruit"),
-  blacklistOOC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistOOC"),
-  blacklistIC = Services.prefs.getBranch(pref_branch).getBoolPref("blacklistIC"),
-  useHighlighter = Services.prefs.getBranch(pref_branch).getBoolPref("useHighlighter"),
-  highlightColor = Services.prefs.getBranch(pref_branch).getCharPref("highlightColor"),
-  useSelector = Services.prefs.getBranch(pref_branch).getBoolPref("useSelector"),
+  blacklistMethod = Services.prefs.getBranch(PREF_BRANCH).getIntPref("blacklistMethod"),
+  blacklistNormal = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistNormal"),
+  blacklistRecruit = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistRecruit"),
+  blacklistOOC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistOOC"),
+  blacklistIC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistIC"),
+  useHighlighter = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useHighlighter"),
+  highlightColor = Services.prefs.getBranch(PREF_BRANCH).getCharPref("highlightColor"),
+  useSelector = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useSelector"),
   tmp;
 
 /* This part sets up the dialog with the existing options */
@@ -55,17 +52,17 @@ function closedOk() {
   var blacklist = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
   blacklist.data = JSON.stringify(blacklistArray);
 
-  Services.prefs.getBranch(pref_branch).setBoolPref("useArranger", useArranger);
-  Services.prefs.getBranch(pref_branch).setBoolPref("useBlacklist", useBlacklist);
-  Services.prefs.getBranch(pref_branch).setComplexValue("blacklist", Components.interfaces.nsISupportsString, blacklist);
-  Services.prefs.getBranch(pref_branch).setIntPref("blacklistMethod", blacklistMethod);
-  Services.prefs.getBranch(pref_branch).setBoolPref("blacklistNormal", blacklistNormal);
-  Services.prefs.getBranch(pref_branch).setBoolPref("blacklistRecruit", blacklistRecruit);
-  Services.prefs.getBranch(pref_branch).setBoolPref("blacklistOOC", blacklistOOC);
-  Services.prefs.getBranch(pref_branch).setBoolPref("blacklistIC", blacklistIC);
-  Services.prefs.getBranch(pref_branch).setBoolPref("useHighlighter", useHighlighter);
-  Services.prefs.getBranch(pref_branch).setCharPref("highlightColor", highlightColor);
-  Services.prefs.getBranch(pref_branch).setBoolPref("useSelector", useSelector);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useArranger", useArranger);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useBlacklist", useBlacklist);
+  Services.prefs.getBranch(PREF_BRANCH).setComplexValue("blacklist", Components.interfaces.nsISupportsString, blacklist);
+  Services.prefs.getBranch(PREF_BRANCH).setIntPref("blacklistMethod", blacklistMethod);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistNormal", blacklistNormal);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistRecruit", blacklistRecruit);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistOOC", blacklistOOC);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistIC", blacklistIC);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useHighlighter", useHighlighter);
+  Services.prefs.getBranch(PREF_BRANCH).setCharPref("highlightColor", highlightColor);
+  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useSelector", useSelector);
 }
 
 function addListitem (listbox, text) {

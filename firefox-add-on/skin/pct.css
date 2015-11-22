@@ -1,8 +1,7 @@
 .pct-alias {
     cursor: pointer;
-    text-align: center;
-    /* color: green; */
     display: inline-block;
+    text-align: center;
     vertical-align: top;
 }
 

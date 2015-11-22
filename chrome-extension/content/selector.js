@@ -39,7 +39,7 @@ window['pctSelector'] = (function(window) {
 
     function selectAlias(campaigns, campaign) {
         chrome.runtime.sendMessage({storage: ['defaultAliases']}, function(response) {
-            var defaultAliases = response.storage && JSON.parse(response.storage.defaultAliases) || {};
+            var defaultAliases = response.storage && response.storage.defaultAliases && JSON.parse(response.storage.defaultAliases) || {};
             var alias = defaultAliases[campaign.url] || campaign.user_aliases[0];
             alias = alias.name;
             var select = getAliasSelect();
