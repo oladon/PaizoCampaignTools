@@ -4,7 +4,7 @@
         <em:id>pct@mydomain.org</em:id>
         <em:type>2</em:type>
         <em:name>Paizo Campaigns Add-on</em:name>
-        <em:version>1.26</em:version>
+        <em:version>1.26.1</em:version>
         <em:bootstrap>true</em:bootstrap>
         <em:description>A collection of tools for enhancing the Paizo PbP experience.</em:description>
         <em:creator>Oladon</em:creator>
