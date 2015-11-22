@@ -1,20 +1,19 @@
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-var
-  opnr = window.opener,
-  PREF_BRANCH = "extensions.pct.",
-  useArranger = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useArranger"),
-  useBlacklist = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useBlacklist"),
-  blacklist = blacklistToArray(),
-  blacklistMethod = Services.prefs.getBranch(PREF_BRANCH).getIntPref("blacklistMethod"),
-  blacklistNormal = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistNormal"),
-  blacklistRecruit = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistRecruit"),
-  blacklistOOC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistOOC"),
-  blacklistIC = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("blacklistIC"),
-  useHighlighter = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useHighlighter"),
-  highlightColor = Services.prefs.getBranch(PREF_BRANCH).getCharPref("highlightColor"),
-  useSelector = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useSelector"),
-  tmp;
+var PREF_BRANCH = "extensions.pct.",
+    preferences = Services.prefs.getBranch(PREF_BRANCH),
+    useArranger = preferences.getBoolPref("useArranger"),
+    useBlacklist = preferences.getBoolPref("useBlacklist"),
+    blacklist = blacklistToArray(),
+    blacklistMethod = preferences.getIntPref("blacklistMethod"),
+    blacklistNormal = preferences.getBoolPref("blacklistNormal"),
+    blacklistRecruit = preferences.getBoolPref("blacklistRecruit"),
+    blacklistOOC = preferences.getBoolPref("blacklistOOC"),
+    blacklistIC = preferences.getBoolPref("blacklistIC"),
+    useExtendedFormatting = preferences.getBoolPref("useExtendedFormatting"),
+    useHighlighter = preferences.getBoolPref("useHighlighter"),
+    highlightColor = preferences.getCharPref("highlightColor"),
+    useSelector = preferences.getBoolPref("useSelector");
 
 /* This part sets up the dialog with the existing options */
 if (useArranger) { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
@@ -24,6 +23,7 @@ if (blacklistNormal) { document.getElementById('pct-bl-normal').setAttribute('ch
 if (blacklistRecruit) { document.getElementById('pct-bl-rec').setAttribute('checked', true); }
 if (blacklistOOC) { document.getElementById('pct-bl-ooc').setAttribute('checked', true); }
 if (blacklistIC) { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
+if (useExtendedFormatting) { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
 if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
 document.getElementById('pct-highlight-color').color = highlightColor;
 if (useSelector) { document.getElementById('pct-use-selector').setAttribute('checked', true); }
@@ -45,6 +45,7 @@ function closedOk() {
   var blacklistRecruit = document.getElementById('pct-bl-rec').getAttribute('checked');
   var blacklistOOC = document.getElementById('pct-bl-ooc').getAttribute('checked');
   var blacklistIC = document.getElementById('pct-bl-ic').getAttribute('checked');
+  var useExtendedFormatting = document.getElementById('pct-use-extended-formatting').getAttribute('checked');
   var useHighlighter = document.getElementById('pct-use-highlighter').getAttribute('checked');
   var highlightColor = document.getElementById('pct-highlight-color').color;
   var useSelector = document.getElementById('pct-use-selector').getAttribute('checked');
@@ -52,17 +53,18 @@ function closedOk() {
   var blacklist = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
   blacklist.data = JSON.stringify(blacklistArray);
 
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useArranger", useArranger);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useBlacklist", useBlacklist);
-  Services.prefs.getBranch(PREF_BRANCH).setComplexValue("blacklist", Components.interfaces.nsISupportsString, blacklist);
-  Services.prefs.getBranch(PREF_BRANCH).setIntPref("blacklistMethod", blacklistMethod);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistNormal", blacklistNormal);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistRecruit", blacklistRecruit);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistOOC", blacklistOOC);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("blacklistIC", blacklistIC);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useHighlighter", useHighlighter);
-  Services.prefs.getBranch(PREF_BRANCH).setCharPref("highlightColor", highlightColor);
-  Services.prefs.getBranch(PREF_BRANCH).setBoolPref("useSelector", useSelector);
+  preferences.setBoolPref("useArranger", useArranger);
+  preferences.setBoolPref("useBlacklist", useBlacklist);
+  preferences.setComplexValue("blacklist", Components.interfaces.nsISupportsString, blacklist);
+  preferences.setIntPref("blacklistMethod", blacklistMethod);
+  preferences.setBoolPref("blacklistNormal", blacklistNormal);
+  preferences.setBoolPref("blacklistRecruit", blacklistRecruit);
+  preferences.setBoolPref("blacklistOOC", blacklistOOC);
+  preferences.setBoolPref("blacklistIC", blacklistIC);
+  preferences.setBoolPref("useExtendedFormatting", useExtendedFormatting);
+  preferences.setBoolPref("useHighlighter", useHighlighter);
+  preferences.setCharPref("highlightColor", highlightColor);
+  preferences.setBoolPref("useSelector", useSelector);
 }
 
 function addListitem (listbox, text) {
@@ -72,7 +74,7 @@ function addListitem (listbox, text) {
 }
 
 function blacklistToArray() {
-  var blacklist = Services.prefs.getBranch(PREF_BRANCH).getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
+  var blacklist = preferences.getComplexValue("blacklist", Components.interfaces.nsISupportsString).data;
 
   return JSON.parse(blacklist);
 }
@@ -106,4 +108,3 @@ function deleteItems () {
     }
   }
 }
-

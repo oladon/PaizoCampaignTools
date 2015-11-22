@@ -5,6 +5,7 @@
     const PCT_DISPLAYNONE = "pct-display-none";
 
     var pctChat = window.pctChat;
+    var pctFormatter = window.pctFormatter;
     var pctSelector = window.pctSelector;
 
     var username = pctChat.getUsername() || undefined;
@@ -31,7 +32,7 @@
             return undefined;
         };
     }
-    
+
     function loadFont(callback) {
         var head = document.getElementsByTagName('head')[0],
             id = 'pct-font';
@@ -51,7 +52,7 @@
 
     /* Arranger Code */
     function getCampaigns() {
-        var myCampaigns = [], 
+        var myCampaigns = [],
             activeCampaigns = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > h3 > a');
         for (var i=0; i<activeCampaigns.length; i++) {
             myCampaigns.push(activeCampaigns[i].parentNode.parentNode.parentNode);
@@ -66,7 +67,7 @@
             var URL = campaign.querySelector('blockquote > h3 > a[title]').href;
             var userAliases = campaign.querySelectorAll('p.tiny > b > a');
             var userAliasesArray = [];
-            
+
             for (var alias of [].slice.call(userAliases)) {
                 userAliasesArray.push({ name: alias.textContent.trim(),
                                         url: alias.href });
@@ -74,16 +75,16 @@
             if (!userAliases || userAliases.length <= 0) {
                 userAliasesArray = username && [{ name: username }];
             }
-            
-            var campaignObject = { title: title, 
+
+            var campaignObject = { title: title,
                                    url: URL,
                                    user_dm: userDM,
                                    user_aliases: userAliasesArray
                                  };
-            
+
             return campaignObject;
         });
-        
+
         return campaignsArray;
     }
 
@@ -96,7 +97,7 @@
         if (campaigns.length > 8) {
             var firstCampaign = campaigns[0],
                 firstColumn = firstCampaign.parentNode.parentNode;
-            
+
             for (var i=0; i<campaigns.length; i++) {
                 var row = document.createElement('tr');
                 row.appendChild(campaigns[i]);
@@ -109,7 +110,7 @@
                     rows[i].parentNode.removeChild(rows[i]);
                 }
             }
-            
+
             var secondColumn = firstColumn.parentNode.parentNode.nextSibling.nextSibling;
             if (secondColumn) {
                 secondColumn.parentNode.removeChild(secondColumn);
@@ -144,7 +145,7 @@
 
             if (blacklist) {
                 for (var j=0; j<blacklist.length; j++) {
-                    if ((name.indexOf(blacklist[j]) >= 0) || 
+                    if ((name.indexOf(blacklist[j]) >= 0) ||
                         (title.indexOf(blacklist[j]) >= 0)) {
                         blacklisted = blacklist[j];
                         if (blacklistMethod == PCT_GREYSCALE) {
@@ -276,19 +277,22 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useChat', 'useSelector', 'campaigns']}, function(response) {
+        chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useSelector', 'campaigns']}, function(response) {
             var useChat = response.storage.useChat;
+            var useExtendedFormatting = response.storage.useExtendedFormatting;
             var useSelector = response.storage.useSelector;
             var currentHref = document.location.href;
             var currentCampaign, storedCampaigns, storedCampaignsArray;
             var titleNode = document.querySelector('table td > h1');
             var pageTitle = titleNode && titleNode.textContent;
-            
+
+            pctFormatter.replaceTags(useExtendedFormatting);
+
             if (((useChat == "true") ||
                  (useSelector == "true")) &&
-                username && 
+                username &&
                 currentHref.indexOf("/campaigns") >= 0) {
-                
+
                 if (!campaigns || campaigns.length == 0) {
                     storedCampaigns = response.storage.campaigns;
                     if (storedCampaigns && storedCampaigns != "") {
@@ -299,7 +303,7 @@
                     } else {
                         console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
                     }
-                    
+
                     if (currentCampaign && useSelector == "true") {
                         var selectorCampaigns = campaigns && campaigns.length > 0 || storedCampaignsArray;
                         pctSelector.selectAlias(selectorCampaigns, currentCampaign);
@@ -308,8 +312,8 @@
 
                 if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
                     currentCampaign ||
-                    ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) && 
-                     pageTitle && 
+                    ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) &&
+                     pageTitle &&
                      pageTitle == username + "'s page")) {
 
                     if (currentCampaign && useChat == "true") {

@@ -30,6 +30,11 @@
         <caption label="Alias Selector" />
         <checkbox id="pct-use-selector" label="Use Alias Selector" />
       </groupbox>
+      <spacer flex="0" />
+      <groupbox flex="1">
+        <caption label="Extended Formatting Tags" />
+        <checkbox id="pct-use-extended-formatting" label="Enable Extended Formatting Tags" />
+      </groupbox>
     </hbox>
       <groupbox>
         <caption label="Blacklist" />
