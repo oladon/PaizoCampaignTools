@@ -61,11 +61,11 @@ function loadOptions() {
     if (blacklistIC == "true") { document.getElementById('pct-bl-ic').setAttribute('checked', true); }
     if (blacklistStore == "true") { document.getElementById('pct-bl-store').setAttribute('checked', true); }
     if (blacklistBlog == "true") { document.getElementById('pct-bl-blog').setAttribute('checked', true); }
-    if (useChat) { document.getElementById('pct-use-chat').setAttribute('checked', true); }
-    if (useExtendedFormatting) { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
-    if (useHighlighter) { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
+    if (useChat == "true") { document.getElementById('pct-use-chat').setAttribute('checked', true); }
+    if (useExtendedFormatting == "true") { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
+    if (useHighlighter == "true") { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
-    if (useSelector) { document.getElementById('pct-use-selector').setAttribute('checked', true); }
+    if (useSelector == "true") { document.getElementById('pct-use-selector').setAttribute('checked', true); }
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");
@@ -97,7 +97,6 @@ function saveOption(evt) {
         oldValue = localStorage[target.name],
         newValue;
     
-    console.log(target.type);
     if (target.type == "checkbox") {
         newValue = target.checked;
     } else if ((target.type == "radio") || (target.type == "color")) {

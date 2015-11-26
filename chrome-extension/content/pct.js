@@ -89,8 +89,11 @@
     }
 
     function saveCampaigns(campaigns) {
-        var activeCampaigns = JSON.stringify(campaigns);
-        chrome.runtime.sendMessage({ storage: "campaigns", value: activeCampaigns});
+        if (campaigns &&
+            campaigns.length > 0) {
+            var activeCampaigns = JSON.stringify(campaigns);
+            chrome.runtime.sendMessage({ storage: "campaigns", value: activeCampaigns});
+        }
     }
 
     function arrangeCampaigns(campaigns) {
@@ -258,6 +261,17 @@
 
     function run() {
         var campaigns = getCampaigns();
+        var currentHref = document.location.href;
+        var titleNode = document.querySelector('table td > h1');
+        var pageTitle = titleNode && titleNode.textContent;
+
+        if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
+            ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) &&
+             pageTitle &&
+             pageTitle == username + "'s page")) {
+            var campaignsArray = campaignsToArray(campaigns);
+            saveCampaigns(campaignsArray);
+        }
 
         chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
             var useArranger = response.storage;
@@ -281,10 +295,7 @@
             var useChat = response.storage.useChat;
             var useExtendedFormatting = response.storage.useExtendedFormatting;
             var useSelector = response.storage.useSelector;
-            var currentHref = document.location.href;
             var currentCampaign, storedCampaigns, storedCampaignsArray;
-            var titleNode = document.querySelector('table td > h1');
-            var pageTitle = titleNode && titleNode.textContent;
 
             pctFormatter.replaceTags(useExtendedFormatting);
 
@@ -314,17 +325,13 @@
                     currentCampaign ||
                     ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) &&
                      pageTitle &&
-                     pageTitle == username + "'s page")) {
+                     pageTitle == username + "'s page") &&
+                    useChat == "true") {
 
-                    if (currentCampaign && useChat == "true") {
+                    if (currentCampaign) {
                         pctChat.initializeChat(username, [ currentCampaign ], true);
                     } else {
-                        var campaignsArray = campaignsToArray(campaigns);
-                        saveCampaigns(campaignsArray);
-
-                        if (useChat == "true") {
-                            pctChat.initializeChat(username, campaignsArray);
-                        }
+                        pctChat.initializeChat(username, campaignsArray);
                     }
                 }
             }
