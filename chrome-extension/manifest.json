@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "1.1.8",
+    "version": "1.1.9",
 
     "options_page": "content/options.html",
     "permissions": [ "unlimitedStorage" ],
