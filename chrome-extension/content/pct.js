@@ -259,16 +259,40 @@
         }
     }
 
-    function run() {
-        var campaigns = getCampaigns();
+    function onCampaignsPage(name) {
         var currentHref = document.location.href;
         var titleNode = document.querySelector('table td > h1');
         var pageTitle = titleNode && titleNode.textContent;
 
-        if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
-            ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) &&
-             pageTitle &&
-             pageTitle == username + "'s page")) {
+        function normalURL(str) {
+            if (str) {
+                return (currentHref.indexOf(str + '/campaigns') == (currentHref.length - 10 - str.length));
+            } else {
+                return (currentHref.indexOf("/campaigns") == (currentHref.length - 10));
+            }
+        }
+
+        function wonkyURL(str) {
+            if (str) {
+                return (currentHref.indexOf(str + '%2Fcampaigns') == (currentHref.length - 12 - str.length));
+            } else {
+                return (currentHref.indexOf("%2Fcampaigns") == (currentHref.length - 12));
+            }
+        }
+
+        return (normalURL(name) || wonkyURL(name)) ||
+               ((normalURL() || wonkyURL()) &&
+                pageTitle &&
+                (pageTitle == name + "'s page"));
+    }
+
+    function run() {
+        var campaigns = getCampaigns();
+        var currentHref = document.location.href;
+        var ownCampPage = username && onCampaignsPage(username);
+        var anyCampPage = onCampaignsPage();
+
+        if (ownCampPage) {
             var campaignsArray = campaignsToArray(campaigns);
             saveCampaigns(campaignsArray);
         }
@@ -276,7 +300,7 @@
         chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
             var useArranger = response.storage;
 
-            if ((useArranger == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
+            if ((useArranger == "true") && anyCampPage) {
                 arrangeCampaigns(campaigns);
             }
         });
@@ -306,6 +330,7 @@
 
                 if (!campaigns || campaigns.length == 0) {
                     storedCampaigns = response.storage.campaigns;
+
                     if (storedCampaigns && storedCampaigns != "") {
                         storedCampaignsArray = JSON.parse(storedCampaigns);
                         currentCampaign = storedCampaignsArray.find(function(campaign) {
@@ -321,11 +346,8 @@
                     }
                 }
 
-                if ((currentHref.indexOf(username + "/campaigns") == (currentHref.length - 10)) ||
-                    currentCampaign ||
-                    ((currentHref.indexOf("/campaigns") == (currentHref.length - 10)) &&
-                     pageTitle &&
-                     pageTitle == username + "'s page") &&
+                if ((ownCampPage ||
+                     currentCampaign) &&
                     useChat == "true") {
 
                     if (currentCampaign) {
@@ -341,7 +363,7 @@
             var useHighlighter = response.storage.useHighlighter,
                 highlightColor = response.storage.highlightColor;
 
-            if ((useHighlighter == "true") && (document.location.href.indexOf("/campaigns") >= 0)) {
+            if ((useHighlighter == "true") && anyCampPage) {
                 highlightNew(highlightColor);
             }
         });

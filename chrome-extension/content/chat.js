@@ -113,7 +113,7 @@ window['pctChat'] = (function(window) {
                 var title = nameDiv.title;
                 var aka = title.indexOf(" aka");
                 if (aka >= 0) {
-                    title = title.substring(0,aka);
+                    title = title.substring(0, aka);
                 }
                 return title;
             }

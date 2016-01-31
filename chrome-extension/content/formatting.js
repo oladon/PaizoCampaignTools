@@ -59,6 +59,43 @@ window['pctFormatter'] = (function(window) {
         helpParent && helpText[tag](helpParent);
     }
 
+    function convertTag(tag, tags) {
+        if (!tag || !tag.close || !tags || !(tags.length > 0)) {
+            return null;
+        }
+
+        var openNode = tag.node;
+        var newNode = document.createElement('span');
+
+        var style = getStyle(tag.name, tag.value);
+        if ((supportedTags.indexOf(tag.name) >= 0) && style) {
+            (newNode.style[style[0]]) = style[1];
+        } else {
+            return null;
+        }
+
+        var newChild = openNode.splitText(tag.location + tag.fullMatch.length);
+        updateRefs(tags, openNode, newChild);
+        openNode.textContent = openNode.textContent.slice(0, tag.location);
+
+        while (newChild != tag.close.node) {
+            var nextSibling = newChild.nextSibling;
+            newNode.appendChild(newChild);
+            newChild = nextSibling;
+        }
+
+        var closeNode = tag.close.node;
+        var rightSide = closeNode.splitText(tag.close.location + tag.close.fullMatch.length);
+
+        newNode.appendChild(closeNode);
+        updateRefs(tags, closeNode, rightSide);
+        closeNode.textContent = closeNode.textContent.slice(0, tag.close.location);
+
+        openNode.parentNode.insertBefore(newNode, rightSide);
+
+        return newNode;
+    }
+
     function getPosts() {
         var posts = document.querySelectorAll('.post-contents');
         return posts;
@@ -74,64 +111,126 @@ window['pctFormatter'] = (function(window) {
         return styles[tag];
     }
 
-    function matchTags(string, tag) {
-        var regexp = new RegExp('\\[' + tag +
-                                '(?:=(?:[A-Za-z]+|#[A-Fa-f0-9]+))?\\].*?\\[\\/' +
-                                tag + '\\]', 'gi');
-        return string.match(regexp);
-    }
+    function findTags(str) {
+        var regex = new RegExp(/\[(\/|)([a-z]+)(?:\=([a-z]+|#[a-f0-9]+)|)\]/gi);
+        var tags = [];
+        var match;
 
-    function replaceTag(string, tag) {
-        var regexp = new RegExp('\\[' + tag +
-                                '(?:=([A-Za-z]+|#[A-Fa-f0-9]+|)|)\\](.*?)\\[\\/' +
-                                tag + '\\]'),
-            matches = string.match(regexp),
-            argString = matches[1],
-            inside = matches[2];
+        while (match = regex.exec(str)) {
+            var fullMatch = match[0],
+                close = match[1],
+                tagName = match[2],
+                value = match[3];
+            var newObj = {
+                fullMatch: fullMatch,
+                location: regex.lastIndex - fullMatch.length,
+                name: tagName
+            };
 
-        var node = document.createElement('span');
-        var style = getStyle(tag, argString);
-        node.style[style[0]] = style[1];
-        node.innerHTML = inside;
+            if (!close || close == '') {
+                newObj.value = value;
+            } else {
+                newObj.close = true;
+            }
 
-        return node.outerHTML;
+          tags.push(newObj);
+        }
+
+        return tags;
     }
 
     function replaceTags(use) {
         var postContents = getPosts();
 
-        if (use && use == "true") {
+        if (use) {
             supportedTags.forEach(function(tag) {
                 addHelpText(tag);
             });
         }
 
-        [].slice.call(postContents).forEach(function(post) {
-            var html = post.innerHTML;
-            if (use && use == "true") {
-                supportedTags.forEach(function(tag) {
-                    var matches = matchTags(html, tag);
-
-                    matches && matches.forEach(function(match) {
-                        var replacement = replaceTag(match, tag);
-                        html = html.replace(match, replacement);
-                    });
-                });
-            } else {
-                supportedTags.forEach(function(tag) {
-                    var replacement = stripTags(html, tag);
-                    html = replacement;
-                });
+        if (postContents && postContents.length > 0) {
+            for (var i=0; i<postContents.length; i++) {
+                tagRecursor(postContents[i], use);
             }
-                
-            post.innerHTML = html;
-        });
+        }
     }
 
     function stripTags(content, tag) {
         var regexp = new RegExp('\\[\\/?' + tag +
-                                '(?:=(?:[A-Za-z]+|#[A-Fa-f0-9]+))?\\]', 'gi');
+                                '(?:=(?:[a-z]+|#[a-f0-9]+))?\\]', 'gi');
         return content.replace(regexp, '');
+    }
+
+    function tagRecursor(parent, use) {
+        var children = parent.childNodes;
+        var tags = [];
+
+        for (var i=0; i<children.length; i++) {
+            var node = children[i];
+
+            // 3 is Node.TEXT_NODE.
+            // For some reason, "Node" isn't available.
+            if (node.nodeType == 3) {
+                if (use) {
+                    var text = node.textContent;
+                    var strTags = findTags(text);
+
+                    if (strTags && strTags.length) {
+                        strTags.forEach(function(newTag) {
+                            newTag.node = node;
+
+                            if (!newTag.close) {
+                                tags.push(newTag);
+                            } else {
+                                for (var i=tags.length - 1; i>=0; i--) {
+                                    var openTag = tags[i];
+
+                                    if ((newTag.name == openTag.name) &&
+                                        !openTag.close) {
+                                        openTag.close = newTag;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    supportedTags.forEach(function(tag) {
+                        node.textContent = stripTags(node.textContent, tag);
+                    });
+                }
+            } else {
+                tagRecursor(node, use);
+            }
+        }
+
+        if (tags && tags.length) {
+            tags.forEach(function(tag) {
+                convertTag(tag, tags);
+            });
+        }
+    }
+
+    function updateRefs(tags, oldNode, newNode) {
+        tags && tags.forEach(function(tag) {
+            if (tag.node == oldNode) {
+                var newLoc = (tag.location - oldNode.textContent.length);
+
+                if (newLoc >= 0) {
+                    tag.node = newNode;
+                    tag.location = newLoc;
+                }
+            }
+
+            if (tag.close && tag.close.node == oldNode) {
+                var newCloseLoc = (tag.close.location - oldNode.textContent.length)
+
+                if (newCloseLoc >= 0) {
+                    tag.close.node = newNode;
+                    tag.close.location = newCloseLoc;
+                }
+            }
+        });
     }
 
     return {

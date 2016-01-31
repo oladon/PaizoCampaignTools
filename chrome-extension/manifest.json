@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "1.1.9",
+    "version": "1.1.91",
 
     "options_page": "content/options.html",
     "permissions": [ "unlimitedStorage" ],
@@ -22,6 +22,7 @@
                         "http://paizo.com/campaigns/*/gameplay*", 
                         "http://paizo.com/campaigns/*/discussion*",
                         "http://paizo.com/campaigns/*/recruiting*",
+                        "http://paizo.com/cgi-bin/WebObjects/Store.woa*",
                         "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/Forums"],
             "css": ["skin/pct.css",
                     "skin/arranger.css"],
