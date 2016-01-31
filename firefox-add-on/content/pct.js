@@ -119,79 +119,165 @@
             helpParent && helpText[tag](helpParent);
         }
 
+        function convertTag(tag, tags) {
+            if (!tag || !tag.close || !tags || !(tags.length > 0)) {
+                return null;
+            }
+
+            var openNode = tag.node;
+            var newNode = document.createElement('span');
+
+            var style = getStyle(tag.name, tag.value);
+            if ((supportedTags.indexOf(tag.name) >= 0) && style) {
+                (newNode.style[style[0]]) = style[1];
+            } else {
+                return null;
+            }
+
+            var newChild = openNode.splitText(tag.location + tag.fullMatch.length);
+            updateRefs(tags, openNode, newChild);
+            openNode.textContent = openNode.textContent.slice(0, tag.location);
+
+            while (newChild != tag.close.node) {
+                var nextSibling = newChild.nextSibling;
+                newNode.appendChild(newChild);
+                newChild = nextSibling;
+            }
+
+            var closeNode = tag.close.node;
+            var rightSide = closeNode.splitText(tag.close.location + tag.close.fullMatch.length);
+
+            newNode.appendChild(closeNode);
+            updateRefs(tags, closeNode, rightSide);
+            closeNode.textContent = closeNode.textContent.slice(0, tag.close.location);
+
+            openNode.parentNode.insertBefore(newNode, rightSide);
+
+            return newNode;
+        }
+
         function getPosts() {
             var posts = document.querySelectorAll('.post-contents');
             return posts;
         }
 
-        function getStyle(tag, arg) {
-            // For now, we assume that there's only one argument.
-            var styles = {
-                'color': ['color', arg],
-                'u': ['text-decoration', 'underline']
-            };
+        function findTags(str) {
+            var regex = new RegExp(/\[(\/|)([a-z]+)(?:\=([a-z]+|#[a-f0-9]+)|)\]/gi);
+            var tags = [];
+            var match;
 
-            return styles[tag];
-        }
+            while (match = regex.exec(str)) {
+                var [fullMatch, close, tagName, value] = match;
+                var newObj = {
+                    fullMatch: fullMatch,
+                    location: regex.lastIndex - fullMatch.length,
+                    name: tagName
+                };
 
-        function matchTags(string, tag) {
-            var regexp = new RegExp('\\[' + tag +
-                                    '(?:=(?:[A-Za-z]+|#[A-Fa-f0-9]+))?\\].*?\\[\\/' +
-                                    tag + '\\]', 'gi');
-            return string.match(regexp);
-        }
+                if (!close || close == '') {
+                    newObj.value = value;
+                } else {
+                    newObj.close = true;
+                }
 
-        function replaceTag(string, tag) {
-            var regexp = new RegExp('\\[' + tag +
-                                    '(?:=([A-Za-z]+|#[A-Fa-f0-9]+|)|)\\](.*?)\\[\\/' +
-                                    tag + '\\]'),
-                matches = string.match(regexp),
-                argString = matches[1],
-                inside = matches[2];
+                tags.push(newObj);
+            }
 
-            var node = document.createElement('span');
-            var style = getStyle(tag, argString);
-            node.style[style[0]] = style[1];
-            node.innerHTML = inside;
-
-            return node.outerHTML;
+            return tags;
         }
 
         function replaceTags(use) {
             var postContents = getPosts();
 
-            if (use && use == true) {
+            if (use) {
                 supportedTags.forEach(function(tag) {
                     addHelpText(tag);
                 });
             }
 
-            [].slice.call(postContents).forEach(function(post) {
-                var html = post.innerHTML;
-                if (use && use == true) {
-                    supportedTags.forEach(function(tag) {
-                        var matches = matchTags(html, tag);
-
-                        matches && matches.forEach(function(match) {
-                            var replacement = replaceTag(match, tag);
-                            html = html.replace(match, replacement);
-                        });
-                    });
-                } else {
-                    supportedTags.forEach(function(tag) {
-                        var replacement = stripTags(html, tag);
-                        html = replacement;
-                    });
+            if (postContents && postContents.length > 0) {
+                for (var i=0; i<postContents.length; i++) {
+                    tagRecursor(postContents[i], use);
                 }
-
-                post.innerHTML = html;
-            });
+            }
         }
 
         function stripTags(content, tag) {
             var regexp = new RegExp('\\[\\/?' + tag +
-                                    '(?:=(?:[A-Za-z]+|#[A-Fa-f0-9]+))?\\]', 'gi');
+                                    '(?:=(?:[a-z]+|#[a-f0-9]+))?\\]', 'gi');
             return content.replace(regexp, '');
+        }
+
+        function tagRecursor(parent, use) {
+            var children = parent.childNodes;
+            var tags = [];
+
+            for (var i=0; i<children.length; i++) {
+                var node = children[i];
+
+                // 3 is Node.TEXT_NODE.
+                // For some reason, "Node" isn't available.
+                if (node.nodeType == 3) {
+                    if (use) {
+                        var text = node.textContent;
+                        var strTags = findTags(text);
+
+                        if (strTags && strTags.length) {
+                            strTags.forEach(function(newTag) {
+                                newTag.node = node;
+
+                                if (!newTag.close) {
+                                    tags.push(newTag);
+                                } else {
+                                    for (var i=tags.length - 1; i>=0; i--) {
+                                        var openTag = tags[i];
+
+                                        if ((newTag.name == openTag.name) &&
+                                            !openTag.close) {
+                                            openTag.close = newTag;
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        supportedTags.forEach(function(tag) {
+                            node.textContent = stripTags(node.textContent, tag);
+                        });
+                    }
+                } else {
+                    tagRecursor(node, use);
+                }
+            }
+
+            if (tags && tags.length) {
+                tags.forEach(function(tag) {
+                    convertTag(tag, tags);
+                });
+            }
+        }
+
+        function updateRefs(tags, oldNode, newNode) {
+            tags && tags.forEach(function(tag) {
+                if (tag.node == oldNode) {
+                    var newLoc = (tag.location - oldNode.textContent.length);
+
+                    if (newLoc >= 0) {
+                        tag.node = newNode;
+                        tag.location = newLoc;
+                    }
+                }
+
+                if (tag.close && tag.close.node == oldNode) {
+                    var newCloseLoc = (tag.close.location - oldNode.textContent.length)
+
+                    if (newCloseLoc >= 0) {
+                        tag.close.node = newNode;
+                        tag.close.location = newCloseLoc;
+                    }
+                }
+            });
         }
 
         return {
@@ -317,6 +403,25 @@
     var useExtendedFormatting = preferences.getBoolPref("useExtendedFormatting");
     var useHighlighter = preferences.getBoolPref("useHighlighter");
     var useSelector = preferences.getBoolPref("useSelector");
+    var username = getUsername();
+
+    function getUsername(url) {
+        var nameDiv = document.querySelector('#functional-nav > li > a');
+        if (nameDiv) {
+            if (url) {
+                var href = nameDiv.href;
+                return href.substring(24);
+            } else {
+                var title = nameDiv.title;
+                var aka = title.indexOf(" aka");
+                if (aka >= 0) {
+                    title = title.substring(0, aka);
+                }
+                return title;
+            }
+        }
+        return null;
+    }
 
     /* Arranger Code */
     function getCampaigns() {
@@ -391,6 +496,32 @@
         }
     }
 
+    function onCampaignsPage(name) {
+        var currentHref = document.location.href;
+        var titleNode = document.querySelector('table td > h1');
+        var pageTitle = titleNode && titleNode.textContent;
+
+        function normalURL(str) {
+            if (str) {
+                return (currentHref.indexOf(str + '/campaigns') == (currentHref.length - 10 - str.length));
+            } else {
+                return (currentHref.indexOf("/campaigns") == (currentHref.length - 10));
+            }
+        }
+
+        function wonkyURL(str) {
+            if (str) {
+                return (currentHref.indexOf(str + '%2Fcampaigns') == (currentHref.length - 12 - str.length));
+            } else {
+                return (currentHref.indexOf("%2Fcampaigns") == (currentHref.length - 12));
+            }
+        }
+
+        return (normalURL(name) || wonkyURL(name)) ||
+            ((normalURL() || wonkyURL()) &&
+                pageTitle &&
+             (pageTitle == name + "'s page"));
+    }
 
     /* Blacklist Code */
     function getPosts() {
@@ -524,12 +655,17 @@
 
     function run() {
         var currentHref = document.location.href;
+        var ownCampPage = username && onCampaignsPage(username);
+        var anyCampPage = onCampaignsPage();
 
         pctFormatter.replaceTags(useExtendedFormatting);
 
-        if ((useArranger == true) && (currentHref.indexOf("/campaigns") == (currentHref.length - 10))) {
-            var campaigns = getCampaigns();
-            saveCampaigns(campaignsToArray(campaigns));
+        if ((useArranger == true) && anyCampPage) {
+            if (ownCampPage) {
+                var campaigns = getCampaigns();
+                saveCampaigns(campaignsToArray(campaigns));
+            }
+
             arrangeCampaigns();
         }
 
@@ -537,13 +673,16 @@
             blacklistPosts();
         }
 
-        if ((useHighlighter == true) && (currentHref.indexOf("/campaigns") >= 0)) {
+        if ((useHighlighter == true) && anyCampPage) {
             highlightNew();
         }
 
-        if ((useSelector == true) && (currentHref.indexOf("/campaigns") >= 0)) {
-            var storedCampaigns = preferences.getComplexValue("campaigns", Components.interfaces.nsISupportsString).data,
-                storedCampaignsArray = storedCampaigns && JSON.parse(storedCampaigns);
+        if ((useSelector == true) && currentHref.indexOf('/campaigns') > 0) {
+            var storedCampaigns = preferences
+                .getComplexValue("campaigns",
+                                 Components.interfaces.nsISupportsString).data,
+                storedCampaignsArray = (storedCampaigns &&
+                                        JSON.parse(storedCampaigns));
             var currentCampaign = storedCampaignsArray.find(function(campaign) {
                 return currentHref.indexOf(campaign.url) >= 0;
             });
