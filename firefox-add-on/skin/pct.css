@@ -50,16 +50,6 @@
     background-image: url('not_allowed.svg');
 }
 
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Material Icons'),
-         local('MaterialIcons-Regular'),
-         url('chrome://pct/skin/MaterialIcons-Regular.woff2') format('woff2'),
-         url('chrome://pct/skin/MaterialIcons-Regular.woff') format('woff');
-}
-
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;

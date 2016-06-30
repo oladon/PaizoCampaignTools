@@ -20,6 +20,7 @@ const PREFS = {
     useSelector: true
 };
 
+const fontSheetUri = Services.io.newURI("chrome://pct/skin/fonts.css", null, null);
 const pctSheetUri = Services.io.newURI("chrome://pct/skin/pct.css", null, null);
 const arrangerSheetUri = Services.io.newURI("chrome://pct/skin/arranger.css", null, null);
 
@@ -49,7 +50,9 @@ function handlePaizo(b) {
 
     var useArranger = Services.prefs.getBranch(PREF_BRANCH).getBoolPref("useArranger");
     b.messageManager.loadFrameScript("chrome://pct/content/pct.js", true);
+    winUtils.loadSheet(fontSheetUri, 1);
     winUtils.loadSheet(pctSheetUri, 1);
+
     if (useArranger == true) {
         winUtils.loadSheet(arrangerSheetUri, 1);
     }
