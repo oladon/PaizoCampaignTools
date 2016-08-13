@@ -93,10 +93,12 @@
             },
             u: function(helpParent) {
                 var second = helpParent.children[1];
-                var period = second.children.lastElementChild;
+                var period = second.lastElementChild;
+
                 var and = document.createElement('span');
                 and.classList.add('unlink');
                 and.appendChild(document.createTextNode(' and (PCT) '));
+
                 var underline = document.createElement('span');
                 underline.classList.add('unlink');
                 underline.appendChild(document.createTextNode('underline'));
@@ -114,7 +116,8 @@
         ];
 
         function addHelpText(tag) {
-            var help = document.querySelector('.bb-content .unlink'),
+            var postForm = document.getElementById('postPreviewForm');
+            var help = postForm.querySelector('.bordered-box > .bb-content .unlink'),
                 helpParent = help && help.parentNode.parentNode;
             helpParent && helpText[tag](helpParent);
         }
