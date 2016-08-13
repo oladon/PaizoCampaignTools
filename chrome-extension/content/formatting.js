@@ -57,7 +57,7 @@ window['pctFormatter'] = (function(window) {
 
     function addHelpText(tag) {
         var postForm = document.getElementById('postPreviewForm');
-        var help = postForm.querySelector('.bordered-box > .bb-content .unlink'),
+        var help = postForm && postForm.querySelector('.bordered-box > .bb-content .unlink'),
             helpParent = help && help.parentNode.parentNode;
         helpParent && helpText[tag](helpParent);
     }
