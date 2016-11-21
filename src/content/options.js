@@ -1,4 +1,5 @@
 const PREFS = {
+    useAliasSorter: true,
     useArranger: true,
     useBlacklist: true,
     blacklist: [],
@@ -9,9 +10,10 @@ const PREFS = {
     blacklistIC: false,
     blacklistStore: true,
     blacklistBlog: true,
-    useChat: true,
+    useChat: false,
     useExtendedFormatting: true,
     useHighlighter: true,
+    useInactives: true,
     highlightColor: "#ffaa00",
     useSelector: true
 };
@@ -19,13 +21,14 @@ const PREFS = {
 function setDefaultPrefs() {
     for (var key in PREFS) {
         var val = PREFS[key];
+
         switch (typeof val) {
         case "object":
-            if (!localStorage[key]) {
+            if (localStorage[key] === undefined) {
                 localStorage[key] = JSON.stringify(val);
             }
         default:
-            if (!localStorage[key]) {
+            if (localStorage[key] === undefined) {
                 localStorage[key] = val;
             }
         }
@@ -33,9 +36,10 @@ function setDefaultPrefs() {
 }
 
 function loadOptions() {
-    //    setDefaultPrefs();
+//    setDefaultPrefs();
 
-    var useArranger = localStorage["useArranger"],
+    var useAliasSorter = localStorage["useAliasSorter"],
+        useArranger = localStorage["useArranger"],
         useHighlighter = localStorage["useHighlighter"],
         highlightColor = localStorage["highlightColor"],
         useBlacklist = localStorage["useBlacklist"],
@@ -49,6 +53,7 @@ function loadOptions() {
         blacklist = blacklistToArray(),
         useChat = localStorage["useChat"],
         useExtendedFormatting = localStorage["useExtendedFormatting"],
+        useInactives = localStorage["useInactives"],
         useSelector = localStorage["useSelector"];
 
     /* This part sets up the dialog with the existing options */
@@ -66,6 +71,8 @@ function loadOptions() {
     if (useHighlighter == "true") { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
     if (useSelector == "true") { document.getElementById('pct-use-selector').setAttribute('checked', true); }
+    if (useInactives == "true") { document.getElementById('pct-use-inactives').setAttribute('checked', true); }
+    if (useAliasSorter == "true") { document.getElementById('pct-use-sorter').setAttribute('checked', true); }
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");

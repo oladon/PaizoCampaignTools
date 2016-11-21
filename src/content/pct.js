@@ -33,23 +33,6 @@
         };
     }
 
-    function loadFont(callback) {
-        var head = document.getElementsByTagName('head')[0],
-            id = 'pct-font';
-
-        if (!document.getElementById(id)) {
-            var link = document.createElement('link');
-
-            link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-
-            head.appendChild(link);
-
-            link.onload = callback;
-        }
-    }
-
     /* Arranger Code */
     function getCampaigns() {
         var myCampaigns = [],
@@ -244,7 +227,7 @@
     function updateBlacklist(evt) {
         pctBlacklist.blackListener(evt, function() {
             chrome.runtime.sendMessage({storage: ['blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistBlog', 'blacklistMethod', 'blacklist']}, function(response) {
-                var blacklistPrefs = response.storage;
+                var blacklistPrefs = response && response.storage;
                 blacklistPosts(blacklistPrefs);
             });
         });
@@ -259,28 +242,28 @@
         }
     }
 
-    function onCampaignsPage(name) {
+    function onPage(pageName, userName) {
         var currentHref = document.location.href;
         var titleNode = document.querySelector('table td > h1');
         var pageTitle = titleNode && titleNode.textContent;
 
         function normalURL(str) {
             if (str) {
-                return (currentHref.indexOf(str + '/campaigns') == (currentHref.length - 10 - str.length));
+                return (currentHref.indexOf(str + '/' + pageName) == (currentHref.length - (pageName.length + 1) - str.length));
             } else {
-                return (currentHref.indexOf("/campaigns") == (currentHref.length - 10));
+                return (currentHref.indexOf('/' + pageName) == (currentHref.length - (pageName.length + 1)));
             }
         }
 
         function wonkyURL(str) {
             if (str) {
-                return (currentHref.indexOf(str + '%2Fcampaigns') == (currentHref.length - 12 - str.length));
+                return (currentHref.indexOf(str + '%2F' + pageName) == (currentHref.length - (pageName.length + 3) - str.length));
             } else {
-                return (currentHref.indexOf("%2Fcampaigns") == (currentHref.length - 12));
+                return (currentHref.indexOf('%2F' + pageName) == (currentHref.length - (pageName.length + 3)));
             }
         }
 
-        return (normalURL(name) || wonkyURL(name)) ||
+        return (normalURL(userName) || wonkyURL(userName)) ||
                ((normalURL() || wonkyURL()) &&
                 pageTitle &&
                 (pageTitle == name + "'s page"));
@@ -289,26 +272,37 @@
     function run() {
         var campaigns = getCampaigns();
         var currentHref = document.location.href;
-        var ownCampPage = username && onCampaignsPage(username);
-        var anyCampPage = onCampaignsPage();
+        var ownCampPage = username && onPage('campaigns', username);
+        var anyCampPage = onPage('campaigns');
+        var ownAliasPage = username && onPage('aliases', username);
+        var anyAliasPage = onPage('aliases');
 
         if (ownCampPage) {
             var campaignsArray = campaignsToArray(campaigns);
             saveCampaigns(campaignsArray);
         }
 
-        chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
-            var useArranger = response.storage;
+        chrome.runtime.sendMessage({storage: ['useAliasSorter', 'useInactives']}, function(response) {
+            var useAliasSorter = response && response.storage.useAliasSorter;
+            var useInactives = response && response.storage.useInactives;
 
-            if ((useArranger == "true") && anyCampPage) {
+            if (useAliasSorter == 'true' && anyAliasPage) {
+                pctAliases.run(ownAliasPage && useInactives == 'true');
+            }
+        });
+
+        chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
+            var useArranger = response && response.storage;
+
+            if ((useArranger == 'true') && anyCampPage) {
                 arrangeCampaigns(campaigns);
             }
         });
 
         chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
-            var useBlacklist = response.storage.useBlacklist,
-                blacklistMethod = response.storage.blacklistMethod,
-                blacklistPrefs = response.storage;
+            var useBlacklist = response && response.storage.useBlacklist,
+                blacklistMethod = response && response.storage.blacklistMethod,
+                blacklistPrefs = response && response.storage;
 
             if ((useBlacklist == "true") && (checkBlacklistPrefs(blacklistPrefs))) {
                 blacklistPosts(blacklistPrefs);
@@ -316,9 +310,9 @@
         });
 
         chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useSelector', 'campaigns']}, function(response) {
-            var useChat = response.storage.useChat;
-            var useExtendedFormatting = response.storage.useExtendedFormatting;
-            var useSelector = response.storage.useSelector;
+            var useChat = response && response.storage.useChat;
+            var useExtendedFormatting = response && response.storage.useExtendedFormatting;
+            var useSelector = response && response.storage.useSelector;
             var currentCampaign, storedCampaigns, storedCampaignsArray;
 
             pctFormatter.replaceTags(useExtendedFormatting);
@@ -329,7 +323,7 @@
                 currentHref.indexOf("/campaigns") >= 0) {
 
                 if (!campaigns || campaigns.length == 0) {
-                    storedCampaigns = response.storage.campaigns;
+                    storedCampaigns = response && response.storage.campaigns;
 
                     if (storedCampaigns && storedCampaigns != "") {
                         storedCampaignsArray = JSON.parse(storedCampaigns);
@@ -346,7 +340,8 @@
                     }
                 }
 
-                if ((ownCampPage ||
+                if (false && // Disabling chat until we get a new server
+                    (ownCampPage ||
                      currentCampaign) &&
                     useChat == "true") {
 
@@ -360,8 +355,8 @@
         });
 
         chrome.runtime.sendMessage({storage: ['useHighlighter', 'highlightColor']}, function(response) {
-            var useHighlighter = response.storage.useHighlighter,
-                highlightColor = response.storage.highlightColor;
+            var useHighlighter = response && response.storage.useHighlighter,
+                highlightColor = response && response.storage.highlightColor;
 
             if ((useHighlighter == "true") && anyCampPage) {
                 highlightNew(highlightColor);
@@ -369,6 +364,6 @@
         });
     }
 
-    loadFont(run);
+    run();
 
 })();

@@ -1,4 +1,5 @@
 const PREFS = {
+    useAliasSorter: true,
     useArranger: true,
     useBlacklist: true,
     blacklist: [],
@@ -9,9 +10,11 @@ const PREFS = {
     blacklistIC: false,
     blacklistStore: true,
     blacklistBlog: true,
-    useChat: true,
+    useChat: false,
+    useExtendedFormatting: true,
     chatPosition: '["25px","20px"]',
     useHighlighter: true,
+    useInactives: true,
     highlightColor: "#ffaa00"
 };
 
@@ -20,11 +23,11 @@ function setDefaultPrefs() {
         var val = PREFS[key];
         switch (typeof val) {
         case "object":
-            if (!localStorage[key]) {
+            if (localStorage[key] === undefined) {
                 localStorage[key] = JSON.stringify(val);
             }
         default:
-            if (!localStorage[key]) {
+            if (localStorage[key] === undefined) {
                 localStorage[key] = val;
             }
         }
@@ -258,8 +261,6 @@ function updateRoster(params) {
         status = params.status,
         type = params.type;
     var nickIndex = roster[room] && roster[room].indexOf(nick);
-    
-    //    console.log("Params: ", params, roster, nickIndex);
     
     if (!roster[room] || nickIndex == -1) {
         roster[room] = roster[room] || [];

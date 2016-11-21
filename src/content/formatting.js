@@ -1,5 +1,26 @@
 window['pctFormatter'] = (function(window) {
     var helpText = {
+        code: function(helpParent) {
+            var p = document.createElement('p');
+            p.classList.add('tiny');
+            var span1 = document.createElement('span');
+            span1.classList.add('unlink');
+            span1.textContent = '(PCT) This text uses ';
+            var span2 = document.createElement('span');
+            span2.classList.add('unlink');
+            span2.textContent = 'code';
+            var span3 = document.createElement('span');
+            span3.classList.add('unlink');
+            span3.textContent = ' formatting.';
+
+            p.appendChild(span1);
+            p.appendChild(document.createTextNode('[code]'));
+            p.appendChild(span2);
+            p.appendChild(document.createTextNode('[/code]'));
+            p.appendChild(span3);
+
+            helpParent.appendChild(p);
+        },
         color: function(helpParent) {
             var p = document.createElement('p');
             p.classList.add('tiny');
@@ -51,13 +72,15 @@ window['pctFormatter'] = (function(window) {
     };
 
     var supportedTags = [
+        'code',
         'color',
         'u'
     ];
 
     function addHelpText(tag) {
         var postForm = document.getElementById('postPreviewForm');
-        var help = postForm && postForm.querySelector('.bordered-box > .bb-content .unlink'),
+        var help = postForm &&
+            postForm.querySelector('.bordered-box > .bb-content .unlink'),
             helpParent = help && help.parentNode.parentNode;
         helpParent && helpText[tag](helpParent);
     }
@@ -107,6 +130,7 @@ window['pctFormatter'] = (function(window) {
     function getStyle(tag, arg) {
         // For now, we assume that there's only one argument.
         var styles = {
+            'code': ['font-family', 'Courier'],
             'color': ['color', arg],
             'u': ['text-decoration', 'underline']
         };

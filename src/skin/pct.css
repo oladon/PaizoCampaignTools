@@ -29,6 +29,97 @@
     opacity: 0.35;
 }
 
+.pct-alias-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pct-alias-header > div {
+    align-items: center;
+    display: flex;
+}
+
+.pct-alias-header ~ table {
+    width: 100%;
+}
+
+.pct-alias-set {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 5px;
+}
+
+.pct-alias-set.pct-data-view {
+    margin: 10px;
+    padding: 0px;
+}
+
+.pct-alias-set.pct-data-view > td {
+    align-items: center;
+    display: inline-flex;
+    flex-basis: 100%;
+    padding: 5px 10px;
+}
+
+.pct-alias-set.pct-data-view > td:not(:last-child) {
+    border-bottom: 1px solid #e6e6f0;
+}
+
+.pct-alias-set.pct-data-view > td > a {
+    align-items: center;
+    flex: 0 0 26%;
+    display: inline-flex;
+    justify-content: flex-start;
+    word-break: break-word;
+}
+
+.pct-alias-set.pct-data-view > td > a > * {
+    padding-right: 15px;
+    text-align: left;
+}
+
+.pct-alias-set.pct-data-view > td > a > img:first-child {
+    height: 35px;
+    width: 35px;
+}
+
+.pct-alias-set.pct-data-view > td br {
+    display: none;
+}
+
+.pct-alias-set.pct-data-view > td > span {
+    text-align: left;
+}
+
+.pct-alias-set .pct-deactivator {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.pct-alias-set .pct-deactivator:hover {
+    color: navy;
+    filter: drop-shadow(0px 0px 5px cornflowerblue);
+    -webkit-filter: drop-shadow(0px 0px 5px cornflowerblue);
+}
+
+.pct-alias-set .pct-deactivator::after {
+    color: #8989B7;
+    content: 'not_interested';
+    font-family: 'Material Icons';
+    font-feature-settings: 'liga';
+    font-size: 14px;
+    font-variant: none;
+    line-height: 1;
+    padding: 2px;
+}
+
+.pct-alias-set.inactive .pct-deactivator::after {
+    content: 'replay';
+}
+
 .pct-greyscale {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
     -webkit-filter: grayscale(100%) !important;
@@ -258,4 +349,47 @@ h1 .pct-icon {
 
 .pct-roster .pct-info {
     color: darkcyan;
+}
+
+.pct-toggle {
+    align-items: center;
+    background-color: #e6e6f0;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-flex;
+    height: 25px;
+    justify-content: center;
+    margin-left: 10px;
+    width: 25px;
+}
+
+.pct-toggle:hover {
+    background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1));
+}
+
+.pct-toggle > input {
+    display: none;
+}
+
+.pct-toggle > input + .pct-indicator::before {
+    color: #4d3a98;
+    font-family: 'Material Icons';
+    font-feature-settings: 'liga';
+    font-size: 18px;
+    font-variant: none;
+    line-height: 1;
+}
+
+.pct-toggle > input:not(:checked) + .pct-indicator::before {
+    content: 'view_headline';
+}
+
+.pct-toggle > input:checked + .pct-indicator::before {
+    content: 'apps';
+}
+
+.pct-toggle > .pct-indicator {
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }

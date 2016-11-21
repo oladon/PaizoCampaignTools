@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "1.1.91",
+    "version": "1.2.0",
 
     "options_page": "content/options.html",
     "permissions": [ "unlimitedStorage" ],
@@ -15,7 +15,8 @@
     },
     "content_scripts": [
         {
-            "matches": ["http://paizo.com/people/*/campaigns",
+            "matches": ["http://paizo.com/people/*/aliases",
+                        "http://paizo.com/people/*/campaigns",
                         "http://paizo.com/threads*", 
                         "http://paizo.com/products*",
                         "http://paizo.com/*/blog*",
@@ -25,11 +26,13 @@
                         "http://paizo.com/cgi-bin/WebObjects/Store.woa*",
                         "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/Forums"],
             "css": ["skin/pct.css",
+                    "skin/fonts.css",
                     "skin/arranger.css"],
             "js": ["content/Autolinker.min.js",
                    "content/protocol.js",
                    "content/chat.js",
                    "content/blacklist.js",
+                   "content/aliases.js",
                    "content/formatting.js",
                    "content/selector.js",
                    "content/pct.js"]
@@ -37,6 +40,8 @@
     ],
     "web_accessible_resources": [
         "skin/*.svg",
-        "skin/*.png"
+        "skin/*.png",
+        "skin/MaterialIcons-Regular.woff2",
+        "skin/MaterialIcons-Regular.woff"
     ]
 }
