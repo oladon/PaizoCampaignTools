@@ -240,7 +240,7 @@ window['pctChat'] = (function(window) {
     function updateTitle(title) {
         var titleDiv = document.getElementById('pct-chat-title');
         if (title && titleDiv) {
-            titleDiv.innerHTML = title;
+            titleDiv.textContent = title;
             titleDiv.title = title;
         }
     }
@@ -615,7 +615,7 @@ window['pctChat'] = (function(window) {
                     joinRoom(alias, roomName);
                 });
             });
-            console.log("Chat initiated.");
+//            console.log("Chat initiated.");
         });
     }
     
@@ -626,7 +626,8 @@ window['pctChat'] = (function(window) {
         } else {
             var msgBody = document.createElement("span");
             msgBody.classList.add("body");
-            msgBody.innerHTML = message;
+            msgBody.textContent = message;
+
             var msgDiv = document.createElement("div");
             msgDiv.classList.add("pct-chatMessage", "pct-info");
             var msgList = document.querySelector("#" + room + ".pct-chatMessages");
@@ -660,7 +661,7 @@ window['pctChat'] = (function(window) {
         //        console.log("Formatting message from " + from + " (room is " + room + ")");
         var msgBody = document.createElement("span");
         msgBody.classList.add("body");
-        msgBody.innerHTML = body;
+        msgBody.textContent = body;
 
         var stamp = document.createElement("time");
         stamp.classList.add("datetime");

@@ -1,7 +1,7 @@
 var db;
 
 function createObjectStores(stores) {
-    console.log("Creating object stores: " + stores);
+//    console.log("Creating object stores: " + stores);
     var dbName = "pctLogs";
     var request = indexedDB.open(dbName);
     request.onsuccess = function (e){
@@ -42,9 +42,9 @@ function DBConnect(campaigns, callback) {
             thisDB.close();
         };
         
-        db.onerror = function(e) {
+/*        db.onerror = function(e) {
             console.log("An error occurred!");
-        };
+        };*/
         
         campaigns && campaigns.forEach(function (campaign) {
             if (!db.objectStoreNames.contains(campaign)) {
