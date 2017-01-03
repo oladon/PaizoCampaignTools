@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "1.2.0",
+    "version": "2.0.1",
 
     "permissions": ["http://paizo.com/people/*/aliases",
                     "http://paizo.com/people/*/campaigns",
