@@ -18,6 +18,13 @@ window['pctAliases'] = function(window) {
             reverseTitle: 'Name: Z to A',
             title: 'Name'
         },
+        paizoDefault: {
+            prop: function(alias) {
+                var order = alias.getAttribute('pct-default-order');
+                return Number(order);
+            },
+            title: 'Paizo Default'
+        },
         postCount: {
             prop: function(alias) {
                 var posts = alias && alias.querySelector('.tiny > .unlink > nobr');
@@ -185,9 +192,11 @@ window['pctAliases'] = function(window) {
             option.value = name;
             select.appendChild(option);
 
-            revOption.textContent = sorter.reverseTitle;
-            revOption.value = name + '-r';
-            select.appendChild(revOption);
+            if (sorter.reverseTitle) {
+                revOption.textContent = sorter.reverseTitle;
+                revOption.value = name + '-r';
+                select.appendChild(revOption);
+            }
         });
         
         return select;
@@ -267,12 +276,12 @@ window['pctAliases'] = function(window) {
                 var sectionTitle = section.previousElementSibling.previousElementSibling;
 
                 if (sectionTitle && 
-                    sectionTitle.textContent == 'Pathfinder Society Characters') {
+                    sectionTitle.textContent.indexOf('Pathfinder Society Character') == 0) {
                     aliases.PFS = true;
                 }
 
                 unrowify(aliases);
-                addRightBox(aliases, 'name');
+                addRightBox(aliases, 'paizoDefault');
                 
                 if (useInactives) {
                     aliases.forEach(function(item) {
@@ -292,7 +301,7 @@ window['pctAliases'] = function(window) {
                 }
 
                 // Sort aliases
-                triggerSort(section, 'name');
+                triggerSort(section, 'paizoDefault');
             });
         });
     }
@@ -344,8 +353,14 @@ window['pctAliases'] = function(window) {
         var tbody;
         var trs = [];
 
-        for (var item of aliases) {
+        for (var i = 0; i < aliases.length; i++) {
+            var item = aliases[i];
             var parent = item.parentNode;
+
+            if (!item.getAttribute('pct-default-order')) {
+                item.setAttribute('pct-default-order', i);
+            }
+
             if (!tbody) {
                 tbody = parent.parentNode;
                 tbody.classList.add('pct-alias-set');
