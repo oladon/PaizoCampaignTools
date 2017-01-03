@@ -266,7 +266,7 @@
         return (normalURL(userName) || wonkyURL(userName)) ||
                ((normalURL() || wonkyURL()) &&
                 pageTitle &&
-                (pageTitle == name + "'s page"));
+                (pageTitle == userName + "'s page"));
     }
 
     function run() {

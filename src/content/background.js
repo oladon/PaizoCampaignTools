@@ -15,7 +15,8 @@ const PREFS = {
     chatPosition: '["25px","20px"]',
     useHighlighter: true,
     useInactives: true,
-    highlightColor: "#ffaa00"
+    highlightColor: "#ffaa00",
+    useSelector: true
 };
 
 function setDefaultPrefs() {
@@ -26,6 +27,7 @@ function setDefaultPrefs() {
             if (localStorage[key] === undefined) {
                 localStorage[key] = JSON.stringify(val);
             }
+            break;
         default:
             if (localStorage[key] === undefined) {
                 localStorage[key] = val;
