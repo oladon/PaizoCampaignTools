@@ -242,6 +242,28 @@
         }
     }
 
+    function getTitleURL() {
+        var titleAnchor = document.querySelector('.bb-title > span > a');
+        return titleAnchor && titleAnchor.href;
+    }
+
+    function isCurrentCampaign(currentHref, url) {
+        var replyURL;
+
+        if (currentHref.indexOf(url) >= 0) {
+            return true;
+        }
+
+        replyURL = getTitleURL();
+
+        return replyURL && (replyURL.indexOf(url) >= 0);
+    }
+
+    function isReplyPage(pageURL) {
+        return ((pageURL.indexOf('/createNewPost') > 0) ||
+                (pageURL.indexOf('Forums#newPost') > 0));
+    }
+
     function onPage(pageName, userName) {
         var currentHref = document.location.href;
         var titleNode = document.querySelector('table td > h1');
@@ -313,14 +335,15 @@
             var useChat = response && response.storage.useChat;
             var useExtendedFormatting = response && response.storage.useExtendedFormatting;
             var useSelector = response && response.storage.useSelector;
-            var currentCampaign, storedCampaigns, storedCampaignsArray;
+            var currentCampaign, storedCampaigns, storedCampaignsArray, pageCampaign;
 
             pctFormatter.replaceTags(useExtendedFormatting);
 
             if (((useChat == "true") ||
                  (useSelector == "true")) &&
                 username &&
-                currentHref.indexOf("/campaigns") >= 0) {
+                ((currentHref.indexOf("/campaigns") >= 0) ||
+                 isReplyPage(currentHref))) {
 
                 if (!campaigns || campaigns.length == 0) {
                     storedCampaigns = response && response.storage.campaigns;
@@ -328,15 +351,14 @@
                     if (storedCampaigns && storedCampaigns != "") {
                         storedCampaignsArray = JSON.parse(storedCampaigns);
                         currentCampaign = storedCampaignsArray.find(function(campaign) {
-                            return currentHref.indexOf(campaign.url) >= 0;
+                            return isCurrentCampaign(currentHref, campaign.url);
                         });
                     } else {
                         console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
                     }
 
                     if (currentCampaign && useSelector == "true") {
-                        var selectorCampaigns = campaigns && campaigns.length > 0 || storedCampaignsArray;
-                        pctSelector.selectAlias(selectorCampaigns, currentCampaign);
+                        pctSelector.selectAlias(storedCampaignsArray, currentCampaign);
                     }
                 }
 
