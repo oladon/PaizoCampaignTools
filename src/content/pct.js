@@ -303,6 +303,7 @@
         var anyCampPage = onPage('campaigns');
         var ownAliasPage = username && onPage('aliases', username);
         var anyAliasPage = onPage('aliases');
+        var peoplePage = (currentHref.indexOf('/people/') > -1);
 
         if (ownCampPage) {
             var campaignsArray = campaignsToArray(campaigns);
@@ -386,7 +387,7 @@
             posts = posts || getPosts();
 
             if (useCustomAvatars == "true") {
-                pctAvatars.initialize(posts.length, anyAliasPage);
+                pctAvatars.initialize(posts.length, anyAliasPage, peoplePage);
             }
         });
 

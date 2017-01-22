@@ -15,8 +15,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["http://paizo.com/people/*/aliases",
-                        "http://paizo.com/people/*/campaigns",
+            "matches": ["http://paizo.com/people/*",
                         "http://paizo.com/threads*",
                         "http://paizo.com/products*",
                         "http://paizo.com/*/blog*",
@@ -24,7 +23,8 @@
                         "http://paizo.com/campaigns/*/discussion*",
                         "http://paizo.com/campaigns/*/recruiting*",
                         "http://paizo.com/cgi-bin/WebObjects/Store.woa*",
-                        "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/*"],
+                        "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/*",
+                        "https://secure.paizo.com/people/*/sessions"],
             "css": ["skin/pct.css",
                     "skin/fonts.css",
                     "skin/arranger.css",

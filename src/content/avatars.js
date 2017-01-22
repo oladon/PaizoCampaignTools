@@ -1,6 +1,7 @@
 window['pctAvatars'] = function(window) {
     var avatars = {};
-    var onAliasPage;
+    var onAliasPage, onPeoplePage;
+    const peopleRegexp = new RegExp(/\/people\/[^\/]+/);
 
     function addAvatarControl(avatar) {
         var overlay = getOverlay(avatar);
@@ -83,6 +84,10 @@ window['pctAvatars'] = function(window) {
         return element.getElementsByClassName('pct-customize-avatar')[0];
     }
 
+    function getProfileAvatar() {
+        return document.querySelector('#main-slot td');
+    }
+
     function loadAvatars(callback) {
         chrome.runtime.sendMessage({ storage: 'customAvatars' }, function(response) {
             var results = response && response.storage;
@@ -105,18 +110,32 @@ window['pctAvatars'] = function(window) {
     }
 
     function prepAvatarContainer(item) {
+        var originalAvatar = getOriginalAvatar(item);
+
         if (item.firstElementChild.tagName == 'SPAN') {
             return item.firstElementChild;
         }
 
-        var newContainer = document.createElement('span');
-        var originalAvatar = getOriginalAvatar(item);
+        if (originalAvatar) {
+            var newContainer = document.createElement('span');
 
-        newContainer.setAttribute('href', item.getAttribute('href'));
-        item.insertBefore(newContainer, originalAvatar);
-        newContainer.appendChild(originalAvatar);
+            newContainer.setAttribute('href', item.getAttribute('href'));
+            item.insertBefore(newContainer, originalAvatar);
+            newContainer.appendChild(originalAvatar);
 
-        return newContainer;
+            return newContainer;
+        }
+    }
+
+    function prepProfileAvatar(item) {
+        var currentHref = document.location.href;
+        var [href] = peopleRegexp.exec(currentHref);
+
+        if (href) {
+            item.setAttribute('href', href);
+            var prepped = prepAvatarContainer(item);
+            return prepped;
+        }
     }
 
     function resetAvatar(e) {
@@ -184,10 +203,7 @@ window['pctAvatars'] = function(window) {
 
     function withAvatars(fn, aliasURL) {
         var items = getAvatars(aliasURL);
-
-        if (!items || !items.length) {
-            return null;
-        }
+        var profileAvatar;
 
         for (var item of items) {
             var avatar = item;
@@ -198,6 +214,12 @@ window['pctAvatars'] = function(window) {
 
             fn(avatar);
         }
+
+        if (onPeoplePage) {
+            profileAvatar = getProfileAvatar();
+            avatar = prepProfileAvatar(profileAvatar);
+            avatar && fn(avatar);
+        }
     }
 
     /*
@@ -206,13 +228,15 @@ window['pctAvatars'] = function(window) {
      * If a custom avatar is set for the alias, load it and change the button to clear
      * Show old (Paizo default) avatar on hover
      */
-    function initialize(postCount, aliasPage) {
+    function initialize(postCount, aliasPage, peoplePage) {
         if (!postCount &&
-            !aliasPage) {
+            !aliasPage &&
+            !peoplePage) {
             return null;
         }
 
         onAliasPage = aliasPage;
+        onPeoplePage = peoplePage;
 
         loadAvatars(function(savedAvatars) {
             avatars = savedAvatars;
