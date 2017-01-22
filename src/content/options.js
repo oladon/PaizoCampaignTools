@@ -1,43 +1,4 @@
-const PREFS = {
-    useAliasSorter: true,
-    useArranger: true,
-    useBlacklist: true,
-    blacklist: [],
-    blacklistMethod: "pct-greyscale",
-    blacklistNormal: true,
-    blacklistRecruit: true,
-    blacklistOOC: true,
-    blacklistIC: false,
-    blacklistStore: true,
-    blacklistBlog: true,
-    useChat: false,
-    useExtendedFormatting: true,
-    useHighlighter: true,
-    useInactives: true,
-    highlightColor: "#ffaa00",
-    useSelector: true
-};
-
-function setDefaultPrefs() {
-    for (var key in PREFS) {
-        var val = PREFS[key];
-
-        switch (typeof val) {
-        case "object":
-            if (localStorage[key] === undefined) {
-                localStorage[key] = JSON.stringify(val);
-            }
-        default:
-            if (localStorage[key] === undefined) {
-                localStorage[key] = val;
-            }
-        }
-    }
-}
-
 function loadOptions() {
-//    setDefaultPrefs();
-
     var useAliasSorter = localStorage["useAliasSorter"],
         useArranger = localStorage["useArranger"],
         useHighlighter = localStorage["useHighlighter"],
@@ -52,6 +13,7 @@ function loadOptions() {
         blacklistBlog = localStorage["blacklistBlog"],
         blacklist = blacklistToArray(),
         useChat = localStorage["useChat"],
+        useCustomAvatars = localStorage["useCustomAvatars"],
         useExtendedFormatting = localStorage["useExtendedFormatting"],
         useInactives = localStorage["useInactives"],
         useSelector = localStorage["useSelector"];
@@ -67,6 +29,7 @@ function loadOptions() {
     if (blacklistStore == "true") { document.getElementById('pct-bl-store').setAttribute('checked', true); }
     if (blacklistBlog == "true") { document.getElementById('pct-bl-blog').setAttribute('checked', true); }
     if (useChat == "true") { document.getElementById('pct-use-chat').setAttribute('checked', true); }
+    if (useCustomAvatars == "true") { document.getElementById('pct-use-custom-avatars').setAttribute('checked', true); }
     if (useExtendedFormatting == "true") { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
     if (useHighlighter == "true") { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
@@ -77,7 +40,7 @@ function loadOptions() {
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");
         if (!myArray) { return false; }
-        
+
         for(i=0; i<myArray.length; i++) {
             addListitem(listbox, myArray[i]);
         }
@@ -85,10 +48,20 @@ function loadOptions() {
 
     document.getElementById('pct-blacklist-add').addEventListener('click', addItemByDialog);
     document.getElementById('pct-blacklist-remove').addEventListener('click', deleteItems);
+    document.getElementById('pct-clear-custom-avatars').addEventListener('click', clearCustomAvatars);
 
     var inputs = document.getElementsByTagName('input');
     for (var i = 0; i<inputs.length; i++) {
         inputs[i].addEventListener('change', saveOption);
+    }
+}
+
+function clearCustomAvatars() {
+    var confirmed = confirm('This will clear all custom avatars! Continue?');
+
+    if (confirmed) {
+        localStorage["customAvatars"] = '';
+        confirmSaved();
     }
 }
 
@@ -103,13 +76,13 @@ function saveOption(evt) {
     var target = evt.currentTarget,
         oldValue = localStorage[target.name],
         newValue;
-    
+
     if (target.type == "checkbox") {
         newValue = target.checked;
     } else if ((target.type == "radio") || (target.type == "color")) {
         newValue = target.value;
     }
-    
+
     if (oldValue != newValue) {
         localStorage[target.name] = newValue;
         confirmSaved();
@@ -119,7 +92,7 @@ function saveOption(evt) {
 function saveBlacklist() {
     var blacklistArray = getListitems(document.getElementById('pct-blacklist')),
         blacklist = JSON.stringify(blacklistArray);
-    
+
     localStorage["blacklist"] = blacklist;
     confirmSaved();
 }

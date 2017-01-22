@@ -11,6 +11,7 @@ const PREFS = {
     blacklistStore: true,
     blacklistBlog: true,
     useChat: false,
+    useCustomAvatars: true,
     useExtendedFormatting: true,
     chatPosition: '["25px","20px"]',
     useHighlighter: true,
@@ -69,7 +70,7 @@ function onMessage(msg) {
         var body = elems[0] && Strophe.getText(elems[0]);
         from = Strophe.getNodeFromJid(from);
         messageObject = makeMessage(date, to, from, body, null, delayStamp);
-        
+
     } else if (type == "groupchat" && elems.length > 0) {
         var body = elems[0] && Strophe.getText(elems[0]);
         room = Strophe.getNodeFromJid(from);
@@ -77,7 +78,7 @@ function onMessage(msg) {
         messageObject = makeMessage(date, to, from, body, room, delayStamp);
     }
     logMessage(room || from, messageObject);
-    // we must return true to keep the handler alive.  
+    // we must return true to keep the handler alive.
     // returning false would remove it after it finishes.
     return true;
 }
@@ -93,12 +94,12 @@ function onPresence(presence) {
             statusCode = status && status.length > 0 && status[0].getAttribute("code"),
             type = presence.getAttribute("type");
         var params = { nick: nick, room: room, type: type, status: statusCode }
-        
+
         //        console.log(nick + " has appeared in " + room + "!");
         updateRoster(params);
         Messaging.broadcastPresenceReceived(params);
     }
-    
+
     return true;
 }
 
@@ -145,7 +146,7 @@ Messaging.receiveConnect(function (params, sendResponse) {
 Messaging.receiveGetHistory(function (params, sendResponse) {
     var room = params.room,
         n = params.n;
-    
+
     retrieveRecords(room, n, sendResponse);
 });
 
@@ -167,11 +168,11 @@ Messaging.receiveRoomMessage(function (params, sendResponse) {
 
 Messaging.receiveRosterRequest(function (params, sendResponse) {
     var rooms = params.rooms;
-    
+
     var roomRosters = rooms.map(function(roomName) {
         return { room: roomName, roster: roster[roomName] };
     });
-    
+
     sendResponse(roomRosters);
 });
 
@@ -196,11 +197,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         } else if (request.storage && typeof request.storage == 'object') {
             // Get multiple values
             var results = {};
-            
+
             for (var i = 0; i < request.storage.length; i++) {
                 results[request.storage[i]] = localStorage[request.storage[i]];
             }
-            
+
             sendResponse({storage: results});
         } else {
             // Get single value
@@ -241,11 +242,11 @@ function timestamp(date, iso) {
     }
 }
 
-function tsgt(ts1, ts2) {            
-    if (!ts1 || 
+function tsgt(ts1, ts2) {
+    if (!ts1 ||
         ts1 == "") {
         return null;
-    } else if (!ts2 || 
+    } else if (!ts2 ||
                ts2 == "") {
         return true;
     } else {
@@ -263,7 +264,7 @@ function updateRoster(params) {
         status = params.status,
         type = params.type;
     var nickIndex = roster[room] && roster[room].indexOf(nick);
-    
+
     if (!roster[room] || nickIndex == -1) {
         roster[room] = roster[room] || [];
         roster[room].push(nick);

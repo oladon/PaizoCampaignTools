@@ -1,0 +1,59 @@
+.pct-avatar {
+    display: inline-block;
+    float: left;
+    margin: 0px 5px 5px 0px;
+    max-height: 90px;
+    max-width: 90px;
+    position: relative;
+}
+
+span.pct-avatar {
+    float: none;
+}
+
+.pct-avatar:hover > .pct-customize-avatar {
+    opacity: 1;
+}
+
+.pct-customize-avatar {
+    align-items: flex-end;
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5));
+    color: lightgrey;
+    display: flex;
+    height: 90px;
+    justify-content: flex-end;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.35s ease 0.1s;
+    width: 90px;
+}
+
+.pct-customize-avatar > .pct-button:hover {
+    color: whitesmoke;
+}
+
+.pct-customize-avatar > .pct-button::after {
+    content: 'add_a_photo';
+    content: 'photo_camera';
+    content: 'portrait';
+    content: attr(data-icon);
+    cursor: pointer;
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    display: inline-flex;
+    align-self: center;
+    font-size: 18px;
+    opacity: .6;
+    padding: 5px 5px 5px 0px;
+}
+
+.pct-customize-avatar > .pct-button input {
+    display: none;
+}
+
+.pct-customize-avatar > .pct-button[title^=Import] + .pct-reset {
+    display: none;
+}
