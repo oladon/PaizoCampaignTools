@@ -212,7 +212,7 @@ window['pctAvatars'] = function(window) {
                 avatar = prepAvatarContainer(item);
             }
 
-            fn(avatar);
+            avatar && fn(avatar);
         }
 
         if (onPeoplePage) {
