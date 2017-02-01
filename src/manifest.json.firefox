@@ -19,11 +19,6 @@
         "page": "content/options.html",
         "open_in_tab": true
     },
-    "applications": {
-        "gecko": {
-            "id": "pct@mydomain.org"
-        }
-    },
     "background": {
         "scripts": ["content/protocol.js",
                     "content/db.js",
