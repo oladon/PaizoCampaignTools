@@ -105,9 +105,11 @@
                 }
             }
 
-            var secondColumn = firstColumn.parentNode.parentNode.nextSibling.nextSibling;
-            if (secondColumn) {
-                secondColumn.parentNode.removeChild(secondColumn);
+            var columnParent = firstColumn.parentNode.parentNode;
+            var nextColumn;
+
+            while (nextColumn = columnParent.nextElementSibling) {
+                nextColumn.parentNode.removeChild(nextColumn);
             }
         }
     }
