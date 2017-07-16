@@ -1,4 +1,12 @@
 function loadOptions() {
+    var ownPage = (window == window.top);
+
+    if (ownPage ||
+        !(window.innerWidth == 300 && window.innerHeight == 150)) {
+    } else {
+        document.body.classList.add('pct-link-body');
+    }
+
     var useAliasSorter = localStorage["useAliasSorter"],
         useArranger = localStorage["useArranger"],
         useHighlighter = localStorage["useHighlighter"],
