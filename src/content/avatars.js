@@ -77,7 +77,7 @@ window['pctAvatars'] = function(window) {
     }
 
     function getOriginalAvatar(element) {
-        return element.querySelector('img');
+        return element.querySelector('img:not([border])');
     }
 
     function getOverlay(element) {
