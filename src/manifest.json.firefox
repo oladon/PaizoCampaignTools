@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "2.1.1",
+    "version": "2.1.2",
 
     "permissions": ["http://paizo.com/people/*",
                     "http://paizo.com/threads*",
@@ -16,8 +16,12 @@
                     "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/*",
                     "https://secure.paizo.com/people/*/sessions"],
     "options_ui": {
-        "page": "content/options.html",
-        "open_in_tab": true
+        "page": "content/options.html"
+    },
+    "applications": {
+        "gecko": {
+            "id": "pct@mydomain.org"
+        }
     },
     "background": {
         "scripts": ["content/protocol.js",
