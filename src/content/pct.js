@@ -82,12 +82,18 @@
     }
 
     function arrangeCampaigns(campaigns) {
+        for (var i=0; i<campaigns.length; i++) {
+            var row = campaigns[i].parentNode;
+            row.classList.add('pct-campaign');
+        }
+
         if (campaigns.length > 8) {
             var firstCampaign = campaigns[0],
                 firstColumn = firstCampaign.parentNode.parentNode;
 
             for (var i=0; i<campaigns.length; i++) {
                 var row = document.createElement('tr');
+                row.classList.add('pct-campaign');
                 row.appendChild(campaigns[i]);
                 firstColumn.appendChild(row);
             }
