@@ -22,3 +22,19 @@ tr.pct-campaign {
         width: 24%;
     }
 }
+
+@media (max-device-width: 680px) {
+    tr.pct-campaign.pct-mobile {
+        font-size: 400%;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+
+    tr.pct-campaign.pct-mobile h3 {
+        font-size: 1em;
+    }
+
+    tr.pct-campaign.pct-mobile .tiny {
+        font-size: 75%;
+    }
+}

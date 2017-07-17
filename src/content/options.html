@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PCT Options</title>
+        <title>Paizo Campaign Tools Options</title>
         <link rel="stylesheet" href="../skin/options.css"/>
         <script src="options.js"></script>
         <script src="blacklist.js"></script>
@@ -12,123 +12,130 @@
             <h1>PCT Options</h1>
             <span id="saved" class="ease"><h3><i>Saved</i></h3></span>
         </header>
-        <section id="visual-section">
-            <h3>Visual</h3>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-arranger" name="useArranger"/>
-                <label for="pct-use-arranger">Auto-Arrange Campaigns</label>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-highlighter" name="useHighlighter"/>
-                <label for="pct-use-highlighter">Highlight New Post Links</label>
-            </div>
-            <div>
-                <label for="pct-highlight-color">Highlight Color</label>
-                <input type="color" id="pct-highlight-color" name="highlightColor" value="#ff9900"/>
-            </div>
-        </section>
-        <section id="formatting-section">
-            <h3>Extended Formatting</h3>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-extended-formatting" name="useExtendedFormatting"/>
-                <label for="pct-use-extended-formatting">Enable Extended Formatting Tags</label>
-            </div>
-        </section>
-        <section id="chat-section">
-            <h3>Chat</h3>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-chat" name="useChat"/>
-                <label for="pct-use-chat">Enable Campaign Chat</label>
-            </div>
-        </section>
-        <section id="custom-avatar-section">
-            <h3>Custom Avatars</h3>
-            <p>Import your own photos to use for message board avatars.
-            <br/>NOTE: this does not change what other users see!</p>
-            <div class="checkbox">
-                <label>
+        <div class="flex">
+            <section id="visual-section">
+                <h3>Visual</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-arranger" name="useArranger"/>
+                    Auto-Arrange Campaigns
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-mobile" name="useMobile"/>
+                    Enable Mobile View (Only Affects Mobile)
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-highlighter" name="useHighlighter"/>
+                    Highlight New Post Links
+                </label>
+                <label class="picker">
+                    Highlight Color
+                    <input type="color" id="pct-highlight-color" name="highlightColor" value="#ff9900"/>
+                </label>
+            </section>
+            <section id="formatting-section">
+                <h3>Extended Formatting</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-extended-formatting" name="useExtendedFormatting"/>
+                    Enable Extended Formatting Tags
+                </label>
+            </section>
+            <section id="chat-section">
+                <h3>Chat</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-chat" name="useChat"/>
+                    Enable Campaign Chat
+                </label>
+            </section>
+            <section id="custom-avatar-section">
+                <h3>Custom Avatars</h3>
+                <p>Import your own photos to use for message board avatars.
+                <br/>NOTE: this does not change what other users see!</p>
+                <label class="checkbox">
                     <input type="checkbox" id="pct-use-custom-avatars" name="useCustomAvatars"/>
                     Enable Custom Avatars
                 </label>
-            </div>
-            <div class="checkbox">
-                <button id="pct-clear-custom-avatars" name="clearCustomAvatars">Clear Custom Avatars</button>
-            </div>
-        </section>
-        <section id="campaign-helper-section">
-            <h3>Campaign Helpers</h3>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-selector" name="useSelector"/>
-                <label for="pct-use-selector">Auto-select Alias</label>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-sorter" name="useAliasSorter"/>
-                <label for="pct-use-sorter">Enable Sorting of Alias Pages</label>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-inactives" name="useInactives"/>
-                <label for="pct-use-inactives">Enable Active/Inactive Alias Designation</label>
-            </div>
-        </section>
-        <section id="blacklist-section">
-            <h3>Blacklist</h3>
-            <div class="checkbox">
-                <input type="checkbox" id="pct-use-blacklist" name="useBlacklist"/>
-                <label for="pct-use-blacklist">Enable User Blacklist</label>
-            </div>
-            <div class="left-column">
-                <section class="subsection">
-                    <h4>Blacklist Method</h4>
-                    <div class="radio">
-                        <input type="radio" checked="checked" class="pct-blacklist-control" id="pct-greyscale" name="blacklistMethod" value="pct-greyscale"/>
-                        <label for="pct-greyscale">Greyscale</label>
+                <div class="checkbox">
+                    <button id="pct-clear-custom-avatars" name="clearCustomAvatars">Clear Custom Avatars</button>
+                </div>
+            </section>
+            <section id="campaign-helper-section">
+                <h3>Campaign Helpers</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-selector" name="useSelector"/>
+                    Auto-select Alias
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-sorter" name="useAliasSorter"/>
+                    Enable Sorting of Alias Pages
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-inactives" name="useInactives"/>
+                    Enable Active/Inactive Alias Designation
+                </label>
+            </section>
+            <section id="blacklist-section">
+                <h3>Blacklist</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-blacklist" name="useBlacklist"/>
+                    Enable User Blacklist
+                </label>
+                <div class="columns">
+                    <div class="left-column">
+                        <section class="subsection">
+                            <h4>Blacklist Method</h4>
+                            <label class="radio">
+                                <input type="radio" checked="checked" class="pct-blacklist-control" id="pct-greyscale" name="blacklistMethod" value="pct-greyscale"/>
+                                Greyscale
+                            </label>
+                            <label class="radio">
+                                <input type="radio" class="pct-blacklist-control" id="pct-display-none" name="blacklistMethod" value="pct-display-none"/>
+                                Hide
+                            </label>
+                        </section>
+                        <section class="subsection">
+                            <h4>Apply Blacklist To...</h4>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-normal" name="blacklistNormal"/>
+                                Regular Threads
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-rec" name="blacklistRecruit"/>
+                                Recruitment Threads
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-ooc" name="blacklistOOC"/>
+                                Discussion Threads
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-ic" name="blacklistIC"/>
+                                Gameplay Threads
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-store" name="blacklistStore"/>
+                                Product Threads
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" class="pct-blacklist-control" id="pct-bl-blog" name="blacklistBlog"/>
+                                Blog Threads
+                            </label>
+                        </section>
                     </div>
-                    <div class="radio">
-                        <input type="radio" class="pct-blacklist-control" id="pct-display-none" name="blacklistMethod" value="pct-display-none"/>
-                        <label for="pct-display-none">Hide</label>
+                    <div class="right-column">
+                        <section class="subsection">
+                            <h4>Current Blacklist</h4>
+                            <div class="blacklist-members-control">
+                                <select class="pct-blacklist-control" id="pct-blacklist" multiple="multiple" size="5">
+                                </select>
+                                <div class="blacklist-buttons">
+                                    <button class="pct-blacklist-control" id="pct-blacklist-add">Add</button>
+                                    <button class="pct-blacklist-control" id="pct-blacklist-remove">Remove</button>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
-                <section class="subsection">
-                    <h4>Apply Blacklist To...</h4>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-normal" name="blacklistNormal"/>
-                        <label for="pct-bl-normal">Regular Threads</label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-rec" name="blacklistRecruit"/>
-                        <label for="pct-bl-rec">Recruitment Threads</label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-ooc" name="blacklistOOC"/>
-                        <label for="pct-bl-ooc">Discussion Threads</label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-ic" name="blacklistIC"/>
-                        <label for="pct-bl-ic">Gameplay Threads</label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-store" name="blacklistStore"/>
-                        <label for="pct-bl-store">Product Threads</label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" class="pct-blacklist-control" id="pct-bl-blog" name="blacklistBlog"/>
-                        <label for="pct-bl-blog">Blog Threads</label>
-                    </div>
-                </section>
-            </div>
-            <div class="right-column">
-                <section class="subsection">
-                    <h4>Current Blacklist</h4>
-                    <div class="blacklist-members-control">
-                        <select class="pct-blacklist-control" id="pct-blacklist" multiple="multiple" size="13">
-                        </select>
-                        <div class="blacklist-buttons">
-                            <button class="pct-blacklist-control" id="pct-blacklist-add">Add</button>
-                            <button class="pct-blacklist-control" id="pct-blacklist-remove">Remove</button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
+        <div class="attribution"><span>By <a href="http://paizo.com/people/Oladon">Oladon</a></span></div>
     </body>
 </html>

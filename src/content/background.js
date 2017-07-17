@@ -17,6 +17,7 @@ const PREFS = {
     useHighlighter: true,
     useInactives: true,
     highlightColor: "#ffaa00",
+    useMobile: false,
     useSelector: true
 };
 

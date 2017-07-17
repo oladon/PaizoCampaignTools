@@ -81,10 +81,14 @@
         }
     }
 
-    function arrangeCampaigns(campaigns) {
+    function arrangeCampaigns(campaigns, useMobile) {
         for (var i=0; i<campaigns.length; i++) {
             var row = campaigns[i].parentNode;
             row.classList.add('pct-campaign');
+
+            if (useMobile) {
+                row.classList.add('pct-mobile');
+            }
         }
 
         if (campaigns.length > 8) {
@@ -94,6 +98,11 @@
             for (var i=0; i<campaigns.length; i++) {
                 var row = document.createElement('tr');
                 row.classList.add('pct-campaign');
+
+                if (useMobile) {
+                    row.classList.add('pct-mobile');
+                }
+
                 row.appendChild(campaigns[i]);
                 firstColumn.appendChild(row);
             }
@@ -161,7 +170,7 @@
     }
 
     function addSpan(nameNode, blacklistedUser) {
-        var oldLink = nameNode.parentNode.parentNode.querySelector("a#pct-link"),
+        var oldLink = nameNode.parentNode.parentNode.querySelector("a.pct-link"),
             rootUser = getRootUser(nameNode.title),
             newSpan, newLink;
 
@@ -172,7 +181,7 @@
             newSpan = document.createElement("span");
             newLink = document.createElement("a");
 
-            newLink.id = "pct-link";
+            newLink.classList.add('pct-link');
             newLink.appendChild(newSpan);
             nameNode.parentNode.parentNode.appendChild(newLink);
         }
@@ -239,7 +248,9 @@
         var newLinks = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^="Stop"])');
 
         for (var i=0; i<newLinks.length; i++) {
-            newLinks[i].style.backgroundColor=highlightColor;
+            newLinks[i].style.backgroundColor = highlightColor;
+            newLinks[i].style.borderRadius = '.35em';
+            newLinks[i].style.padding = '.1em .25em';
         }
     }
 
@@ -327,11 +338,12 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: 'useArranger'}, function(response) {
-            var useArranger = response && response.storage;
+        chrome.runtime.sendMessage({storage: ['useArranger', 'useMobile']}, function(response) {
+            var useArranger = response && response.storage.useArranger == 'true';
+            var useMobile = response && response.storage.useMobile == 'true';
 
-            if ((useArranger == 'true') && anyCampPage) {
-                arrangeCampaigns(campaigns);
+            if (useArranger && anyCampPage) {
+                arrangeCampaigns(campaigns, useMobile);
             }
         });
 
@@ -368,7 +380,7 @@
                             return isCurrentCampaign(currentHref, campaign.url);
                         });
                     } else {
-                        console.log("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
+                        console.error("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
                     }
 
                     if (currentCampaign && useSelector == "true") {

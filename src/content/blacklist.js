@@ -6,8 +6,8 @@ var pctBlacklist = {
 
         chrome.runtime.sendMessage({storage: ['blacklist']}, function(response) {
             var blacklist = blacklistToArray(response.storage.blacklist);
-            
-            if (target.id == "pct-link") {
+
+            if (target.classList.contains('pct-link')) {
                 if (action == "add") {
                     addNameToBlacklist(username, blacklist, cb);
                 } else if (action == "remove") {

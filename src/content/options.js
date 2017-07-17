@@ -9,6 +9,7 @@ function loadOptions() {
 
     var useAliasSorter = localStorage["useAliasSorter"],
         useArranger = localStorage["useArranger"],
+        useMobile = localStorage["useMobile"],
         useHighlighter = localStorage["useHighlighter"],
         highlightColor = localStorage["highlightColor"],
         useBlacklist = localStorage["useBlacklist"],
@@ -28,6 +29,7 @@ function loadOptions() {
 
     /* This part sets up the dialog with the existing options */
     if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
+    if (useMobile == "true") { document.getElementById('pct-use-mobile').setAttribute('checked', true); }
     if (useBlacklist == "true") { document.getElementById('pct-use-blacklist').setAttribute('checked', true); }
     if (blacklistMethod) { document.querySelector('input[value='+blacklistMethod+']').setAttribute('checked', true); }
     if (blacklistNormal == "true") { document.getElementById('pct-bl-normal').setAttribute('checked', true); }
@@ -47,7 +49,10 @@ function loadOptions() {
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");
+
         if (!myArray) { return false; }
+
+        listbox.size = Math.min(myArray.length + 1, 12);
 
         for(i=0; i<myArray.length; i++) {
             addListitem(listbox, myArray[i]);
