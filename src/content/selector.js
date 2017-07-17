@@ -8,7 +8,7 @@ window['pctSelector'] = (function(window) {
             setDefault.classList.add('pct-alias');
             setDefault.classList.add('form-prompt');
             setDefault.title = 'Set as default for this campaign.';
-            
+
             var icon = document.createElement('i');
             icon.classList.add('material-icons');
 
@@ -17,7 +17,7 @@ window['pctSelector'] = (function(window) {
 
             addStyles(select);
         }
-        
+
         return setDefault;
     }
 
@@ -43,7 +43,13 @@ window['pctSelector'] = (function(window) {
             var alias = defaultAliases[campaign.url] || campaign.user_aliases[0];
             alias = alias.name;
             var select = getAliasSelect();
-            var setDefault = addSetDefault(select);
+            var setDefault;
+
+            if (!select) {
+                return;
+            }
+
+            setDefault = addSetDefault(select);
 
             function clickDefault(e) {
                 if (!setDefault.classList.contains('inactive')) {
@@ -83,7 +89,7 @@ window['pctSelector'] = (function(window) {
             setDefault.classList.add('inactive');
         });
     }
-    
+
     function updateSelect(select, alias, setDefault) {
         var options = select.options;
 
