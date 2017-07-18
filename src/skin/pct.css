@@ -1,3 +1,12 @@
+#pct-options-link {
+    color: #4d3a98;
+    display: none;
+    margin-top: 1em;
+    opacity: .35;
+    position: absolute;
+    right: 1em;
+}
+
 .pct-alias {
     cursor: pointer;
     text-align: center;
@@ -396,4 +405,14 @@ h1 .pct-icon {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+@media (max-device-width: 680px) {
+    #pct-options-link {
+        display: block;
+    }
+
+    #pct-options-link > i {
+        font-size: 600%;
+    }
 }

@@ -255,6 +255,29 @@
     }
 
     /* Utilities */
+    function addOptionsButton(showOptionsLink) {
+        var campaignsContainer = document.querySelector('.bb-content > table');
+
+        if (!campaignsContainer) {
+            return;
+        }
+
+        var outer = document.createElement('div');
+        outer.id = 'pct-options-link';
+
+        var icon = document.createElement('i');
+        icon.classList.add('material-icons');
+        icon.textContent = 'settings';
+
+        outer.appendChild(icon);
+
+        outer.addEventListener('click', function(e) {
+            chrome.runtime.sendMessage({options: true});
+        });
+
+        campaignsContainer.insertBefore(outer, campaignsContainer.firstChild);
+    }
+
     function getPosts() {
         var myPosts = [],
             allPosts = document.querySelectorAll('itemscope');
@@ -338,12 +361,19 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useArranger', 'useMobile']}, function(response) {
+        chrome.runtime.sendMessage({storage: ['useArranger', 'showOptionsLink', 'useMobile']}, function(response) {
             var useArranger = response && response.storage.useArranger == 'true';
+            var showOptionsLink = response && response.storage.showOptionsLink == 'true';
             var useMobile = response && response.storage.useMobile == 'true';
 
-            if (useArranger && anyCampPage) {
-                arrangeCampaigns(campaigns, useMobile);
+            if (anyCampPage) {
+                if (showOptionsLink && screen.width <= 680) {
+                    addOptionsButton();
+                }
+
+                if (useArranger) {
+                    arrangeCampaigns(campaigns, useMobile);
+                }
             }
         });
 

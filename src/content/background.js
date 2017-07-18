@@ -17,6 +17,7 @@ const PREFS = {
     useHighlighter: true,
     useInactives: true,
     highlightColor: "#ffaa00",
+    showOptionsLink: true,
     useMobile: false,
     useSelector: true
 };
@@ -48,7 +49,6 @@ const WEBSOCKET_SERVICE = 'ws://countbuggula.net:5280/xmpp';
 
 function logMessage(store, msg) {
     if (msg.delayed === false) {
-        //        addRecord(store, msg, function() { console.log("Added"); });
         addRecord(store, msg);
         Messaging.broadcastMessageReceived(msg);
     }
@@ -124,6 +124,12 @@ function onConnect(status, sendResponse) {
         connection.send($pres().tree());
         sendResponse();
     }
+}
+
+function openOptions() {
+    browser.tabs.create({
+        url: 'content/options.html',
+    });
 }
 
 Messaging.receiveConnect(function (params, sendResponse) {
@@ -208,6 +214,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             // Get single value
             sendResponse({storage: localStorage[request.storage]});
         }
+    } else if (request.options) {
+        openOptions();
     } else {
         sendResponse({});
     }

@@ -1,14 +1,14 @@
 function loadOptions() {
     var ownPage = (window == window.top);
 
-    if (ownPage ||
-        !(window.innerWidth == 300 && window.innerHeight == 150)) {
-    } else {
+    if (!ownPage &&
+        (window.innerWidth == 300 && window.innerHeight == 150)) {
         document.body.classList.add('pct-link-body');
     }
 
     var useAliasSorter = localStorage["useAliasSorter"],
         useArranger = localStorage["useArranger"],
+        showOptionsLink = localStorage["showOptionsLink"],
         useMobile = localStorage["useMobile"],
         useHighlighter = localStorage["useHighlighter"],
         highlightColor = localStorage["highlightColor"],
@@ -29,6 +29,7 @@ function loadOptions() {
 
     /* This part sets up the dialog with the existing options */
     if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
+    if (showOptionsLink == "true") { document.getElementById('pct-show-options-link').setAttribute('checked', true); }
     if (useMobile == "true") { document.getElementById('pct-use-mobile').setAttribute('checked', true); }
     if (useBlacklist == "true") { document.getElementById('pct-use-blacklist').setAttribute('checked', true); }
     if (blacklistMethod) { document.querySelector('input[value='+blacklistMethod+']').setAttribute('checked', true); }

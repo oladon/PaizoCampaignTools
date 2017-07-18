@@ -1,4 +1,8 @@
-﻿#saved {
+﻿#mobile-section {
+    display: none;
+}
+
+#saved {
     background-color: lightgreen;
     -moz-border-radius: 0px;
     border-radius: 0px 0px 10px 10px;
@@ -178,6 +182,10 @@ select[multiple] {
 }
 
 @media (max-device-width: 680px) {
+    #mobile-section {
+        display: block;
+    }
+
     #saved {
         font-size: 100%;
     }
