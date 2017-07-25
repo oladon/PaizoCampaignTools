@@ -25,6 +25,11 @@ window['pctAvatars'] = function(window) {
         }
 
         var originalAvatar = getOriginalAvatar(avatar);
+
+        if (!originalAvatar) {
+            return;
+        }
+
         avatar.classList.add('pct-avatar');
 
         overlay = document.createElement('div');
