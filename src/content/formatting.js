@@ -95,7 +95,16 @@ window['pctFormatter'] = (function(window) {
 
         var style = getStyle(tag.name, tag.value);
         if ((supportedTags.indexOf(tag.name) >= 0) && style) {
-            (newNode.style[style[0]]) = style[1];
+            let properties = Object.keys(style);
+            properties.forEach(function(prop) {
+                let value = style[prop];
+
+                if (typeof value == 'function') {
+                    value(openNode.parentNode);
+                } else {
+                    (newNode.style[prop]) = style[prop];
+                }
+            });
         } else {
             return null;
         }
@@ -130,9 +139,21 @@ window['pctFormatter'] = (function(window) {
     function getStyle(tag, arg) {
         // For now, we assume that there's only one argument.
         var styles = {
-            'code': ['font-family', 'Courier'],
-            'color': ['color', arg],
-            'u': ['text-decoration', 'underline']
+            'code': {
+                'extra': function(node) {
+                    let breaks = node.getElementsByTagName('BR');
+                    let item;
+
+                    while (item = breaks[0]) {
+                        let sib = item.previousSibling;
+                        sib.textContent = sib.textContent.replace(/\r?\n$/, '');
+                        node.removeChild(item);
+                    }
+                },
+                'font-family': 'Courier',
+                'white-space': 'pre'},
+            'color': {'color': arg},
+            'u': {'text-decoration': 'underline'}
         };
 
         return styles[tag];
