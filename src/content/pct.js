@@ -97,11 +97,7 @@
 
             for (var i=0; i<campaigns.length; i++) {
                 var row = document.createElement('tr');
-                row.classList.add('pct-campaign');
-
-                if (useMobile) {
-                    row.classList.add('pct-mobile');
-                }
+                row.classList = campaigns[i].parentNode.classList;
 
                 row.appendChild(campaigns[i]);
                 firstColumn.appendChild(row);
