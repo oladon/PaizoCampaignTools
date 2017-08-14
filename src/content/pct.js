@@ -8,6 +8,7 @@
     var pctCampaigns = window.pctCampaigns;
     var pctChat = window.pctChat;
     var pctFormatter = window.pctFormatter;
+    var pctNeedToPost = window.pctNeedToPost;
     var pctSelector = window.pctSelector;
     var posts;
 
@@ -299,27 +300,35 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useSelector', 'campaigns']}, function(response) {
-            var useChat = response && response.storage.useChat;
-            var useExtendedFormatting = response && response.storage.useExtendedFormatting;
-            var useSelector = response && response.storage.useSelector;
-            var currentCampaign, storedCampaigns, storedCampaignsArray, pageCampaign;
+        chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useNeedToPost', 'useSelector', 'campaigns']}, function(response = {storage: {}}) {
+            test();
+            const {
+                campaigns: storedCampaigns,
+                useChat, useExtendedFormatting,
+                useNeedToPost, useSelector
+            } = response.storage;
+            var currentCampaign, storedCampaignsArray, pageCampaign;
+
+            if (storedCampaigns && storedCampaigns != "") {
+                storedCampaignsArray = JSON.parse(storedCampaigns);
+            }
 
             pctFormatter.replaceTags(useExtendedFormatting);
             pctCampaigns.initialize(storedCampaignsArray);
 
+            if (useNeedToPost == "true") {
+                pctNeedToPost.initialize(anyCampPage);
+            }
 
             if (((useChat == "true") ||
-                 (useSelector == "true")) &&
+                 (useSelector == "true") ||
+                 (useNeedToPost == "true")) &&
                 username &&
                 ((currentHref.indexOf("/campaigns") >= 0) ||
                  isReplyPage(currentHref))) {
 
                 if (!campaigns || campaigns.length == 0) {
-                    storedCampaigns = response && response.storage.campaigns;
-
-                    if (storedCampaigns && storedCampaigns != "") {
-                        storedCampaignsArray = JSON.parse(storedCampaigns);
+                    if (storedCampaignsArray.length) {
                         currentCampaign = storedCampaignsArray.find(function(campaign) {
                             return isCurrentCampaign(currentHref, campaign.url);
                         });
@@ -327,8 +336,22 @@
                         console.error("Error loading chat: campaigns is not populated. Have you visited your base user's campaigns page yet?");
                     }
 
-                    if (currentCampaign && useSelector == "true") {
-                        pctSelector.selectAlias(storedCampaignsArray, currentCampaign);
+                    if (currentCampaign) {
+                        if (useNeedToPost == "true") {
+                            let form = document.getElementById('postPreviewForm');
+                            let submit = form.querySelector('input[name="Forums/cancel"]');
+                            let textarea = form.querySelector('textarea');
+
+                            submit.addEventListener('click', function() {
+                                if (textarea.value != '') {
+                                    pctNeedToPost.posted(currentCampaign.url);
+                                }
+                            });
+                        }
+
+                        if (useSelector == "true") {
+                            pctSelector.selectAlias(storedCampaignsArray, currentCampaign);
+                        }
                     }
                 }
 

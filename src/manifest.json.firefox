@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "2.3.0",
+    "version": "2.4.0",
 
     "permissions": ["http://paizo.com/people/*",
                     "http://paizo.com/threads*",
@@ -44,7 +44,8 @@
             "css": ["skin/pct.css",
                     "skin/fonts.css",
                     "skin/arranger.css",
-                    "skin/avatars.css"],
+                    "skin/avatars.css",
+                    "skin/needtopost.css"],
             "js": ["content/Autolinker.min.js",
                    "content/protocol.js",
                    "content/campaigns.js",
@@ -53,6 +54,7 @@
                    "content/aliases.js",
                    "content/avatars.js",
                    "content/formatting.js",
+                   "content/needtopost.js",
                    "content/selector.js",
                    "content/pct.js"],
             "run_at": "document_end"

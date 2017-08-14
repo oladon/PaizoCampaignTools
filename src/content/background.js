@@ -19,6 +19,9 @@ const PREFS = {
     highlightColor: "#ffaa00",
     showOptionsLink: true,
     useMobile: false,
+    useNeedToPost: false,
+    nTPOn: "#ffaa00",
+    nTPOff: "#4d3a98",
     useSelector: true
 };
 

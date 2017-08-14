@@ -1,0 +1,28 @@
+.pct-notifications blockquote > h3 {
+}
+
+.pct-notify {
+    display: inline-block;
+    margin-right: -3px;
+    vertical-align: sub;
+}
+
+.pct-notify > i {
+    display: flex;
+}
+
+.pct-notify > i::before {
+    content: 'notifications_none';
+    cursor: pointer;
+    font-size: 16px;
+    padding: 3px;
+    vertical-align: text-bottom;
+}
+
+.pct-notify.pct-active > i::before {
+    content: 'notifications_on';
+}
+
+.pct-notify:hover {
+    filter: drop-shadow(cornflowerblue 0px 0px 5px);
+}

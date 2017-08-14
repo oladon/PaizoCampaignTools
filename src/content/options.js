@@ -25,6 +25,9 @@ function loadOptions() {
         useCustomAvatars = localStorage["useCustomAvatars"],
         useExtendedFormatting = localStorage["useExtendedFormatting"],
         useInactives = localStorage["useInactives"],
+        useNeedToPost = localStorage["useNeedToPost"],
+        nTPOn = localStorage["nTPOn"],
+        nTPOff = localStorage["nTPOff"],
         useSelector = localStorage["useSelector"];
 
     /* This part sets up the dialog with the existing options */
@@ -46,6 +49,9 @@ function loadOptions() {
     document.getElementById('pct-highlight-color').value = highlightColor;
     if (useSelector == "true") { document.getElementById('pct-use-selector').setAttribute('checked', true); }
     if (useInactives == "true") { document.getElementById('pct-use-inactives').setAttribute('checked', true); }
+    if (useNeedToPost == "true") { document.getElementById('pct-use-need-to-post').setAttribute('checked', true); }
+    document.getElementById('pct-ntp-active-color').value = nTPOn;
+    document.getElementById('pct-ntp-inactive-color').value = nTPOff;
     if (useAliasSorter == "true") { document.getElementById('pct-use-sorter').setAttribute('checked', true); }
 
     (function (myArray) {
