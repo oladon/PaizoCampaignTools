@@ -31,6 +31,7 @@
                     "skin/avatars.css"],
             "js": ["content/Autolinker.min.js",
                    "content/protocol.js",
+                   "content/campaigns.js",
                    "content/chat.js",
                    "content/blacklist.js",
                    "content/aliases.js",

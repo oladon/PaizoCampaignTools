@@ -5,6 +5,7 @@
     const PCT_DISPLAYNONE = "pct-display-none";
 
     var pctAvatars = window.pctAvatars;
+    var pctCampaigns = window.pctCampaigns;
     var pctChat = window.pctChat;
     var pctFormatter = window.pctFormatter;
     var pctSelector = window.pctSelector;
@@ -34,91 +35,6 @@
             return undefined;
         };
     }
-
-    /* Arranger Code */
-    function getCampaigns() {
-        var myCampaigns = [],
-            activeCampaigns = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > h3 > a');
-        for (var i=0; i<activeCampaigns.length; i++) {
-            myCampaigns.push(activeCampaigns[i].parentNode.parentNode.parentNode);
-        }
-        return myCampaigns;
-    }
-
-    function campaignsToArray(campaigns) {
-        var campaignsArray = campaigns.map(function(campaign) {
-            var userDM = (campaign.querySelector('blockquote > p.tiny > b').textContent.trim() == "GameMaster");
-            var title = campaign.querySelector('blockquote > h3 > a[title]').title;
-            var URL = campaign.querySelector('blockquote > h3 > a[title]').href;
-            var userAliases = campaign.querySelectorAll('p.tiny > b > a');
-            var userAliasesArray = [];
-
-            for (var alias of [].slice.call(userAliases)) {
-                userAliasesArray.push({ name: alias.textContent.trim(),
-                                        url: alias.href });
-            }
-            if (!userAliases || userAliases.length <= 0) {
-                userAliasesArray = username && [{ name: username }];
-            }
-
-            var campaignObject = { title: title,
-                                   url: URL,
-                                   user_dm: userDM,
-                                   user_aliases: userAliasesArray
-                                 };
-
-            return campaignObject;
-        });
-
-        return campaignsArray;
-    }
-
-    function saveCampaigns(campaigns) {
-        if (campaigns &&
-            campaigns.length > 0) {
-            var activeCampaigns = JSON.stringify(campaigns);
-            chrome.runtime.sendMessage({ storage: "campaigns", value: activeCampaigns});
-        }
-    }
-
-    function arrangeCampaigns(campaigns, useMobile) {
-        for (var i=0; i<campaigns.length; i++) {
-            var row = campaigns[i].parentNode;
-            row.classList.add('pct-campaign');
-
-            if (useMobile) {
-                row.classList.add('pct-mobile');
-            }
-        }
-
-        if (campaigns.length > 8) {
-            var firstCampaign = campaigns[0],
-                firstColumn = firstCampaign.parentNode.parentNode;
-
-            for (var i=0; i<campaigns.length; i++) {
-                var row = document.createElement('tr');
-                row.classList = campaigns[i].parentNode.classList;
-
-                row.appendChild(campaigns[i]);
-                firstColumn.appendChild(row);
-            }
-
-            var rows = firstColumn.querySelectorAll('tr');
-            for (var i=0; i<rows.length; i++) {
-                if (rows[i].children.length === 0) {
-                    rows[i].parentNode.removeChild(rows[i]);
-                }
-            }
-
-            var columnParent = firstColumn.parentNode.parentNode;
-            var nextColumn;
-
-            while (nextColumn = columnParent.nextElementSibling) {
-                nextColumn.parentNode.removeChild(nextColumn);
-            }
-        }
-    }
-
 
     /* Blacklist Code */
     function blacklistPosts(blacklistPrefs) {
@@ -335,7 +251,7 @@
     }
 
     function run() {
-        var campaigns = getCampaigns();
+        var campaigns = pctCampaigns.pageCampaigns;
         var currentHref = document.location.href;
         var ownCampPage = username && onPage('campaigns', username);
         var anyCampPage = onPage('campaigns');
@@ -344,8 +260,8 @@
         var peoplePage = (currentHref.indexOf('/people/') > -1);
 
         if (ownCampPage) {
-            var campaignsArray = campaignsToArray(campaigns);
-            saveCampaigns(campaignsArray);
+            var campaignsArray = pctCampaigns.toArray(campaigns);
+            pctCampaigns.save(campaignsArray);
         }
 
         chrome.runtime.sendMessage({storage: ['useAliasSorter', 'useInactives']}, function(response) {
@@ -368,7 +284,7 @@
                 }
 
                 if (useArranger) {
-                    arrangeCampaigns(campaigns, useMobile);
+                    pctCampaigns.arrange(campaigns, useMobile);
                 }
             }
         });
@@ -390,6 +306,8 @@
             var currentCampaign, storedCampaigns, storedCampaignsArray, pageCampaign;
 
             pctFormatter.replaceTags(useExtendedFormatting);
+            pctCampaigns.initialize(storedCampaignsArray);
+
 
             if (((useChat == "true") ||
                  (useSelector == "true")) &&
