@@ -87,7 +87,8 @@ window['pctCampaigns'] = function(window) {
 
     function toArray(campaigns, username) {
         var campaignsArray = campaigns.map(function(campaign) {
-            var userDM = (campaign.querySelector('blockquote > p.tiny > b').textContent.trim() == "GameMaster");
+            var userDMNode = campaign.querySelector('blockquote > p.tiny > b');
+            var userDM = userDMNode && (userDMNode.textContent.trim() == "GameMaster");
             var title = campaign.querySelector('blockquote > h3 > a[title]').title;
             var URL = campaign.querySelector('blockquote > h3 > a[title]').href;
             var userAliases = campaign.querySelectorAll('p.tiny > b > a');
