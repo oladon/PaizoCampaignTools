@@ -339,7 +339,7 @@
                     if (currentCampaign) {
                         if (useNeedToPost == "true") {
                             let form = document.getElementById('postPreviewForm');
-                            let submit = form.querySelector('input[name="Forums/cancel"]');
+                            let submit = form.querySelector('input[name="Forums/submitPost"]');
                             let textarea = form.querySelector('textarea');
 
                             submit.addEventListener('click', function() {
