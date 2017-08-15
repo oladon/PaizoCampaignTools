@@ -92,22 +92,7 @@ window['pctFormatter'] = (function(window) {
 
         var openNode = tag.node;
         var newNode = document.createElement('span');
-
         var style = getStyle(tag.name, tag.value);
-        if ((supportedTags.indexOf(tag.name) >= 0) && style) {
-            let properties = Object.keys(style);
-            properties.forEach(function(prop) {
-                let value = style[prop];
-
-                if (typeof value == 'function') {
-                    value(openNode.parentNode);
-                } else {
-                    (newNode.style[prop]) = style[prop];
-                }
-            });
-        } else {
-            return null;
-        }
 
         var newChild = openNode.splitText(tag.location + tag.fullMatch.length);
         updateRefs(tags, openNode, newChild);
@@ -127,6 +112,21 @@ window['pctFormatter'] = (function(window) {
         closeNode.textContent = closeNode.textContent.slice(0, tag.close.location);
 
         openNode.parentNode.insertBefore(newNode, rightSide);
+
+        if ((supportedTags.indexOf(tag.name) >= 0) && style) {
+            let properties = Object.keys(style);
+            properties.forEach(function(prop) {
+                let value = style[prop];
+
+                if (typeof value == 'function') {
+                    value(newNode);
+                } else {
+                    (newNode.style[prop]) = style[prop];
+                }
+            });
+        } else {
+            return null;
+        }
 
         return newNode;
     }
