@@ -301,7 +301,6 @@
         });
 
         chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useNeedToPost', 'useSelector', 'campaigns']}, function(response = {storage: {}}) {
-            test();
             const {
                 campaigns: storedCampaigns,
                 useChat, useExtendedFormatting,
