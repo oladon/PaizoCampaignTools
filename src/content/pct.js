@@ -261,7 +261,7 @@
         var peoplePage = (currentHref.indexOf('/people/') > -1);
 
         if (ownCampPage) {
-            var campaignsArray = pctCampaigns.toArray(campaigns);
+            var campaignsArray = pctCampaigns.toArray(campaigns, username);
             pctCampaigns.save(campaignsArray);
         }
 

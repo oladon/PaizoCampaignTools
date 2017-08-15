@@ -85,7 +85,7 @@ window['pctCampaigns'] = function(window) {
         }
     }
 
-    function toArray(campaigns) {
+    function toArray(campaigns, username) {
         var campaignsArray = campaigns.map(function(campaign) {
             var userDM = (campaign.querySelector('blockquote > p.tiny > b').textContent.trim() == "GameMaster");
             var title = campaign.querySelector('blockquote > h3 > a[title]').title;
@@ -97,6 +97,7 @@ window['pctCampaigns'] = function(window) {
                 userAliasesArray.push({ name: alias.textContent.trim(),
                                         url: alias.href });
             }
+
             if (!userAliases || userAliases.length <= 0) {
                 userAliasesArray = username && [{ name: username }];
             }
