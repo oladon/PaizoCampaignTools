@@ -12,7 +12,7 @@
     var pctSelector = window.pctSelector;
     var posts;
 
-    var username = pctChat.getUsername() || undefined;
+    var username = pctChat.getUsername(true) || undefined;
 
     if (!Array.prototype.find) {
         Array.prototype.find = function(predicate) {
