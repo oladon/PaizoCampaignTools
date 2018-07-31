@@ -290,7 +290,7 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistMethod', 'blacklist']}, function(response) {
+        chrome.runtime.sendMessage({storage: ['useBlacklist', 'blacklistNormal', 'blacklistRecruit', 'blacklistOOC', 'blacklistIC', 'blacklistStore', 'blacklistBlog', 'blacklistMethod', 'blacklist']}, function(response) {
             var useBlacklist = response && response.storage.useBlacklist,
                 blacklistMethod = response && response.storage.blacklistMethod,
                 blacklistPrefs = response && response.storage;
