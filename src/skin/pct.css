@@ -416,3 +416,27 @@ h1 .pct-icon {
         font-size: 600%;
     }
 }
+
+@media (min-width: 635px) and (max-width: 935px) {
+    .pct-alias-set:not(.pct-data-view) > td {
+        width: 49%;
+    }
+}
+
+@media (min-width: 935px) and (max-width: 1185px) {
+    .pct-alias-set:not(.pct-data-view) > td {
+        width: 32%;
+    }
+}
+
+@media (min-width: 1185px) {
+    .pct-alias-set:not(.pct-data-view) > td {
+        width: 24%;
+    }
+}
+
+@media (max-device-width: 680px) {
+    .pct-alias-set:not(.pct-data-view) > td {
+        width: 100%;
+    }
+}

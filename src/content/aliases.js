@@ -3,7 +3,7 @@ window['pctAliases'] = function(window) {
     var sorters = {
         faction: {
             prop: function(alias) {
-                var factionNode = alias && 
+                var factionNode = alias &&
                     alias.querySelector('a > img:not([height])');
                 return factionNode && factionNode.alt;
             },
@@ -46,7 +46,7 @@ window['pctAliases'] = function(window) {
             title: 'Status Line'
         }
     }
-    
+
     function addDeactivator(alias) {
         var box = document.createElement('div');
         box.classList.add('pct-deactivator');
@@ -56,10 +56,10 @@ window['pctAliases'] = function(window) {
             toggleActive(alias);
             box.title = (alias.inactive ? 'Make Active' : 'Make Inactive');
         });
-        
+
         alias.appendChild(box);
     }
-    
+
     function addDropDown(container, isPFS, defaultSort) {
         var selectBox = document.createElement('div');
         var label = document.createElement('span');
@@ -69,10 +69,10 @@ window['pctAliases'] = function(window) {
         label.appendChild(select);
 
         container.appendChild(label);
-        
+
         return select;
     }
-    
+
     function addInactiveSection(container) {
         var table = document.createElement('table');
         table.cellpadding = 12;
@@ -84,7 +84,7 @@ window['pctAliases'] = function(window) {
         container.appendChild(table);
 
         addRightBox([], 'name', tbody);
-        
+
         return tbody;
     }
 
@@ -106,7 +106,7 @@ window['pctAliases'] = function(window) {
         }
 
         newBox.appendChild(header);
-        
+
         var rightBox = document.createElement('div');
 
         var select = addDropDown(rightBox, aliases.PFS, defaultSort);
@@ -135,22 +135,22 @@ window['pctAliases'] = function(window) {
 
         return aliases;
     }
-    
+
     function getInactiveSection() {
         var section = document.querySelector('.pct-alias-set.inactive');
         return section;
     }
-    
+
     function getSections() {
         var sections = document.querySelectorAll('table[cellpadding="12"]');
 
         if (sections.length == 0) {
             return [];
         }
-        
+
         return sections;
     }
-    
+
     function makeButton(container) {
         var label = document.createElement('label');
         label.classList.add('pct-toggle');
@@ -158,18 +158,18 @@ window['pctAliases'] = function(window) {
         var input = document.createElement('input');
         input.type = 'checkbox';
         label.appendChild(input);
-        
+
         var indicator = document.createElement('div');
         indicator.classList.add('pct-indicator');
         label.appendChild(indicator);
-        
+
         label.addEventListener('change', function(e) {
             container.classList.toggle('pct-data-view');
         });
-        
+
         return label;
     }
-    
+
     function makeDropDown(isPFS, defaultSort) {
         var options = Object.keys(sorters);
         var select = document.createElement('select');
@@ -198,17 +198,17 @@ window['pctAliases'] = function(window) {
                 select.appendChild(revOption);
             }
         });
-        
+
         return select;
     }
-    
+
     function makeHeader(text) {
         var header = document.createElement('h2');
         header.textContent = text;
-        
+
         return header;
     }
-    
+
     function parseInactives(list) {
         if (!list) {
             list = localStorage["inactiveAliases"];
@@ -217,7 +217,7 @@ window['pctAliases'] = function(window) {
         if (list) {
             return JSON.parse(list);
         }
-        
+
         return [];
     }
 
@@ -229,14 +229,14 @@ window['pctAliases'] = function(window) {
         newList = JSON.stringify(inactives);
         chrome.runtime.sendMessage({storage: 'inactiveAliases', value: newList}, cb);
     }
-    
+
     function reorder(section, by, reverse) {
         var aliases = getAliases(section);
         var arr;
         var newIndices = {};
         var ordered = [];
         var parent = aliases[0].parentNode;
-        
+
         arr = [].slice.call(aliases).map(function(item, index) {
             return {
                 by: by.prop(item),
@@ -252,10 +252,10 @@ window['pctAliases'] = function(window) {
                 return -1;
             }
         });
-        
+
         arr.map(function(item) {
             var node = aliases[item.index];
-            
+
             if (reverse) {
                 parent.insertBefore(node, parent.firstChild);
             } else {
@@ -275,14 +275,14 @@ window['pctAliases'] = function(window) {
                 var aliases = getAliases(section);
                 var sectionTitle = section.previousElementSibling.previousElementSibling;
 
-                if (sectionTitle && 
-                    sectionTitle.textContent.indexOf('Pathfinder Society Character') == 0) {
+                if (sectionTitle &&
+                    sectionTitle.textContent.indexOf('Organized Play Character') == 0) {
                     aliases.PFS = true;
                 }
 
                 unrowify(aliases);
                 addRightBox(aliases, 'paizoDefault');
-                
+
                 if (useInactives) {
                     aliases.forEach(function(item) {
                         var name = sorters.name.prop(item);
@@ -305,7 +305,7 @@ window['pctAliases'] = function(window) {
             });
         });
     }
-    
+
     function shuffle(section) {
         var aliases = getAliases(section);
         var tbody = aliases[0].parentNode;
@@ -313,9 +313,9 @@ window['pctAliases'] = function(window) {
             tbody.appendChild(aliases[Math.random() * i | 0]);
         }
     }
-    
+
     function toggleActive(alias) {
-        var inactiveSection = getInactiveSection() || 
+        var inactiveSection = getInactiveSection() ||
             addInactiveSection(alias.parentNode.parentNode.parentNode);
         var name = sorters.name.prop(alias);
 
@@ -334,11 +334,11 @@ window['pctAliases'] = function(window) {
 
         alias.inactive = !alias.inactive;
     }
-    
+
     function triggerSort(section, sortName) {
         var select;
         var selection = sortName;
-    
+
         if (!sortName) {
             select = section.parentNode.previousElementSibling
                             .previousElementSibling.querySelector('select');
@@ -357,6 +357,8 @@ window['pctAliases'] = function(window) {
             var item = aliases[i];
             var parent = item.parentNode;
 
+            item.removeAttribute('width');
+
             if (!item.getAttribute('pct-default-order')) {
                 item.setAttribute('pct-default-order', i);
             }
@@ -372,7 +374,7 @@ window['pctAliases'] = function(window) {
 
             tbody.appendChild(item);
         }
-        
+
         for (var row of trs) {
             tbody.removeChild(row);
         }

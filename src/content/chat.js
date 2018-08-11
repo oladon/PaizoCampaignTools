@@ -103,7 +103,7 @@ window['pctChat'] = (function(window) {
     }
 
     function getUsername(url) {
-        var nameDiv = document.querySelector('#personal li.dropdown-personal > a[href*="/pm"]');
+        var nameDiv = document.querySelector('#lower-nav-row li.dropdown-personal > a[href*="/pm"]');
 
         if (nameDiv) {
             if (url) {
