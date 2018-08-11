@@ -22,7 +22,9 @@ const PREFS = {
     useNeedToPost: false,
     nTPOn: "#ffaa00",
     nTPOff: "#4d3a98",
-    useSelector: true
+    useSelector: true,
+    useHeaderHider: true,
+    hideHeader: false
 };
 
 function setDefaultPrefs() {

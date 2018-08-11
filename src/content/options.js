@@ -28,7 +28,8 @@ function loadOptions() {
         useNeedToPost = localStorage["useNeedToPost"],
         nTPOn = localStorage["nTPOn"],
         nTPOff = localStorage["nTPOff"],
-        useSelector = localStorage["useSelector"];
+        useSelector = localStorage["useSelector"],
+        useHeaderHider = localStorage["useHeaderHider"];
 
     /* This part sets up the dialog with the existing options */
     if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
@@ -44,6 +45,7 @@ function loadOptions() {
     if (blacklistBlog == "true") { document.getElementById('pct-bl-blog').setAttribute('checked', true); }
     if (useChat == "true") { document.getElementById('pct-use-chat').setAttribute('checked', true); }
     if (useCustomAvatars == "true") { document.getElementById('pct-use-custom-avatars').setAttribute('checked', true); }
+    if (useHeaderHider == "true") { document.getElementById('pct-use-header-hider').setAttribute('checked', true); }
     if (useExtendedFormatting == "true") { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
     if (useHighlighter == "true") { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;

@@ -1,3 +1,35 @@
+.pct-hide {
+    display: none !important;
+}
+
+.pct-header-hider {
+    align-items: center;
+    background-color: #121820;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #f2f2f2;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Material Icons';
+    font-size: 1rem;
+    height: 20px;
+    justify-content: center;
+    line-height: 1;
+    margin-right: 15px;
+    position: absolute;
+    right: 120px;
+    top: 0px;
+    width: 40px;
+}
+
+.pct-header-hider::before {
+    content: 'expand_less';
+}
+
+.pct-header-hider.expand::before {
+    content: 'expand_more';
+}
+
 #pct-options-link {
     color: #4d3a98;
     display: none;
