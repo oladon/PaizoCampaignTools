@@ -3,7 +3,7 @@
 
     "name": "Paizo Campaign Tools",
     "description": "A collection of tools for enhancing the Paizo PbP experience.",
-    "version": "2.5.4",
+    "version": "2.5.5",
 
     "permissions": ["*://paizo.com/community/blog/",
                     "*://paizo.com/people/*",
@@ -15,7 +15,8 @@
                     "*://paizo.com/campaigns/*/recruiting*",
                     "*://paizo.com/cgi-bin/WebObjects/Store.woa*",
                     "https://secure.paizo.com/cgi-bin/WebObjects/Store.woa/wa/*",
-                    "https://secure.paizo.com/people/*/sessions"],
+                    "https://secure.paizo.com/people/*/sessions",
+                    "*://paizo.com/*"],
     "options_ui": {
         "page": "content/options.html"
     },
@@ -32,6 +33,12 @@
     },
     "content_scripts": [
         {
+            "matches": ["*://paizo.com/*"],
+            "css": ["skin/general.css",
+                    "skin/fonts.css"],
+            "js": ["content/headerhider.js"],
+            "run_at": "document_start"
+        }, {
             "matches": ["*://paizo.com/community/blog/",
                         "*://paizo.com/people/*",
                         "*://paizo.com/threads*",

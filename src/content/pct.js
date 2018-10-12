@@ -156,34 +156,6 @@
         });
     }
 
-    /* Header Hider Code */
-    function initHeaderHider(hidden) {
-        var header = document.getElementById('nav-wrapper');
-
-        var mainSlot = document.getElementById('main-slot');
-        var parent = mainSlot && mainSlot.querySelector('.pull-right');
-
-        var hider = document.createElement('div');
-        hider.classList.add('pct-header-hider');
-
-        function toggleHeaderDisplay() {
-            chrome.runtime.sendMessage({
-                storage: 'hideHeader',
-                value: !hider.classList.contains('expand')}, function() {
-                    header.classList.toggle('pct-hide');
-                    hider.classList.toggle('expand');
-                });
-        }
-
-        hider.addEventListener('click', toggleHeaderDisplay);
-
-        if (hidden) {
-            toggleHeaderDisplay();
-        }
-
-        parent.insertBefore(hider, parent.firstChild);
-    }
-
     /* Highlighter Code */
     function highlightNew(highlightColor) {
         var newLinks = document.querySelectorAll('table > tbody > tr > td > table > tbody > tr > td > blockquote > ul > li > span.tiny > span > a:not([title^="Stop"])');
@@ -315,15 +287,6 @@
                 if (useArranger) {
                     pctCampaigns.arrange(campaigns, useMobile);
                 }
-            }
-        });
-
-        chrome.runtime.sendMessage({storage: ['useHeaderHider', 'hideHeader']}, function(response) {
-            var useHeaderHider = response && response.storage.useHeaderHider == 'true';
-            var hideHeader = response && response.storage.hideHeader == 'true';
-
-            if (useHeaderHider) {
-                initHeaderHider(hideHeader);
             }
         });
 

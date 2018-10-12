@@ -1,0 +1,37 @@
+.pct-hide {
+    min-height: unset !important;
+}
+
+.pct-hide :not(.pct-header-hider) {
+    display: none !important;
+}
+
+.pct-header-hider {
+    align-items: center;
+    background-color: #121820;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    bottom: -20px;
+    color: #f2f2f2;
+    cursor: pointer;
+    display: flex;
+    flex: 0 !important;
+    font-family: 'Material Icons';
+    font-size: 1rem;
+    height: 20px;
+    justify-content: center;
+    line-height: 1;
+    margin: 0 15px 0 0 !important;
+    position: absolute;
+    right: 120px;
+    width: 40px;
+    z-index: 1000;
+}
+
+.pct-header-hider::before {
+    content: 'expand_less';
+}
+
+.pct-header-hider.expand::before {
+    content: 'expand_more';
+}
