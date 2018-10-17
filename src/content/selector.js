@@ -105,6 +105,7 @@ window['pctSelector'] = (function(window) {
         var options = select.options;
 
         var selectDefaultAlias = !isPostPreview() || isReplyPreview();
+
         if (selectDefaultAlias) {
             for (var i = 0; i < options.length; i++) {
                 var option = options[i];
@@ -116,7 +117,7 @@ window['pctSelector'] = (function(window) {
                 }
             };
         }
-        
+
         select.onchange();
     }
 
