@@ -38,13 +38,14 @@ window['pctSelector'] = (function(window) {
     }
 
     function isPostPreview() {
-        return (document.location.hash === '#newPost' || document.location.pathname.indexOf('createNewPost') >= 0);
+        return document.location.hash == '#newPost' ||
+               document.location.pathname.indexOf('createNewPost') >= 0;
     }
 
     function isReplyPreview() {
-        return (document.location.hash === '#newPost' || document.location.pathname.indexOf('createNewPost') >= 0) &&
-                document.location.search.indexOf("thread=") >= 0 &&
-                document.location.search.indexOf("post=") >= 0;
+        return isPostPreview() &&
+               document.location.search.indexOf("thread=") >= 0 &&
+               document.location.search.indexOf("post=") >= 0;
     }
 
     function selectAlias(campaigns, campaign) {
