@@ -37,6 +37,17 @@ window['pctSelector'] = (function(window) {
         return selected;
     }
 
+    function isPostPreview() {
+        return document.location.hash == '#newPost' ||
+               document.location.pathname.indexOf('createNewPost') >= 0;
+    }
+
+    function isReplyPreview() {
+        return isPostPreview() &&
+               document.location.search.indexOf("thread=") >= 0 &&
+               document.location.search.indexOf("post=") >= 0;
+    }
+
     function selectAlias(campaigns, campaign) {
         chrome.runtime.sendMessage({storage: ['defaultAliases']}, function(response) {
             var defaultAliases = response.storage && response.storage.defaultAliases && JSON.parse(response.storage.defaultAliases) || {};
@@ -93,17 +104,20 @@ window['pctSelector'] = (function(window) {
     function updateSelect(select, alias, setDefault) {
         var options = select.options;
 
-        for (var i=0; i<options.length; i++) {
-            var option = options[i];
+        var selectDefaultAlias = !isPostPreview() || isReplyPreview();
+        if (selectDefaultAlias) {
+            for (var i = 0; i < options.length; i++) {
+                var option = options[i];
 
-            if (option.textContent == alias) {
-                setDefault.classList.add('inactive');
-                setDefault.title = 'This alias is your default for this campaign.';
-                option.setAttribute("selected", "selected");
-            } else if (option.getAttribute("selected")) {
-                option.removeAttribute("selected");
-            }
-        };
+                if (option.textContent == alias) {
+                    option.setAttribute("selected", "selected");
+                } else if (option.getAttribute("selected")) {
+                    option.removeAttribute("selected");
+                }
+            };
+        }
+        
+        select.onchange();
     }
 
     return {
