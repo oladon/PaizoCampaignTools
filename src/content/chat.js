@@ -4,6 +4,8 @@ window['pctChat'] = (function(window) {
     const STATUS_MINIMIZED = 1;
     const STATUS_VISIBLE = 2;
 
+    const pctUtils = window.pctUtils;
+
     var autolinker = new Autolinker({ truncate: 25, newWindow: true });
     var document = window.document;
     var lastRead;
@@ -103,7 +105,7 @@ window['pctChat'] = (function(window) {
     }
 
     function getUsername(url) {
-        var nameDiv = document.querySelector('#lower-nav-row li.dropdown-personal > a[href*="/pm"], #lower-nav-row li.dropdown-personal-has-notifications > a[href*="/pm"]');
+        var nameDiv = pctUtils.pmLink();
 
         if (nameDiv) {
             if (url) {

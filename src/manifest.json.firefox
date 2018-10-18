@@ -36,7 +36,8 @@
             "matches": ["*://paizo.com/*"],
             "css": ["skin/general.css",
                     "skin/fonts.css"],
-            "js": ["content/headerhider.js"],
+            "js": ["content/utils.js",
+                   "content/headerhider.js"],
             "run_at": "document_start"
         }, {
             "matches": ["*://paizo.com/community/blog/",
