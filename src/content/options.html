@@ -15,10 +15,26 @@
         <div class="flex">
             <section id="visual-section">
                 <h3>Visual</h3>
-                <label class="checkbox">
-                    <input type="checkbox" id="pct-use-header-hider" name="useHeaderHider"/>
-                    Allow Hiding of Site Header
-                </label>
+                <section class="subsection">
+                    <h4>Header Hider</h4>
+                    <label class="checkbox">
+                        <input type="checkbox" id="pct-use-header-hider" name="useHeaderHider"/>
+                        Allow Hiding of Site Header
+                    </label>
+                    <h5>Show PM Indicator</h5>
+                    <label class="radio">
+                        <input type="radio" class="pct-blacklist-control" id="pct-use-header-pm-false" name="useHeaderPM" value="false"/>
+                        Never
+                    </label>
+                    <label class="radio">
+                        <input type="radio" class="pct-blacklist-control" id="pct-use-header-pm-new" name="useHeaderPM" value="new"/>
+                        Only for New Messages
+                    </label>
+                    <label class="radio">
+                        <input type="radio" checked="checked" class="pct-blacklist-control" id="pct-use-header-pm-always" name="useHeaderPM" value="always"/>
+                        Always
+                    </label>
+                </section>
                 <label class="checkbox">
                     <input type="checkbox" id="pct-use-arranger" name="useArranger"/>
                     Auto-Arrange Campaigns

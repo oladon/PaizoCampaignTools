@@ -24,7 +24,8 @@ const PREFS = {
     nTPOff: "#4d3a98",
     useSelector: true,
     useHeaderHider: true,
-    hideHeader: false
+    hideHeader: false,
+    useHeaderPM: "always"
 };
 
 function setDefaultPrefs() {

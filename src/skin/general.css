@@ -1,37 +1,86 @@
-.pct-hide {
-    min-height: unset !important;
+#nav-wrapper {
+    position: relative;
 }
 
-.pct-hide :not(.pct-header-hider) {
-    display: none !important;
+body.pct-allow-sidescroll {
+    overflow-x: unset !important;
 }
 
-.pct-header-hider {
+.pct-header-box {
+    bottom: -20px;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-size: 1rem;
+    line-height: 1;
+    margin: 0 12px 0 0 !important;
+    position: absolute;
+    right: 120px;
+    z-index: 1000;
+}
+
+.pct-header-tab {
     align-items: center;
     background-color: #121820;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    bottom: -20px;
     color: #f2f2f2;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     flex: 0 !important;
-    font-family: 'Material Icons';
-    font-size: 1rem;
     height: 20px;
     justify-content: center;
-    line-height: 1;
-    margin: 0 15px 0 0 !important;
-    position: absolute;
-    right: 120px;
+    margin: 0 12px 0 0 !important;
+    position: relative;
+    vertical-align: middle;
     width: 40px;
-    z-index: 1000;
 }
 
-.pct-header-hider::before {
+.pct-header-box .pct-header-hider::after {
     content: 'expand_less';
 }
 
-.pct-header-hider.expand::before {
+.pct-header-box.expand .pct-header-hider::after {
     content: 'expand_more';
+}
+
+.pct-header-box:not(.expand) .pct-pm {
+    display: none;
+}
+
+.pct-hide {
+    min-height: unset !important;
+}
+
+.pct-hide :not([class~="pct-header"]),
+.pct-pm-new-only:not(.pct-pm-new) {
+    display: none !important;
+}
+
+.pct-pm {
+    font-size: 13px;
+}
+
+.pct-pm > a {
+    align-items: center;
+    color: white !important;
+    display: inline-flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+}
+
+.pct-pm-indicator {
+    position: relative;
+}
+
+.pct-pm.pct-pm-new .pct-pm-indicator::before {
+    background-color: red;
+    border-radius: 50%;
+    content: '';
+    height: 5px;
+    filter: blur(.5px);
+    position: absolute;
+    right: -2px;
+    top: -.5px;
+    width: 5px;
 }

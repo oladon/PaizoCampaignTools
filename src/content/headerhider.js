@@ -1,35 +1,74 @@
 (function() {
-    function initHeaderHider(hidden) {
+    const pctUtils = window.pctUtils;
+
+    function initHeaderBox(hidden, linkPMs) {
         const header = document.getElementById('nav-wrapper');
+        const box = document.createElement('div');
+        box.classList.add('pct-header', 'pct-header-box');
+
+        if (linkPMs) {
+            let pmTab = makePMTab(linkPMs);
+            box.appendChild(pmTab);
+        }
 
         const hider = document.createElement('div');
-        hider.classList.add('pct-header-hider');
+        hider.classList.add('pct-header', 'pct-header-tab', 'pct-header-hider');
 
         function toggleHeaderDisplay() {
             chrome.runtime.sendMessage({
                 storage: 'hideHeader',
-                value: !hider.classList.contains('expand')}, function() {
+                value: !box.classList.contains('expand')}, function() {
                     header.classList.toggle('pct-hide');
-                    hider.classList.toggle('expand');
+                    box.classList.toggle('expand');
                 });
         }
 
         hider.addEventListener('click', toggleHeaderDisplay);
+        box.appendChild(hider);
 
         if (hidden) {
             toggleHeaderDisplay();
         }
 
-        header.appendChild(hider);
+        header.appendChild(box);
     }
 
-    chrome.runtime.sendMessage({storage: ['useHeaderHider', 'hideHeader']}, function(response) {
+    function makePMTab(linkPMs) {
+        const tab = document.createElement('div');
+        const link = document.createElement('a');
+        const indicator = document.createElement('span');
+
+        const pmLink = pctUtils.pmLink();
+        const hasNew = pmLink.classList.contains('dropdown-personal-has-notifications')
+
+        tab.classList.add('pct-header', 'pct-header-tab', 'pct-pm');
+        linkPMs == 'new' && tab.classList.add('pct-pm-new-only');
+
+        link.classList.add('pct-header');
+        link.title = pmLink.textContent;
+        link.href = pmLink.href;
+
+        indicator.classList.add('pct-header', 'pct-pm-indicator');
+        indicator.textContent = 'message';
+        link.appendChild(indicator);
+
+        tab.appendChild(link);
+
+        if (hasNew) {
+            tab.classList.add('pct-pm-new');
+        }
+
+        return tab;
+    }
+
+    chrome.runtime.sendMessage({storage: ['useHeaderHider', 'hideHeader', 'useHeaderPM']}, function(response) {
         const useHeaderHider = response && response.storage.useHeaderHider == 'true';
+        const useHeaderPM = response && response.storage.useHeaderPM && response.storage.useHeaderPM != 'false' && response.storage.useHeaderPM;
         const hideHeader = response && response.storage.hideHeader == 'true';
 
         if (useHeaderHider) {
             document.addEventListener('DOMContentLoaded', function() {
-                initHeaderHider(hideHeader);
+                initHeaderBox(hideHeader, useHeaderPM);
             });
         }
     });
