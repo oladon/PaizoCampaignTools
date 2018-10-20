@@ -10,6 +10,7 @@
     var pctFormatter = window.pctFormatter;
     var pctNeedToPost = window.pctNeedToPost;
     var pctSelector = window.pctSelector;
+    var pctOldPost = window.pctOldPost;
     var posts;
 
     var username = pctChat.getUsername(true) || undefined;
@@ -312,6 +313,7 @@
                 storedCampaignsArray = JSON.parse(storedCampaigns);
             }
 
+            pctOldPost.addOldPostIndicator();
             pctFormatter.replaceTags(useExtendedFormatting);
             pctCampaigns.initialize(storedCampaignsArray);
 

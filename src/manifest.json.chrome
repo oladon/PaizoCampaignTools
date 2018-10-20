@@ -48,6 +48,7 @@
                    "content/formatting.js",
                    "content/needtopost.js",
                    "content/selector.js",
+                   "content/oldpost.js",
                    "content/pct.js"]
         }
     ],
