@@ -8,7 +8,7 @@
 
         if (linkPMs) {
             let pmTab = makePMTab(linkPMs);
-            box.appendChild(pmTab);
+            pmTab && box.appendChild(pmTab);
         }
 
         const hider = document.createElement('div');
@@ -39,7 +39,12 @@
         const indicator = document.createElement('span');
 
         const pmLink = pctUtils.pmLink();
-        const hasNew = pmLink.classList.contains('dropdown-personal-has-notifications')
+
+        if (!pmLink) {
+            return;
+        }
+
+        const hasNew = pmLink.parentNode.classList.contains('dropdown-personal-has-notifications')
 
         tab.classList.add('pct-header', 'pct-header-tab', 'pct-pm');
         linkPMs == 'new' && tab.classList.add('pct-pm-new-only');
