@@ -301,11 +301,12 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useNeedToPost', 'useSelector', 'campaigns']}, function(response = {storage: {}}) {
+        chrome.runtime.sendMessage({storage: ['useChat', 'useExtendedFormatting', 'useNeedToPost', 'useSelector', 'useOldPostIndicator', 'oldPostIndicatorAge', 'oldPostIndicatorUnit', 'campaigns']}, function(response = {storage: {}}) {
             const {
                 campaigns: storedCampaigns,
                 useChat, useExtendedFormatting,
-                useNeedToPost, useSelector
+                useNeedToPost, useSelector,
+                useOldPostIndicator, oldPostIndicatorAge, oldPostIndicatorUnit
             } = response.storage;
             var currentCampaign, storedCampaignsArray, pageCampaign;
 
@@ -313,9 +314,12 @@
                 storedCampaignsArray = JSON.parse(storedCampaigns);
             }
 
-            pctOldPost.addOldPostIndicator();
             pctFormatter.replaceTags(useExtendedFormatting);
             pctCampaigns.initialize(storedCampaignsArray);
+
+            if (useOldPostIndicator == "true") {
+                pctOldPost.addOldPostIndicator(oldPostIndicatorAge, oldPostIndicatorUnit);
+            }
 
             if (useNeedToPost == "true") {
                 pctNeedToPost.initialize(anyCampPage);

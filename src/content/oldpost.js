@@ -6,10 +6,22 @@ window['pctOldPost'] = (function(window) {
         }
     }
 
-    function isMoreThanOneYearAgo(date) {
-        var oneYearAgo = new Date();
-        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-        return date < oneYearAgo;
+    function isMoreThanSpecifiedTimeAgo(date, age, unit) {
+        var specifiedTimeAgo = new Date();
+        switch (unit) {
+            case 'day':
+                specifiedTimeAgo.setDate(specifiedTimeAgo.getDate() - age);
+                break;
+            case 'month':
+                specifiedTimeAgo.setMonth(specifiedTimeAgo.getMonth() - age);
+                break;
+            case 'year':
+            default:
+                specifiedTimeAgo.setFullYear(specifiedTimeAgo.getFullYear() - age);
+                break;
+        }
+
+        return date < specifiedTimeAgo;
     }
 
     function formatDate(date) {
@@ -36,15 +48,16 @@ window['pctOldPost'] = (function(window) {
         return indicator;
     }
 
-    function addOldPostIndicator() {
+    function addOldPostIndicator(age, unit) {
         chrome.runtime.sendMessage({}, function(response) {
             var lastPostDate = getLastPostDate();
             var postBody = getPostBody();
-            if (postBody && lastPostDate && isMoreThanOneYearAgo(lastPostDate)) {
+            if (postBody && lastPostDate &&
+                isMoreThanSpecifiedTimeAgo(lastPostDate, age, unit)) {
                 var text =
                     'Note: Last post in thread was ' +
                     formatDate(lastPostDate) +
-                    ', more than 1 year ago.';
+                    ', more than ' + age + ' ' + unit + '(s) ago.';
                 addIndicator(postBody, text);
             }
         });

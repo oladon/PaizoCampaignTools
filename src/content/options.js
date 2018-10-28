@@ -29,6 +29,9 @@ function loadOptions() {
         nTPOn = localStorage["nTPOn"],
         nTPOff = localStorage["nTPOff"],
         useSelector = localStorage["useSelector"],
+        useOldPostIndicator = localStorage["useOldPostIndicator"],
+        oldPostIndicatorAge = localStorage["oldPostIndicatorAge"],
+        oldPostIndicatorUnit = localStorage["oldPostIndicatorUnit"],
         useHeaderHider = localStorage["useHeaderHider"],
         useHeaderPM = localStorage["useHeaderPM"];
 
@@ -52,6 +55,9 @@ function loadOptions() {
     if (useHighlighter == "true") { document.getElementById('pct-use-highlighter').setAttribute('checked', true); }
     document.getElementById('pct-highlight-color').value = highlightColor;
     if (useSelector == "true") { document.getElementById('pct-use-selector').setAttribute('checked', true); }
+    if (useOldPostIndicator == "true") { document.getElementById('pct-use-old-post-indicator').setAttribute('checked', true); }
+    document.getElementById('pct-old-post-indicator-age').value = oldPostIndicatorAge;
+    document.getElementById('pct-old-post-indicator-unit').value = oldPostIndicatorUnit;
     if (useInactives == "true") { document.getElementById('pct-use-inactives').setAttribute('checked', true); }
     if (useNeedToPost == "true") { document.getElementById('pct-use-need-to-post').setAttribute('checked', true); }
     document.getElementById('pct-ntp-active-color').value = nTPOn;
@@ -73,6 +79,7 @@ function loadOptions() {
     document.getElementById('pct-blacklist-add').addEventListener('click', addItemByDialog);
     document.getElementById('pct-blacklist-remove').addEventListener('click', deleteItems);
     document.getElementById('pct-clear-custom-avatars').addEventListener('click', clearCustomAvatars);
+    document.getElementById('pct-old-post-indicator-unit').addEventListener('change', saveOption);
 
     var inputs = document.getElementsByTagName('input');
     for (var i = 0; i<inputs.length; i++) {
@@ -103,7 +110,7 @@ function saveOption(evt) {
 
     if (target.type == "checkbox") {
         newValue = target.checked;
-    } else if ((target.type == "radio") || (target.type == "color")) {
+    } else if ((target.type == "radio") || (target.type == "color") || (target.tagName.toLowerCase() == "select")) {
         newValue = target.value;
     }
 
