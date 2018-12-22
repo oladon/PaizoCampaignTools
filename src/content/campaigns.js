@@ -1,6 +1,39 @@
 window['pctCampaigns'] = function(window) {
+    const pctUtils = window.pctUtils;
     let ownCampaigns;
     let pageCampaigns = get();
+
+    const fun = [{
+        end: {
+            day: 26,
+            month: 12
+        },
+        name: 'Christmas',
+        run: function(ownPage) {
+            if (ownPage) {
+                const title = document.querySelector('table td > h1');
+                title.classList.add('pct-merry-christmas');
+            }
+
+            const dms = document.querySelectorAll('blockquote p.tiny > b:first-child:not(:last-child)');
+
+            for (var i=0; i<dms.length; i++) {
+                dms[i].classList.add('pct-merry-christmas', 'pct-merry-christmas-dm');
+            }
+        },
+        start: {
+            day: 20,
+            month: 12
+        },
+    }];
+
+    function addFun(ownPage) {
+        fun.forEach(function({start, end, run}) {
+            if (pctUtils.betweenDates(start, end)) {
+                run(ownPage);
+            }
+        });
+    }
 
     function arrange(campaigns, useMobile) {
         for (var i=0; i<campaigns.length; i++) {
@@ -116,6 +149,7 @@ window['pctCampaigns'] = function(window) {
     }
 
     return {
+        addFun,
         arrange,
         get,
         hasNew,

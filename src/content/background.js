@@ -25,7 +25,8 @@ const PREFS = {
     useSelector: true,
     useHeaderHider: true,
     hideHeader: false,
-    useHeaderPM: "always"
+    useHeaderPM: "always",
+    useFun: true
 };
 
 function setDefaultPrefs() {

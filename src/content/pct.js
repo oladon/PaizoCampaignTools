@@ -274,14 +274,19 @@
             }
         });
 
-        chrome.runtime.sendMessage({storage: ['useArranger', 'showOptionsLink', 'useMobile']}, function(response) {
+        chrome.runtime.sendMessage({storage: ['useArranger', 'showOptionsLink', 'useMobile', 'useFun']}, function(response) {
             var useArranger = response && response.storage.useArranger == 'true';
             var showOptionsLink = response && response.storage.showOptionsLink == 'true';
             var useMobile = response && response.storage.useMobile == 'true';
+            var useFun = response && response.storage.useFun == 'true';
 
             if (anyCampPage) {
                 if (showOptionsLink && screen.width <= 680) {
                     addOptionsButton();
+                }
+
+                if (useFun) {
+                    pctCampaigns.addFun(ownCampPage);
                 }
 
                 if (useArranger) {

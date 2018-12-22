@@ -24,6 +24,7 @@ function loadOptions() {
         useChat = localStorage["useChat"],
         useCustomAvatars = localStorage["useCustomAvatars"],
         useExtendedFormatting = localStorage["useExtendedFormatting"],
+        useFun = localStorage["useFun"],
         useInactives = localStorage["useInactives"],
         useNeedToPost = localStorage["useNeedToPost"],
         nTPOn = localStorage["nTPOn"],
@@ -46,6 +47,7 @@ function loadOptions() {
     if (blacklistBlog == "true") { document.getElementById('pct-bl-blog').setAttribute('checked', true); }
     if (useChat == "true") { document.getElementById('pct-use-chat').setAttribute('checked', true); }
     if (useCustomAvatars == "true") { document.getElementById('pct-use-custom-avatars').setAttribute('checked', true); }
+    if (useFun == "true") { document.getElementById('pct-use-fun').setAttribute('checked', true); }
     if (useHeaderHider == "true") { document.getElementById('pct-use-header-hider').setAttribute('checked', true); }
     if (useHeaderPM) { document.querySelector('input[name=useHeaderPM][value='+useHeaderPM+']').setAttribute('checked', true); }
     if (useExtendedFormatting == "true") { document.getElementById('pct-use-extended-formatting').setAttribute('checked', true); }
