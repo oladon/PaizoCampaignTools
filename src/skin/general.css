@@ -79,8 +79,10 @@ body.pct-allow-sidescroll {
     content: '';
     height: 5px;
     filter: blur(.5px);
+    left: unset !important;
     position: absolute;
     right: -2px;
     top: -.5px;
     width: 5px;
+    z-index: 1 !important;
 }
