@@ -10,6 +10,7 @@ const PREFS = {
     blacklistIC: false,
     blacklistStore: true,
     blacklistBlog: true,
+    useCampaignSorter: true,
     useChat: false,
     useCustomAvatars: true,
     useExtendedFormatting: true,

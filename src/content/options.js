@@ -21,6 +21,7 @@ function loadOptions() {
         blacklistStore = localStorage["blacklistStore"],
         blacklistBlog = localStorage["blacklistBlog"],
         blacklist = blacklistToArray(),
+        useCampaignSorter = localStorage["useCampaignSorter"],
         useChat = localStorage["useChat"],
         useCustomAvatars = localStorage["useCustomAvatars"],
         useExtendedFormatting = localStorage["useExtendedFormatting"],
@@ -58,7 +59,8 @@ function loadOptions() {
     if (useNeedToPost == "true") { document.getElementById('pct-use-need-to-post').setAttribute('checked', true); }
     document.getElementById('pct-ntp-active-color').value = nTPOn;
     document.getElementById('pct-ntp-inactive-color').value = nTPOff;
-    if (useAliasSorter == "true") { document.getElementById('pct-use-sorter').setAttribute('checked', true); }
+    if (useAliasSorter == "true") { document.getElementById('pct-use-alias-sorter').setAttribute('checked', true); }
+    if (useCampaignSorter == "true") { document.getElementById('pct-use-campaign-sorter').setAttribute('checked', true); }
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");
