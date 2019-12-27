@@ -90,3 +90,7 @@ body.pct-allow-sidescroll {
     width: 5px;
     z-index: 1 !important;
 }
+
+.pct-toggle {
+    margin-bottom: 0;
+}
