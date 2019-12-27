@@ -6,6 +6,10 @@ body.pct-allow-sidescroll {
     overflow-x: unset !important;
 }
 
+.messageboard-ooc {
+    color: #8c8cb2;
+}
+
 .pct-header-box {
     bottom: -20px;
     display: inline-block;
