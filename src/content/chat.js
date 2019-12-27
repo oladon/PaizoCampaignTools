@@ -110,8 +110,9 @@ window['pctChat'] = (function(window) {
         if (nameDiv) {
             if (url) {
                 var href = nameDiv.href;
+                var https = /https/.test(href);
 
-                return href.substring(24, href.length - 3);
+                return href.substring(https ? 25 : 24, href.length - 3);
             } else {
                 var title = nameDiv.title;
                 var aka = title.indexOf(" aka");
