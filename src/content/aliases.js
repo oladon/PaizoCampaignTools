@@ -1,6 +1,8 @@
 window['pctAliases'] = function(window) {
-    var inactiveNames = [];
-    var sorters = {
+    const pctUtils = window.pctUtils;
+    let inactiveNames = [];
+
+    const sorters = {
         faction: {
             prop: function(alias) {
                 var factionNode = alias &&
@@ -94,7 +96,7 @@ window['pctAliases'] = function(window) {
                      container.parentNode.previousElementSibling.previousElementSibling;
 
         var newBox = document.createElement('div');
-        newBox.classList.add('pct-alias-header');
+        newBox.classList.add('pct-section-header');
 
         if (header && header.tagName == 'H2') {
             header.parentNode.insertBefore(newBox, header);
@@ -230,40 +232,6 @@ window['pctAliases'] = function(window) {
         chrome.runtime.sendMessage({storage: 'inactiveAliases', value: newList}, cb);
     }
 
-    function reorder(section, by, reverse) {
-        var aliases = getAliases(section);
-        var arr;
-        var newIndices = {};
-        var ordered = [];
-        var parent = aliases[0].parentNode;
-
-        arr = [].slice.call(aliases).map(function(item, index) {
-            return {
-                by: by.prop(item),
-                index: index
-            };
-        });
-
-        arr.sort(function(a, b) {
-            if ((by.comp && by.comp(a.by, b.by)) ||
-                (a.by > b.by)) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
-
-        arr.map(function(item) {
-            var node = aliases[item.index];
-
-            if (reverse) {
-                parent.insertBefore(node, parent.firstChild);
-            } else {
-                parent.appendChild(node);
-            }
-        });
-    }
-
     function run(useInactives) {
         var sections = getSections();
 
@@ -346,7 +314,8 @@ window['pctAliases'] = function(window) {
         }
 
         var [sorter, reverse] = selection.split('-');
-        reorder(section, sorters[sorter], reverse);
+        var aliases = getAliases(section);
+        pctUtils.sortNodes(aliases, sorters[sorter], reverse);
     }
 
     function unrowify(aliases) {

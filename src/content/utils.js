@@ -20,8 +20,42 @@ window['pctUtils'] = (function(window) {
         return link;
     }
 
+    function sortNodes(nodes, by, reverse) {
+        var arr;
+        var newIndices = {};
+        var ordered = [];
+        var parent = nodes[0].parentNode;
+
+        arr = [].slice.call(nodes).map(function(item, index) {
+            return {
+                by: by.prop(item),
+                index: index
+            };
+        });
+
+        arr.sort(function(a, b) {
+            if ((by.comp && by.comp(a.by, b.by)) ||
+                (a.by > b.by)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+
+        arr.map(function(item) {
+            var node = nodes[item.index];
+
+            if (reverse) {
+                parent.insertBefore(node, parent.firstChild);
+            } else {
+                parent.appendChild(node);
+            }
+        });
+    }
+
     return {
         betweenDates,
-        pmLink
+        pmLink,
+        sortNodes
     };
 })(window);
