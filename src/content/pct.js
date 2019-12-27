@@ -279,14 +279,16 @@
             });
         }
 
-        chrome.runtime.sendMessage({storage: ['useAliasSorter', 'useInactives']}, function(response) {
-            var useAliasSorter = response && response.storage.useAliasSorter;
-            var useInactives = response && response.storage.useInactives;
+        if (anyAliasPage) {
+            chrome.runtime.sendMessage({storage: ['useAliasSorter', 'useInactives']}, function(response) {
+                var useAliasSorter = response && response.storage.useAliasSorter;
+                var useInactives = response && response.storage.useInactives;
 
-            if (useAliasSorter == 'true' && anyAliasPage) {
-                pctAliases.run(ownAliasPage && useInactives == 'true');
-            }
-        });
+                if (useAliasSorter == 'true') {
+                    pctAliases.run(ownAliasPage && useInactives == 'true');
+                }
+            });
+        }
 
         chrome.runtime.sendMessage({storage: ['useArranger', 'showOptionsLink', 'useMobile', 'useFun']}, function(response) {
             var useArranger = response && response.storage.useArranger == 'true';
