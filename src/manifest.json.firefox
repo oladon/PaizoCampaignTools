@@ -55,6 +55,7 @@
                     "skin/fonts.css",
                     "skin/arranger.css",
                     "skin/avatars.css",
+                    "skin/campaigns.css",
                     "skin/needtopost.css"],
             "js": ["content/Autolinker.min.js",
                    "content/protocol.js",

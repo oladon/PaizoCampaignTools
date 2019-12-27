@@ -8,6 +8,35 @@ window['pctUtils'] = (function(window) {
         return today <= endDate && today >= startDate;
     }
 
+    function findParentNode(node, parentClass) {
+        if (!node.parentNode ||
+            node.parentNode == document.body) {
+            return;
+        }
+
+        if (node.classList &&
+            node.classList.contains(parentClass)) {
+            return node;
+        }
+
+        return findParentNode(node.parentNode, parentClass);
+    }
+
+    // From https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+    function hash(str) {
+        var hash = 0, i, chr;
+
+        if (str.length === 0) return hash;
+
+        for (i = 0; i < str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+
+        return hash;
+    }
+
     function makeDate({year = (new Date()).getFullYear(),
                        month = '01', day = '01',
                        hour = '00', minute = '00', second = '00'}) {
@@ -55,6 +84,8 @@ window['pctUtils'] = (function(window) {
 
     return {
         betweenDates,
+        findParentNode,
+        hash,
         pmLink,
         sortNodes
     };

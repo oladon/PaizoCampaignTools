@@ -1,0 +1,20 @@
+.pct-campaigns-header .pct-toggle > input:not(:checked) + .pct-indicator::before {
+    content: 'edit';
+}
+
+.pct-campaigns-header .pct-toggle > input:checked + .pct-indicator::before {
+    content: 'done';
+}
+
+.pct-edit-mode .pct-campaign {
+    border: 1px dotted #4d3a98;
+    cursor: move;
+}
+
+.pct-edit-mode .pct-drag-target-left {
+    border-left: 1px dashed #4d3a98;
+}
+
+.pct-edit-mode .pct-drag-target-right {
+    border-right: 1px dashed #4d3a98;
+}

@@ -259,10 +259,24 @@
         var ownAliasPage = username && onPage('aliases', username);
         var anyAliasPage = onPage('aliases');
         var peoplePage = (currentHref.indexOf('/people/') > -1);
+        const pageHash = pctUtils.hash(currentHref);
 
         if (ownCampPage) {
             var campaignsArray = pctCampaigns.toArray(campaigns, username);
             pctCampaigns.save(campaignsArray);
+        }
+
+        if (anyCampPage) {
+            chrome.runtime.sendMessage({storage: ['useCampaignSorter', 'campaignSort-' + pageHash, 'customCampaignOrder-' + pageHash]}, function(response) {
+                const useCampaignSorter = response && response.storage.useCampaignSorter;
+                const campaignSort = response && response.storage['campaignSort-' + pageHash];
+                const customOrder = response && response.storage['customCampaignOrder-' + pageHash] &&
+                      JSON.parse(response.storage['customCampaignOrder-' + pageHash]);
+
+                if (useCampaignSorter == 'true') {
+                    pctCampaigns.initializeReorder(pageHash, campaigns, campaignSort, customOrder);
+                }
+            });
         }
 
         chrome.runtime.sendMessage({storage: ['useAliasSorter', 'useInactives']}, function(response) {
