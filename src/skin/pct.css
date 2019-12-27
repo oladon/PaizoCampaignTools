@@ -38,21 +38,6 @@
     opacity: 0.35;
 }
 
-.pct-alias-header {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-}
-
-.pct-alias-header > div {
-    align-items: center;
-    display: flex;
-}
-
-.pct-alias-header ~ table {
-    width: 100%;
-}
-
 .pct-alias-set {
     align-items: flex-start;
     display: flex;
@@ -390,6 +375,21 @@ h1 .pct-icon {
 
 .pct-roster .pct-info {
     color: darkcyan;
+}
+
+.pct-section-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pct-section-header > div {
+    align-items: center;
+    display: flex;
+}
+
+.pct-section-header ~ table {
+    width: 100%;
 }
 
 .pct-toggle {
