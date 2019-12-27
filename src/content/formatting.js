@@ -151,7 +151,8 @@ window['pctFormatter'] = (function(window) {
                     }
                 },
                 'font-family': 'Courier',
-                'white-space': 'pre'},
+                'white-space': 'pre'
+            },
             'color': {'color': arg},
             'u': {'text-decoration': 'underline'}
         };
