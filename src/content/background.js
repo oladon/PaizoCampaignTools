@@ -27,7 +27,8 @@ const PREFS = {
     useHeaderHider: true,
     hideHeader: false,
     useHeaderPM: "always",
-    useFun: true
+    useFun: true,
+    hideInactiveAliases: false
 };
 
 function setDefaultPrefs() {

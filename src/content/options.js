@@ -32,7 +32,8 @@ function loadOptions() {
         nTPOff = localStorage["nTPOff"],
         useSelector = localStorage["useSelector"],
         useHeaderHider = localStorage["useHeaderHider"],
-        useHeaderPM = localStorage["useHeaderPM"];
+        useHeaderPM = localStorage["useHeaderPM"],
+        hideInactiveAliases = localStorage["hideInactiveAliases"];
 
     /* This part sets up the dialog with the existing options */
     if (useArranger == "true") { document.getElementById('pct-use-arranger').setAttribute('checked', true); }
@@ -61,6 +62,7 @@ function loadOptions() {
     document.getElementById('pct-ntp-inactive-color').value = nTPOff;
     if (useAliasSorter == "true") { document.getElementById('pct-use-alias-sorter').setAttribute('checked', true); }
     if (useCampaignSorter == "true") { document.getElementById('pct-use-campaign-sorter').setAttribute('checked', true); }
+    if (hideInactiveAliases == "true") { document.getElementById('pct-hide-inactive-aliases').setAttribute('checked', true); }
 
     (function (myArray) {
         var listbox = document.getElementById("pct-blacklist");

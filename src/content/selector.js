@@ -49,8 +49,14 @@ window['pctSelector'] = (function(window) {
     }
 
     function selectAlias(campaigns, campaign) {
-        chrome.runtime.sendMessage({storage: ['defaultAliases']}, function(response) {
-            var defaultAliases = response.storage && response.storage.defaultAliases && JSON.parse(response.storage.defaultAliases) || {};
+        chrome.runtime.sendMessage({storage: ['defaultAliases', 'hideInactiveAliases', 'inactiveAliases']}, function(response) {
+            var defaultAliases = response.storage && response.storage.defaultAliases &&
+                JSON.parse(response.storage.defaultAliases) || {};
+            var hideInactiveAliases = response.storage && response.storage.hideInactiveAliases &&
+                response.storage.hideInactiveAliases;
+            var inactiveAliases = response.storage && response.storage.inactiveAliases &&
+                JSON.parse(response.storage.inactiveAliases) || [];
+
             var alias = defaultAliases[campaign.url] || campaign.user_aliases[0];
             alias = alias.name;
             var select = getAliasSelect();
@@ -58,6 +64,16 @@ window['pctSelector'] = (function(window) {
 
             if (!select) {
                 return;
+            }
+
+            if (hideInactiveAliases) {
+                let options = select.children;
+
+                for (let option of options) {
+                    if (inactiveAliases.includes(option.label)) {
+                        option.classList.add('pct-inactive');
+                    }
+                }
             }
 
             setDefault = addSetDefault(select);
