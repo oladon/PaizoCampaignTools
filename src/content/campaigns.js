@@ -139,14 +139,10 @@ window['pctCampaigns'] = function(window) {
         }
 
         if (campaigns.length > 8) {
-            var firstColumn = firstCampaign.parentNode.parentNode;
+            var firstColumn = firstCampaign.parentNode;
 
             for (var i=0; i<campaigns.length; i++) {
-                var row = document.createElement('tr');
-                row.classList = campaigns[i].parentNode.classList;
-
-                row.appendChild(campaigns[i]);
-                firstColumn.appendChild(row);
+                firstColumn.appendChild(campaigns[i]);
             }
 
             var rows = firstColumn.querySelectorAll('tr');
