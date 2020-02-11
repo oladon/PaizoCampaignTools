@@ -6,7 +6,6 @@ window['pctSelector'] = (function(window) {
         if (select) {
             setDefault = document.createElement('div');
             setDefault.classList.add('pct-alias');
-            setDefault.classList.add('form-prompt');
             setDefault.title = 'Set as default for this campaign.';
 
             var icon = document.createElement('i');
