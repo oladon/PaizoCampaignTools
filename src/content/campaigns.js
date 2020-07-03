@@ -312,7 +312,7 @@ window['pctCampaigns'] = function(window) {
 
     function getGameplayId(campaign) {
         const gameplayAnchor = campaign.querySelector('[id^=xnew_thread_gameplay_]');
-        const gameplayId = gameplayAnchor.id.replace('xnew_thread_gameplay_', '');
+        const gameplayId = gameplayAnchor && gameplayAnchor.id.replace('xnew_thread_gameplay_', '');
         return gameplayId;
     }
 
@@ -456,7 +456,7 @@ window['pctCampaigns'] = function(window) {
             let campaignId = getGameplayId(campaign);
             let targetOrder = order[campaignId];
 
-            campaign.setAttribute('data-order', targetOrder);
+            targetOrder && campaign.setAttribute('data-order', targetOrder);
         }
     }
 
@@ -480,7 +480,7 @@ window['pctCampaigns'] = function(window) {
             let campaignId = getGameplayId(campaign);
 
             campaign.setAttribute('data-order', order);
-            campaignOrder[campaignId] = order;
+            campaignId && (campaignOrder[campaignId] = order);
         }
 
         chrome.runtime.sendMessage({
