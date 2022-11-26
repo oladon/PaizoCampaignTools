@@ -98,6 +98,30 @@ window['pctCampaigns'] = function(window) {
         return select;
     }
 
+    function addPreviousCampaignsHider(checked) {
+        const h2s = document.getElementsByTagName('h2');
+        const previousCampaignsHeader = [].slice.call(h2s).find(function(item) {
+            return item.textContent == 'Previous Campaigns';
+        });
+
+        const input = document.createElement('input');
+        checked && input.setAttribute('checked', checked);
+        input.id = 'pct-previous-campaigns-hider';
+        input.type = 'checkbox';
+
+        input.addEventListener('change', function(e) {
+            chrome.runtime.sendMessage({storage: 'hidePreviousCampaigns', value: e.target.checked});
+        });
+
+        const label = document.createElement('label');
+        label.classList.add('pct-previous-campaigns');
+        label.setAttribute('for', 'pct-previous-campaigns-hider');
+
+        previousCampaignsHeader.parentNode.insertBefore(input, previousCampaignsHeader);
+        previousCampaignsHeader.parentNode.insertBefore(label, previousCampaignsHeader);
+        label.appendChild(previousCampaignsHeader);
+    }
+
     function addRightBox(campaigns, defaultSort = 'paizoDefault') {
         const container = campaigns[0].parentNode;
         const grandparent = pctUtils.findParentNode(container, 'bb-content');
@@ -557,6 +581,7 @@ window['pctCampaigns'] = function(window) {
 
     return {
         addFun,
+        addPreviousCampaignsHider,
         arrange,
         get,
         hasNew,

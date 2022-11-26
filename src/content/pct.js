@@ -267,7 +267,8 @@
         }
 
         if (anyCampPage) {
-            chrome.runtime.sendMessage({storage: ['useCampaignSorter', 'campaignSort-' + pageHash, 'customCampaignOrder-' + pageHash]}, function(response) {
+            chrome.runtime.sendMessage({storage: ['hidePreviousCampaigns', 'useCampaignSorter', 'campaignSort-' + pageHash, 'customCampaignOrder-' + pageHash]}, function(response) {
+                const hidePreviousCampaigns = response && response.storage.hidePreviousCampaigns;
                 const useCampaignSorter = response && response.storage.useCampaignSorter;
                 const campaignSort = response && response.storage['campaignSort-' + pageHash];
                 const customOrder = response && response.storage['customCampaignOrder-' + pageHash] &&
@@ -276,6 +277,8 @@
                 if (useCampaignSorter == 'true') {
                     pctCampaigns.initializeReorder(pageHash, campaigns, campaignSort, customOrder);
                 }
+
+                pctCampaigns.addPreviousCampaignsHider(hidePreviousCampaigns);
             });
         }
 

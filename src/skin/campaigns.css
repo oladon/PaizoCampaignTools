@@ -6,6 +6,40 @@
     content: 'done';
 }
 
+.pct-previous-campaigns {
+    align-items: center;
+    display: inline-flex;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+#pct-previous-campaigns-hider {
+    display: none;
+}
+
+#pct-previous-campaigns-hider:checked + .pct-previous-campaigns {
+    margin-bottom: .7rem;
+}
+
+#pct-previous-campaigns-hider:checked + .pct-previous-campaigns + hr + blockquote,
+#pct-previous-campaigns-hider:checked + .pct-previous-campaigns + hr {
+    display: none;
+}
+
+.pct-previous-campaigns::after {
+    font-family: 'Material Icons';
+    font-size: 1rem;
+    margin-left: .35rem;
+}
+
+#pct-previous-campaigns-hider:checked + .pct-previous-campaigns::after {
+    content: 'expand_more';
+}
+
+#pct-previous-campaigns-hider:not(:checked) + .pct-previous-campaigns::after {
+    content: 'expand_less';
+}
+
 .pct-edit-mode .pct-campaign {
     border: 1px dotted #4d3a98;
     cursor: move;
