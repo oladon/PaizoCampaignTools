@@ -70,6 +70,22 @@
                     Enable Extended Formatting Tags
                 </label>
             </section>
+            <section id="old-post-section">
+                <h3>Old Post Indicator</h3>
+                <label class="checkbox">
+                    <input type="checkbox" id="pct-use-old-post-indicator" name="useOldPostIndicator"/>
+                    Enable Old Post Indicator
+                </label>
+                <label class="checkbox">
+                    Highlight posts older than:
+                    <input type="text" id="pct-old-post-indicator-age" name="oldPostIndicatorAge" value="1" size="2"/>
+                    <select id="pct-old-post-indicator-unit" name="oldPostIndicatorUnit">
+                        <option value="day">day(s)</option>
+                        <option value="month">month(s)</option>
+                        <option value="year" selected>year(s)</option>
+                    </select>
+                </label>
+            </section>
             <section id="chat-section">
                 <h3>Chat</h3>
                 <label class="checkbox">

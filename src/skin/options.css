@@ -175,7 +175,8 @@ section.subsection h4 {
     margin-left: -1em;
 }
 
-select[multiple] {
+input[type='text'],
+select {
     flex: .5 1 50%;
     font-size: 100%;
     padding: 0.5em 0.5em;
