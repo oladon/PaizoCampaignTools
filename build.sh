@@ -2,7 +2,7 @@
 
 cd src
 
-UNTRACKED=`git status -s | grep '??' | awk -F'\?\? ' '{ print $2; }'`;
+UNTRACKED=`git status -s | grep '??' | grep -v 'manifest.json' | grep -v 'fonts.css' | awk -F'\?\? ' '{ print $2; }'`;
 
 ## Firefox
 VERSION=`grep '"version"' manifest.json.firefox | grep -oE '[0-9.]+'`;
